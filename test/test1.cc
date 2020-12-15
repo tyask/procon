@@ -45,7 +45,7 @@ template <typename T> void p(T&& t) {
 
 template <typename T, typename... Args> void p(T&& head, Args&&... args) {
     cout << head << " ";
-    out(forward<Args>(args)...);
+    p(forward<Args>(args)...);
 }
 
 template <typename Cont, typename = typename Cont::iterator>
@@ -63,5 +63,10 @@ using namespace vec_utils;
 using namespace print_utils;
 
 int main() {
-    p("Hello!");
+    init_cin("3\n1 2 3");
+    
+    int n;
+    vector<int> v;
+    cin >> n >> vin(v, n);
+    p(n, v);
 }
