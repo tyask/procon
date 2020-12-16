@@ -48,8 +48,8 @@ template <typename T, typename... Args> void p(T&& head, Args&&... args) {
     p(forward<Args>(args)...);
 }
 
-template <typename Cont, typename = typename Cont::iterator>
-ostream& operator<<(ostream& os, const Cont& c) {
+template <typename T>
+ostream& operator<<(ostream& os, const vector<T>& c) {
     for (auto it = c.begin(); it != c.end(); ++it) {
         os << ((it == c.begin()) ? "" : " ") << *it;
     }
@@ -63,5 +63,30 @@ using namespace vec_utils;
 using namespace print_utils;
 
 int main() {
-    p("Hello!");
+    stack<int> stack;
+    map<char, function<int(int, int)>> funcs = {
+        {'+', [](auto a, auto b) { return a + b;}},
+        {'-', [](auto a, auto b) { return a - b;}},
+        {'*', [](auto a, auto b) { return a * b;}},
+        {'/', [](auto a, auto b) { return a / b;}},
+    };
+
+    while(cin.peek() != '\n') {
+        string s;
+        cin >> s;
+        p(s);
+        char c = s[0];
+        auto it = funcs.find(c);
+        if (it != funcs.end()) {
+            int b = stack.top();
+            stack.pop();
+            int a = stack.top();
+            stack.pop();
+            stack.push(it->second(a, b));
+        } else {
+            stack.push(stoi(s));
+        }
+    }
+
+    p(stack.top());
 }
