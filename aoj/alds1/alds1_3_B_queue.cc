@@ -37,6 +37,14 @@ vec<int> vrange(int n) {
 	return v;
 }
 
+template <typename T> ostream& operator<<(ostream& os, const vec<T>& c) {
+    for (auto it = c.begin(); it != c.end(); ++it) {
+        os << ((it == c.begin()) ? "" : " ") << *it;
+    }
+
+    return os;
+}
+
 }
 
 namespace print_utils {
@@ -50,23 +58,6 @@ template <typename T, typename... Args> void p(T&& head, Args&&... args) {
     p(forward<Args>(args)...);
 }
 
-template <typename Cont> ostream& write(ostream& os, const Cont& c) {
-    for (auto it = c.begin(); it != c.end(); ++it) {
-        os << ((it == c.begin()) ? "" : " ") << *it;
-    }
-
-    return os;
-}
-
-template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) {
-    return write(os, c);
-}
-
-template <typename T> ostream& operator<<(ostream& os, const list<T>& c) {
-    return write(os, c);
-}
-
-
 }
 
 using namespace common;
@@ -74,5 +65,36 @@ using namespace vec_utils;
 using namespace print_utils;
 
 int main() {
-    p("Hello!");
+    struct Process {
+        string name;
+        int time;
+    };
+
+    int n, q;
+    cin >> n >> q;
+    queue<Process> queue;
+    for (int i = 0; i < n; ++i) {
+        Process p;
+        cin >> p.name >> p.time;
+        queue.push(p);
+    }
+
+    int t = 0;
+    vec<Process> ret;
+    while (!queue.empty()) {
+        Process p = queue.front();
+        queue.pop();
+        t += min(p.time, q);
+        p.time -= q;
+        if (p.time > 0) {
+            queue.push(p);
+        } else {
+            ret.push_back({p.name, t});
+        }
+    }
+
+    for (auto& r : ret) {
+        p(r.name, r.time);
+    }
+    
 }

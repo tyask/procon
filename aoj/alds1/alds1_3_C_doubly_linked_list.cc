@@ -74,5 +74,28 @@ using namespace vec_utils;
 using namespace print_utils;
 
 int main() {
-    p("Hello!");
+    int n;
+    cin >> n;
+    list<int> list;
+
+    for (int i = 0; i < n; ++i) {
+        string cmd;
+        int x = 0;
+        cin >> cmd;
+        if (cmd == "insert") {
+            cin >> x;
+            list.push_front(x);
+        } else if (cmd == "delete") {
+            cin >> x;
+            auto it = find(list.begin(), list.end(), x);
+            if (it != list.end()) {
+                list.erase(it);
+            }
+        } else if (cmd == "deleteFirst") {
+            list.pop_front();
+        } else {
+            list.pop_back();
+        }
+    }
+    p(list);
 }
