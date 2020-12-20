@@ -103,12 +103,6 @@ bool includes7ByDec(int n) {
     return ret;
 }
 
-bool includes7(int n) {
-    string dec = to_string(n);
-    string o;
-    sstream(n) >> oct >> o;
-}
-
 int main() {
     int n;
     cin >> n;
