@@ -77,6 +77,40 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
+struct Point {
+    double x;
+    double y;
+};
+
+const double th = M_PI * 60.0 / 180;
+
+void koch(int n, Point p1, Point p2) {
+    if (n == 0) {
+        return;
+    }
+
+    Point s = dot(p1, p2, 1, 2);
+    Point t = dot(p1, p2, 2, 1);
+    Point u = {
+        (t.x - s.x) * cos(th) - (t.y - s.y) * sin(th) + s.x,
+        (t.x - s.x) * sin(th) - (t.y - s.y) * cos(th) + s.y
+    };
+
+    koch(n - 1, p1, s);
+    koch(n - 1, s, u);
+    koch(n - 1, u, t);
+    koch(n - 1, t, p2);
+
+}
+
+Point dot(Point a, Point b, int m, int n) {
+    return {
+        (n * a.x + m * b.x) / (m + n),
+        (n * a.y + m * b.y) / (m + n),
+    };
+}
+
 int main() {
-    p("Hello!");
+    int n;
+    cin >> n;
 }

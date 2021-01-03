@@ -77,6 +77,52 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
+struct Card {
+    string c;
+    int n;
+};
+
+ostream& operator<<(ostream& os, const Card& c) {
+    return os << c.c << " " << c.n;
+}
+
+int partition(vec<Card>& v, int p, int r) {
+    Card x = v[r];
+    int i = p - 1;
+    for (int j = p; j < r - 1; ++j) {
+        if (v[j].n <= x.n) {
+            i++;
+            swap(v[i], v[j]);
+        }
+    }
+    swap(v[i + 1], v[r]);
+    return i + 1;
+}
+
+void quickSort(vec<Card>& cards, int p, int r) {
+    if (p < r) {
+        int q = partition(cards, p, r);
+        quickSort(cards, p    , q - 1);
+        quickSort(cards, q + 1, r);
+    }
+}
+
 int main() {
-    p("Hello!");
+    int n;
+    vec<Card> cards;
+    cin >> n;
+    char x;
+    // cin.ignore(1);
+    cin >> x;
+    REP(i, n) {
+        Card c;
+        cin >> c.c >> c.n;
+        cards.push_back(c);
+    }
+
+    cout << "-----" << endl;
+    quickSort(cards, 0, n);
+    for (Card c : cards) {
+        cout << c.c << " " << c.n << endl;
+    }
 }

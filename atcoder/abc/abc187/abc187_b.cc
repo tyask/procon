@@ -77,6 +77,35 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
+struct Point {
+    int x;
+    int y;
+};
+
 int main() {
-    p("Hello!");
+    int n;
+    vec<Point> ps;
+    cin >> n;
+    REP(i, n) {
+        Point p;
+        cin >> p.x >> p.y;
+        ps.push_back(p);
+    }
+
+    int c = 0;
+    for (int i = 0; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            Point p1 = ps[i];
+            Point p2 = ps[j];
+            int dx = p1.x - p2.x;
+            int dy = p1.y - p2.y;
+            if (dx > 0 && -dx <= dy && dy <= dx) {
+                c++;
+            } else if (dx < 0 && dx <= dy && dy <= -dx) {
+                c++;
+            }
+        }
+    }
+
+    p(c);
 }

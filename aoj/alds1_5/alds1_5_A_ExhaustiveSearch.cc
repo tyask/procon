@@ -77,6 +77,25 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
+bool solve(const vec<int>& a, int i, int m) {
+    if (m == 0) {
+        return true;
+    }
+    if (i >= a.size()) {
+        return false;
+    }
+
+    return solve(a, i + 1, m) || solve(a, i + 1, m - a[i]);
+}
+
 int main() {
-    p("Hello!");
+    int n, q;
+    vec<int> a;
+    vec<int> m;
+    cin >> n >> vin(a, n) >> q >> vin(m, q);
+
+    for (int x : m) {
+        bool b = solve(a, 0, x);
+        p(b? "yes" : "no");
+    }
 }

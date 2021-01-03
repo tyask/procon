@@ -1,10 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
+using ll = long long;
 #define REP(i, n) for (int i = 0; i < (n); ++i)
 
 namespace common {
-    using ll = long long;
-
     void init_cin(const std::string& s) {
         cin.rdbuf((new istringstream(s))->rdbuf());
     }
@@ -72,11 +71,42 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) {
 
 }
 
-
 using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
+int check(int k, const vec<int>& w, ll p) {
+    int i = 0;
+    REP(j, k) {
+        ll s = 0;
+        while (s + w[i] <= p) {
+            s += w[i];
+            i++;
+            if (i == w.size()) 
+                return w.size();
+        }
+    }
+
+    return i;
+}
+
+int solve(int k, const vec<int>& w) {
+    ll left = 0;
+    ll right = 100000 * 100000;
+    while (right - left > 1) {
+        ll mid = (left + right) / 2;
+        int v = check(k, w, mid);
+        if (v >= w.size())
+            right = mid;
+        else
+            left = mid;
+    }
+
+    return right;
+}
+
 int main() {
-    p("Hello!");
+    int n, k;
+    vec<int> w;
+    cin >> n >> k >> vin(w, n);
 }

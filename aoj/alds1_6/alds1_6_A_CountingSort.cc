@@ -77,6 +77,34 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
+vec<int> counting_sort(const vec<int>& a, int k) {
+    p(a);
+    vec<int> c(k);
+
+    REP(i, a.size()) {
+        c[a[i]]++;
+    }
+    p(c);
+    for (int i = 1; i < c.size(); ++i) {
+        c[i] += c[i-1];
+    }
+    p(c);
+    vec<int> b(a.size());
+    for (int i = a.size() - 1; i >= 0; --i) {
+        p(a[i], c[a[i]]);
+        b[c[a[i]] - 1] = a[i];
+        c[a[i]]-=1;
+    }
+
+    return b;
+}
+
 int main() {
-    p("Hello!");
+    // init_cin("7\n2 5 1 3 2 3 0");
+    // init_cin("8\n4 5 0 3 1 5 0 5");
+    int n;
+    vec<int> v;
+    cin >> n >> vin(v, n);
+    vec<int> r = counting_sort(v, 10);
+    p(r);
 }

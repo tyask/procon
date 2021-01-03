@@ -78,5 +78,27 @@ using namespace vec_utils;
 using namespace print_utils;
 
 int main() {
-    p("Hello!");
+    int n;
+    vec<string> ss;
+    cin >> n >> vin(ss, n);
+
+    set<string> s1;
+    set<string> s2;
+
+    for (auto& s : ss) {
+        if (s[0] == '!') {
+            s2.insert(s.substr(1));
+        } else {
+            s1.insert(s);
+        }
+    }
+
+    for (auto& t : ss) {
+        if (s1.find(t) != s1.end() && s2.find(t) != s2.end()) {
+            p(t);
+            return 0;
+        }
+    }
+
+    p("satisfiable");
 }

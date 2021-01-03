@@ -1,7 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
+#define REP(i, n) for (int i = 0; i < (n); ++i)
 
 namespace common {
+    using ll = long long;
+
     void init_cin(const std::string& s) {
         cin.rdbuf((new istringstream(s))->rdbuf());
     }
@@ -12,22 +15,20 @@ namespace vec_utils {
 template<typename T> using vec = vector<T>;
 
 // Vin
-template <template <typename T, typename A=allocator<T>> typename Cont, typename T>
+template <typename T>
 struct Vin {
-    Cont<T>& c;
+    vec<T>& v;
     int count;
 };
 
-template <template <typename T, typename A=allocator<T>> typename Cont, typename T>
-Vin<Cont, T> vin(Cont<T>& c, int cnt) {
-    return Vin<Cont, T>{c, cnt};
+template <typename T> Vin<T> vin(vec<T>& v, int c) {
+    return Vin<T>{v, c};
 }
 
-template <template <typename T, typename A=allocator<T>> typename Cont, typename T>
-istream& operator>>(istream& is, Vin<Cont, T> v) {
-    for (int i = 0; i < v.count; ++i) {
+template <typename T> istream& operator>>(istream& is, Vin<T> v) {
+    REP(i, v.count) {
         T t; is >> t;
-        v.c.push_back(t);
+        v.v.push_back(t);
     }
     return is;
 }
@@ -35,7 +36,7 @@ istream& operator>>(istream& is, Vin<Cont, T> v) {
 // vrange
 vec<int> vrange(int n) {
 	vec<int> v(n);
-	for (int i = 0; i < n; ++i) v[i] = i;
+	REP(i, n) v[i] = i;
 	return v;
 }
 
@@ -71,23 +72,25 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) {
 
 }
 
+
 using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
-int main() {
-    int n, q;
-    vec<int> s, t;
-    cin >> n >> vin(s, n);
-    cin >> q >> vin(t, q);
-
-    int c = 0;
-    unordered_set<int> set(s.begin(), s.end());
-    for (int i : t) {
-        if (set.find(i) != set.end()) {
-            c++;
-        }
+int gcd(int x, int y) {
+    if (x < y) {
+        swap(x, y);
     }
 
-    p(c);
+    if (y == 0) {
+        return x;
+    }
+
+    return gcd(y, x % y);
+}
+
+int main() {
+    int x, y;
+    cin >> x >> y;
+    p(gcd(x, y));
 }

@@ -77,6 +77,37 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
+auto partition(vec<int>& v) -> decltype(v.begin()) {
+    int x = v[v.size() - 1];
+    int i = -1;
+    REP(j, v.size() - 1) {
+        if (v[j] <= x) {
+            i++;
+            swap(v[i], v[j]);
+        }
+    }
+    swap(v[i + 1], v[v.size() - 1]);
+    return v.begin() + (i + 1);
+}
+
 int main() {
-    p("Hello!");
+    // init_cin("12\n13 19 9 5 12 8 7 4 21 2 6 11");
+    int n;
+    vec<int> v;
+    cin >> n >> vin(v, n);
+
+    // auto pos = partition(v.begin(), v.end(), [&](int x){ return x <= v[n - 1]; });
+    auto pos = partition(v);
+    for (auto it = v.begin(); it != pos; ++it) {
+        cout << *it << " ";
+    }
+    cout << "[" << *pos << "] ";
+
+    for (auto it = pos + 1; it != v.end(); ++it) {
+        cout << *it;
+        if (it != v.end() - 1) cout << " ";
+    }
+
+    cout << endl;
+
 }

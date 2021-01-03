@@ -77,6 +77,17 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
+int sum_digit(int n) {
+    int s = 0;
+    while(n > 0) {
+        s += n % 10;
+        n /= 10;
+    }
+    return s;
+}
+
 int main() {
-    p("Hello!");
+    int a, b;
+    cin >> a >> b;
+    p(max(sum_digit(a), sum_digit(b)));
 }

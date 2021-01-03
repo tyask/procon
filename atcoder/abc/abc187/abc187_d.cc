@@ -77,6 +77,48 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
+struct City {
+    int a;
+    int t;
+
+    int sum() { return a + t; }
+};
+
 int main() {
-    p("Hello!");
+    int n;
+    vec<City> cs;
+    cin >> n;
+    REP(i, n) {
+        City c;
+        cin >> c.a >> c.t;
+        cs.push_back(c);
+    }
+
+    sort(cs.begin(), cs.end(), [](auto& c1, auto& c2) {
+        if (c1.sum() != c2.sum()) {
+            return c1.sum() > c2.sum();
+        } else if (c1.a != c2.a) {
+            return c1.a > c2.a;
+        } else {
+            return c1.t > c2.t;
+        }
+    });
+
+    for (int i = 0; i <= n; ++i) {
+        ll a = 0;
+        ll t = 0;
+        for (int j = 0; j < n; ++j) {
+            if (j < i) {
+                t += cs[j].sum();
+            } else {
+                a += cs[j].a;
+            }
+        }
+
+        if (a < t) {
+            p(i);
+            break;
+        }
+    }
+
 }

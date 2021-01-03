@@ -77,6 +77,43 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
+int cnt = 0;
+void merge(vec<int>& v, int left, int mid, int right) {
+    int n1 = mid - left;
+    int n2 = right - mid;
+    vec<int> p1 = vec<int>(v.begin() + left, v.begin() + mid);
+    vec<int> p2 = vec<int>(v.begin() + mid, v.begin() + right);
+    p1.push_back(2000000000);
+    p2.push_back(2000000000);
+
+    int i = 0, j = 0;
+    for (int k = left; k < right; ++k) {
+        if (p1[i] < p2[j]) {
+            v[k] = p1[i];
+            i++;
+        } else {
+            v[k] = p2[j];
+            j++;
+        }
+    }
+    cnt += right - left;
+}
+
+void mergeSort(vec<int>& v, int left, int right) {
+    if (left + 1 < right) {
+        int mid = (left + right) / 2;
+        mergeSort(v, left, mid);
+        mergeSort(v, mid, right);
+        merge(v, left, mid, right);
+    }
+}
+
 int main() {
-    p("Hello!");
+    int n;
+    vec<int> v;
+    cin >> n >> vin(v, n);
+
+    mergeSort(v, 0, n);
+    p(v);
+    p(cnt);
 }
