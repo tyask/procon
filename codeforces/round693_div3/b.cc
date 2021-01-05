@@ -1,10 +1,10 @@
 #include <bits/stdc++.h>
 using namespace std;
-using ll = long long;
 #define REP(i, n) for (int i = 0; i < (n); ++i)
-#define EACH(x, c) for (auto& (x) : (c))
 
 namespace common {
+    using ll = long long;
+
     void init_cin(const std::string& s) {
         cin.rdbuf((new istringstream(s))->rdbuf());
     }
@@ -26,9 +26,9 @@ template <typename T> Vin<T> vin(vec<T>& v, int c) {
 }
 
 template <typename T> istream& operator>>(istream& is, Vin<T> v) {
-    v.v.resize(v.count);
     REP(i, v.count) {
-        is >> v.v[i];
+        T t; is >> t;
+        v.v.push_back(t);
     }
     return is;
 }
@@ -44,11 +44,11 @@ vec<int> vrange(int n) {
 
 namespace print_utils {
 
-template <typename T> void out(T&& t) {
+template <typename T> void p(T&& t) {
     cout << t << endl;
 }
 
-template <typename T, typename... Args> void out(T&& head, Args&&... args) {
+template <typename T, typename... Args> void p(T&& head, Args&&... args) {
     cout << head << " ";
     p(forward<Args>(args)...);
 }
@@ -69,6 +69,7 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) {
     return write(os, c);
 }
 
+
 }
 
 
@@ -76,15 +77,37 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
-void solve() {
-    out("Hello!");
+bool is_even(int n) {
+    return n % 2 == 0;
 }
 
 int main() {
-    REP(i, 5) {
-        if (i != 0) {
-            out("*****");
+    int t;
+    struct Case {vec<int> v;};
+    vec<vec<int>> cs;
+    cin >> t;
+    REP(i, t) {
+        int n;
+        vec<int> v;
+        cin >> n >> vin(v, n);
+        cs.push_back(v);
+    }
+
+    for (auto& v : cs) {
+        int n1 = count(v.begin(), v.end(), 1);
+        int n2 = v.size() - n1;
+        bool b = false;
+        if (is_even(n2)) {
+            b = is_even(n1);
+        } else {
+            if (n1 < 2) {
+                b = false;
+            } else if (is_even(n1 - 2)) {
+                b = true;
+            } else {
+                b = false;
+            }
         }
-        solve();
+        p(b? "YES" : "NO");
     }
 }

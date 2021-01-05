@@ -26,9 +26,9 @@ template <typename T> Vin<T> vin(vec<T>& v, int c) {
 }
 
 template <typename T> istream& operator>>(istream& is, Vin<T> v) {
-    v.v.resize(v.count);
     REP(i, v.count) {
-        is >> v.v[i];
+        T t; is >> t;
+        v.v.push_back(t);
     }
     return is;
 }
@@ -76,15 +76,25 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
-void solve() {
-    out("Hello!");
+int power(const vec<int>& xs, int p) {
+    int s = 0;
+    EACH(x, xs) {
+        s += pow((x - p), 2);
+    }
+    return s;
+}
+
+void solve1(const vec<int>& xs) {
+    int m = numeric_limits<int>::max();
+    for (size_t p = 1; p <= 100; p++) {
+        m = min(power(xs, p), m);
+    }
+
+    out(m);
 }
 
 int main() {
-    REP(i, 5) {
-        if (i != 0) {
-            out("*****");
-        }
-        solve();
-    }
+    int n;
+    vec<int> xs;
+    cin >> n >> vin(xs, n);
 }

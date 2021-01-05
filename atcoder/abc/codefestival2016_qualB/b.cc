@@ -26,9 +26,9 @@ template <typename T> Vin<T> vin(vec<T>& v, int c) {
 }
 
 template <typename T> istream& operator>>(istream& is, Vin<T> v) {
-    v.v.resize(v.count);
     REP(i, v.count) {
-        is >> v.v[i];
+        T t; is >> t;
+        v.v.push_back(t);
     }
     return is;
 }
@@ -76,15 +76,34 @@ using namespace common;
 using namespace vec_utils;
 using namespace print_utils;
 
-void solve() {
-    out("Hello!");
-}
-
 int main() {
-    REP(i, 5) {
-        if (i != 0) {
-            out("*****");
+    int n, a, b;
+    string s;
+    cin >> n >> a >> b >> s;
+    int lim = a + b;
+    int cnt = 0;
+    int cnt_b = 0;
+    REP(i, s.size()) {
+        char c = s[i];
+        if (c == 'c') {
+            out("No");
+        } else if (c == 'a') {
+            if (cnt < lim) {
+                out("Yes");
+                cnt++;
+            } else {
+                out("No");
+            }
+        } else if (c == 'b') {
+            cnt_b++;
+            if (cnt < lim && cnt_b <= b) {
+                out("Yes");
+                cnt++;
+            } else {
+                out("No");
+            }
+
         }
-        solve();
     }
+    
 }

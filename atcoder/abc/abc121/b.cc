@@ -77,7 +77,26 @@ using namespace vec_utils;
 using namespace print_utils;
 
 void solve() {
-    out("Hello!");
+    int n, m, c;
+    cin >> n >> m >> c;
+
+    vec<int> b(m);
+    vec<vec<int>> as(n, vec<int>(m));
+    cin >> vin(b, m);
+    REP(i, n) cin >> vin(as[i], m);
+    
+    int ans = 0;
+    for(auto& a : as) {
+        int s = c;
+        REP(i, m) {
+            s += a[i] * b[i];
+        }
+        if (s > 0) {
+            ans++;
+        }
+    }
+
+    out(ans);
 }
 
 int main() {
