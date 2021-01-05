@@ -27,7 +27,7 @@ const int IMIN = numeric_limits<int>::min();
 #define rep3(i,a,b) for(ll i=a;i<b;++i)
 #define rep4(i,a,b,c) for(ll i=a;i<b;i+=c)
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
-#define each(i, c) for (auto&& i : (c))
+
 #define itr(c) for (auto it = begin(c); it != end(c); ++it)
 
 template<class T> void scan(T& a){ cin >> a; }
@@ -53,7 +53,26 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { retur
 template <typename T> T sum(const vec<T>& v) { return accumulate(v.begin(), v.end(), 0LL); };
 
 void solve() {
-    out("Hello!");
+    INT(n);
+    VEC(int, a, n);
+    int b = 1;
+    int c = 0;
+    while (1) {
+        if (b == 2) {
+            break;
+        }
+
+        int t = a[b - 1];
+        if (t == 0) {
+            c = -1;
+            break;
+        }
+        a[b - 1] = 0;
+        b = t;
+        c++;
+    }
+
+    out(c);
 }
 
 int main() {

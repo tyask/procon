@@ -52,8 +52,42 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { retur
 
 template <typename T> T sum(const vec<T>& v) { return accumulate(v.begin(), v.end(), 0LL); };
 
+vec<int> primes;
+bool is_prime(int n) {
+    if (n == 2) {
+        primes.push_back(n);
+        return true;
+    }
+
+    if (n < 2 || n % 2 == 0) {
+        return false;
+    }
+
+    each(x, primes) {
+        if (n % x == 0) {
+            return false;
+        }
+
+        if (sqrt(n) < x) {
+            break;
+        }
+    }
+
+    primes.push_back(n);
+    return true;
+}
+
 void solve() {
-    out("Hello!");
+    INT(x);
+    int n = 2;
+    while(1) {
+        if (is_prime(n) && x <= n) {
+            out(n);
+            break;
+        }
+        n++;
+    }
+    
 }
 
 int main() {

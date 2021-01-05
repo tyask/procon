@@ -52,8 +52,27 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { retur
 
 template <typename T> T sum(const vec<T>& v) { return accumulate(v.begin(), v.end(), 0LL); };
 
+int f(int n) {
+    return (n % 2 == 0) ? n / 2 : 3 * n + 1;
+}
+
 void solve() {
-    out("Hello!");
+    INT(s);
+    int x = s;
+    vec<int> a(1000000);
+    a[0] = s;
+    for (int m = 0; m <= 1000000; ++m) {
+        if (m == 0) {
+            a[m] = s;
+        } else {
+            a[m] = f(a[m - 1]);
+        }
+
+        if (find(a.begin(), a.begin()+m, a[m]) != a.begin()+m) {
+            out(m + 1);
+            break;
+        }
+    }
 }
 
 int main() {

@@ -39,7 +39,7 @@ template <typename T> void out(T&& t) { cout << t << endl; }
 
 template <typename T, typename... Args> void out(T&& head, Args&&... args) {
     cout << head << " ";
-    p(forward<Args>(args)...);
+    out(forward<Args>(args)...);
 }
 
 template <typename Cont> ostream& write(ostream& os, const Cont& c) {
@@ -53,7 +53,25 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { retur
 template <typename T> T sum(const vec<T>& v) { return accumulate(v.begin(), v.end(), 0LL); };
 
 void solve() {
-    out("Hello!");
+    INT(n, d, x);
+    VEC(int, va, n);
+    int s = 0;
+    rep(n) {
+        int a = va[i];
+        int dy = 0;
+        int j = 0;
+        while (true) {
+            dy = j * a + 1;
+            if (d < dy) {
+                break;
+            }
+            j++;
+        }
+
+        s += j;
+    }
+
+    out(s + x);
 }
 
 int main() {

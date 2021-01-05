@@ -30,6 +30,11 @@ const int IMIN = numeric_limits<int>::min();
 #define each(i, c) for (auto&& i : (c))
 #define itr(c) for (auto it = begin(c); it != end(c); ++it)
 
+#define all1(i) begin(i),end(i)
+#define all2(i,a) begin(i),begin(i)+a
+#define all3(i,a,b) begin(i)+a,begin(i)+b
+#define all(...) overload3(__VA_ARGS__,all3,all2,all1)(__VA_ARGS__)
+
 template<class T> void scan(T& a){ cin >> a; }
 template<class T> void scan(vector<T>& a){ for(auto&& i : a) scan(i); }
 void in(){}
@@ -53,7 +58,24 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { retur
 template <typename T> T sum(const vec<T>& v) { return accumulate(v.begin(), v.end(), 0LL); };
 
 void solve() {
-    out("Hello!");
+    INT(n, x);
+    VEC(int, va, n);
+    sort(all(va));
+    rep(n) {
+        x -= va[i];
+        if (x == 0) {
+            out(i + 1);
+            return;
+        } else if (x < 0) {
+            out(i);
+            return;
+        }
+    }
+    if (x > 0) {
+        out(n - 1);
+    } else {
+        out(n);
+    }
 }
 
 int main() {

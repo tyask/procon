@@ -53,7 +53,12 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { retur
 template <typename T> T sum(const vec<T>& v) { return accumulate(v.begin(), v.end(), 0LL); };
 
 void solve() {
-    out("Hello!");
+    INT(n, m, x);
+    VEC(int, a, m);
+    int c = 0;
+    each(i, a) if (i < x) c++;
+    int ans = min(c, m - c);
+    out(ans);
 }
 
 int main() {

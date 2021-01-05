@@ -27,8 +27,6 @@ const int IMIN = numeric_limits<int>::min();
 #define rep3(i,a,b) for(ll i=a;i<b;++i)
 #define rep4(i,a,b,c) for(ll i=a;i<b;i+=c)
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
-#define each(i, c) for (auto&& i : (c))
-#define itr(c) for (auto it = begin(c); it != end(c); ++it)
 
 template<class T> void scan(T& a){ cin >> a; }
 template<class T> void scan(vector<T>& a){ for(auto&& i : a) scan(i); }
@@ -43,17 +41,35 @@ template <typename T, typename... Args> void out(T&& head, Args&&... args) {
 }
 
 template <typename Cont> ostream& write(ostream& os, const Cont& c) {
-    itr(c) { os << ((it == c.begin()) ? "" : " ") << *it; }
+    for (auto it = c.begin(); it != c.end(); ++it) {
+        os << ((it == c.begin()) ? "" : " ") << *it;
+    }
+
     return os;
 }
 
-template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
-template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
+template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) {
+    return write(os, c);
+}
 
-template <typename T> T sum(const vec<T>& v) { return accumulate(v.begin(), v.end(), 0LL); };
+template <typename T> ostream& operator<<(ostream& os, const list<T>& c) {
+    return write(os, c);
+}
 
 void solve() {
-    out("Hello!");
+    INT(n);
+    struct St {int id, m; };
+    vec<St> a(n);
+    rep(n) {
+        St& st = a[i];
+        st.id = i + 1;
+        cin >> st.m;
+    }
+
+    sort(a.begin(), a.end(), [](auto& s1, auto& s2){return s1.m < s2.m;});
+    vec<int> v(n);
+    rep(n) v[i] = a[i].id;
+    out(v);
 }
 
 int main() {
