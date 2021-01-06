@@ -9,7 +9,7 @@
                 "${file}",
                 "-o",
                 "${workspaceFolder}/bin/${fileBasenameNoExtension}",
-                "-D__ONPC__"
+                "-D__DEBUG__"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

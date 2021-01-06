@@ -41,11 +41,15 @@ void in(){}
 template <class Head, class... Tail> void in(Head& head, Tail&... tail){ scan(head); in(tail...); }
 
 template <typename T> void out(T&& t) { cout << t << endl; }
-template <typename T> void outh(T&& t) { cout << t << " "; }
-template <typename T, typename... Args> void out(T&& head, Args&&... tail) { outh(head); out(tail...); };
-template <typename T, typename... Args> void debug(T&& head, Args&&... tail) {
-#ifdef __DEBUG__
-    out("[DEBUG]", head, tail...);
+
+template <typename T, typename... Args> void out(T&& head, Args&&... args) {
+    cout << head << " ";
+    out(forward<Args>(args)...);
+}
+
+template <typename T, typename... Args> void debug(T&& head, Args&&... args) {
+#ifdef __ONPC__
+    out("[DEBUG]", forward<T>(head), forward<Args>(args)...);
 #endif
 }
 
@@ -57,11 +61,9 @@ template <typename Cont> ostream& write(ostream& os, const Cont& c) {
 template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
 template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
 
-template <typename Cont> auto sum(const Cont& c) { return accumulate(all(c), 0LL); };
-template <typename Cont> auto max(const Cont& c) { return *max_element(all(c)); };
-template <typename Cont> auto min(const Cont& c) { return *min_element(all(c)); };
-template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
-template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
+template <typename T, template<typename U, typename A=allocator<U>> class Cont> T sum(const Cont<T>& c) { return accumulate(all(c), 0LL); };
+template <typename T, template<typename U, typename A=allocator<U>> class Cont> T max(const Cont<T>& c) { return *max_element(all(c)); };
+template <typename T, template<typename U, typename A=allocator<U>> class Cont> T min(const Cont<T>& c) { return *min_element(all(c)); };
 
 template <typename N> bool is_even(N n) { return n % 2 == 0; }
 template <typename N> bool is_odd(N n) { return !is_even(n); }
@@ -71,10 +73,25 @@ void Yes(bool b) { out(b? "Yes" : "No"); }
 void yes(bool b) { out(b? "yes" : "no"); }
 
 void solve() {
+    INT(n, a, b);
+    int ans = 0;
+    for(int i = 1; i <= n; ++i) {
+        int s = 0;
+        int x = i;
+        while (x > 0) {
+            s += x % 10;
+            x /= 10;
+        }
+        if (a <= s && s <= b) {
+            ans += i;
+        }
+    }
+
+    out(ans);
 }
 
 int main() {
-#ifdef __DEBUG__
+#ifdef __ONPC__
     rep(5) {
         solve();
         out("*****");

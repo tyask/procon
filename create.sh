@@ -14,6 +14,12 @@ function exe() {
 
 target=$1
 dir=$(dirname $target)
+
+if [ -f $target ]; then
+    echo "$target already exists"
+    exit
+fi
+
 exe mkdir -p $dir
 exe cp template.cc $target
 

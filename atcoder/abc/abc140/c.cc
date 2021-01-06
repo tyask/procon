@@ -71,6 +71,18 @@ void Yes(bool b) { out(b? "Yes" : "No"); }
 void yes(bool b) { out(b? "yes" : "no"); }
 
 void solve() {
+    INT(n);
+    VEC(int, vb, n - 1);
+    vec<int> va(n);
+    va[0] = vb[0];
+    rep(i, 1, n) {
+        va[i] = max(va[i-1], vb[i-1]);
+        if (i < n - 1) {
+            va[i] = min(va[i], vb[i]);
+        }
+    }
+    debug(va);
+    out(sum(va));
 }
 
 int main() {
