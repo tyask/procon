@@ -78,6 +78,12 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(A, B, K);
+    for (int i = A; i <= B; ++i) {
+        if (i < A + K || B - K < i) {
+            out(i);
+        }
+    }
 }
 
 int main() {

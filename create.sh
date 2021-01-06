@@ -12,14 +12,23 @@ function exe() {
     return $ret
 }
 
-target=$1
-dir=$(dirname $target)
-
-if [ -f $target ]; then
-    echo "$target already exists"
-    exit
+if [ $# -lt 2 ]; then
+    echo "Argument Error."
+    echo "Usage: $0 <DIR> <FILES...>"
+    exit 1
 fi
 
+dir=$1; shift
+files=($@)
+
 exe mkdir -p $dir
-exe cp template.cc $target
+
+for file in ${files[@]}; do
+    target=$dir/$file
+    if [ -f $target ]; then
+        echo "$target already exists"
+    else
+        exe cp template.cc $target
+    fi
+done
 

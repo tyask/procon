@@ -71,13 +71,29 @@ template <typename N> bool is_odd(N n) { return !is_even(n); }
 void YES(bool b=true) { out(b? "YES" : "NO"); }
 void Yes(bool b=true) { out(b? "Yes" : "No"); }
 void yes(bool b=true) { out(b? "yes" : "no"); }
-void NO(bool b=true) { YES(!b); }
-void No(bool b=true) { Yes(!b); }
-void no(bool b=true) { yes(!b); }
+void NO(bool b=false) { YES(b); }
+void No(bool b=false) { Yes(b); }
+void no(bool b=false) { yes(b); }
 
 }
 
 void solve() {
+    INT(N);
+    VEC(string, W, N);
+    set<string> s(all(W));
+    if (s.size() != W.size()) {
+        No();
+        return;
+    }
+
+    rep(i, 0, N-1) {
+        if (W[i].back() != W[i+1][0]) {
+            No();
+            return;
+        }
+    }
+
+    Yes();
 }
 
 int main() {

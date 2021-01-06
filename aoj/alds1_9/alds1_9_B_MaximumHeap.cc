@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-
-namespace {
 using namespace std;
 using ll   = long long;
 using ld   = long double;
@@ -29,6 +27,7 @@ const int IMIN = numeric_limits<int>::min();
 #define rep3(i,a,b) for(ll i=a;i<b;++i)
 #define rep4(i,a,b,c) for(ll i=a;i<b;i+=c)
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
+
 #define each(i, c) for (auto&& i : (c))
 #define itr(c) for (auto it = begin(c); it != end(c); ++it)
 
@@ -68,16 +67,50 @@ template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; retur
 template <typename N> bool is_even(N n) { return n % 2 == 0; }
 template <typename N> bool is_odd(N n) { return !is_even(n); }
 
-void YES(bool b=true) { out(b? "YES" : "NO"); }
-void Yes(bool b=true) { out(b? "Yes" : "No"); }
-void yes(bool b=true) { out(b? "yes" : "no"); }
-void NO(bool b=true) { YES(!b); }
-void No(bool b=true) { Yes(!b); }
-void no(bool b=true) { yes(!b); }
+void YES(bool b) { out(b? "YES" : "NO"); }
+void Yes(bool b) { out(b? "Yes" : "No"); }
+void yes(bool b) { out(b? "yes" : "no"); }
 
+int parent(int i) {
+    return 2 / i - 1;
+}
+int left(int i) {
+    return 2 * (i + 1) - 1;
+}
+
+int right(int i) {
+    return 2 * (i + 1) + 1 - 1;
+}
+
+void max_heapify(vec<int>& a, int i) {
+    int h = a.size();
+    int l = left(i);
+    int r = right(i);
+    int largest = i;
+    if (0 <= l && l < h && a[l] > a[i]) {
+        largest = l;
+    }
+    if (0 <= r && r < h && a[r] > a[largest]) {
+        largest = r;
+    }
+
+    if (largest != i) {
+        swap(a[i], a[largest]);
+        max_heapify(a, largest);
+    }
+}
+
+void build_max_heap(vec<int>& a) {
+    for (int i = a.size() / 2; i >= 0; --i) {
+        max_heapify(a, i);
+    }
 }
 
 void solve() {
+    INT(H);
+    VEC(int, a, H);
+    build_max_heap(a);
+    out("", a);
 }
 
 int main() {

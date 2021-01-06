@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-
-namespace {
 using namespace std;
 using ll   = long long;
 using ld   = long double;
@@ -68,13 +66,75 @@ template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; retur
 template <typename N> bool is_even(N n) { return n % 2 == 0; }
 template <typename N> bool is_odd(N n) { return !is_even(n); }
 
-void YES(bool b=true) { out(b? "YES" : "NO"); }
-void Yes(bool b=true) { out(b? "Yes" : "No"); }
-void yes(bool b=true) { out(b? "yes" : "no"); }
-void NO(bool b=true) { YES(!b); }
-void No(bool b=true) { Yes(!b); }
-void no(bool b=true) { yes(!b); }
+void YES(bool b) { out(b? "YES" : "NO"); }
+void Yes(bool b) { out(b? "Yes" : "No"); }
+void yes(bool b) { out(b? "yes" : "no"); }
 
+int parent(int i) {
+    return 2 / i - 1;
+}
+int left(int i) {
+    return 2 * (i + 1) - 1;
+}
+
+int right(int i) {
+    return 2 * (i + 1) + 1 - 1;
+}
+
+struct PriorityQueue {
+    vec<int> heap(2000000);
+    int h = 0;
+
+    PriorityQueue() {
+        heap[h] = IMIN;
+    }
+
+    void heap_increase_key(int i, int k) {
+        if (k < a[i]) {
+            // error
+        }
+
+        a[i] = k;
+        while (i > 0 && a[parent(i)] < a[i]) {
+            swap(a[i], a[parent(i)]);
+            i = parent(i);
+        }
+    }
+
+    void insert(int k) {
+        h++;
+        heap[++h] = IMIN;
+        heap_increase_key(h, k);
+    }
+
+    int extractMax() {
+        int mx = heap[0];
+        return mx;
+    }
+
+    void max_heapify(int i) {
+        int h = heap.size();
+        int l = left(i);
+        int r = right(i);
+        int largest = i;
+        if (0 <= l && l < h && heap[l] > heap[i]) {
+            largest = l;
+        }
+        if (0 <= r && r < h && heap[r] > heap[largest]) {
+            largest = r;
+        }
+
+        if (largest != i) {
+            swap(heap[i], heap[largest]);
+            max_heapify(a, largest);
+        }
+    }
+
+    void build_max_heap() {
+        for (int i = heap.size() / 2; i >= 0; --i) {
+            max_heapify(a, i);
+        }
+    }
 }
 
 void solve() {

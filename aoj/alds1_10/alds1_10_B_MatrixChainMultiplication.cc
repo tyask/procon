@@ -68,16 +68,29 @@ template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; retur
 template <typename N> bool is_even(N n) { return n % 2 == 0; }
 template <typename N> bool is_odd(N n) { return !is_even(n); }
 
-void YES(bool b=true) { out(b? "YES" : "NO"); }
-void Yes(bool b=true) { out(b? "Yes" : "No"); }
-void yes(bool b=true) { out(b? "yes" : "no"); }
-void NO(bool b=true) { YES(!b); }
-void No(bool b=true) { Yes(!b); }
-void no(bool b=true) { yes(!b); }
+void YES(bool b) { out(b? "YES" : "NO"); }
+void Yes(bool b) { out(b? "Yes" : "No"); }
+void yes(bool b) { out(b? "yes" : "no"); }
 
 }
 
 void solve() {
+    INT(n);
+    vec<int> vp(n + 1);
+    rep(n) cin >> vp[i] >> vp[i+1];
+
+    vec<vec<int>> m(n + 1, vec<int>(n + 1, IMAX));
+    rep(n+1) m[i][i] = 0;
+
+    for (int l = 2; l <= n; ++l) {
+        for(int i = 1; i <= n - l + 1; ++i) {
+            int j = i + l - 1;
+            for (int k = i; k <= j - 1; ++k) {
+                chmin(m[i][j], m[i][k] + m[k+1][j] + vp[i-1]*vp[k]*vp[j]);
+            }
+        }
+    }
+    out(m[1][n]);
 }
 
 int main() {

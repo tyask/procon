@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-
-namespace {
 using namespace std;
 using ll   = long long;
 using ld   = long double;
@@ -68,16 +66,29 @@ template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; retur
 template <typename N> bool is_even(N n) { return n % 2 == 0; }
 template <typename N> bool is_odd(N n) { return !is_even(n); }
 
-void YES(bool b=true) { out(b? "YES" : "NO"); }
-void Yes(bool b=true) { out(b? "Yes" : "No"); }
-void yes(bool b=true) { out(b? "yes" : "no"); }
-void NO(bool b=true) { YES(!b); }
-void No(bool b=true) { Yes(!b); }
-void no(bool b=true) { yes(!b); }
-
-}
+void YES(bool b) { out(b? "YES" : "NO"); }
+void Yes(bool b) { out(b? "Yes" : "No"); }
+void yes(bool b) { out(b? "yes" : "no"); }
 
 void solve() {
+    INT(H);
+    VEC(int, v, H);
+    rep(v.size()) {
+        cout << "node " << i + 1 << ": key = " << v[i] << ", ";
+        int pk = (i + 1) / 2 - 1;
+        int lk = 2 * (i + 1) - 1;
+        int rk = 2 * (i + 1) + 1 - 1;
+        if (0 <= pk && pk < H) {
+            cout << "parent key = " << v[pk] << ", ";
+        }
+        if (0 <= lk && lk < H) {
+            cout << "left key = " << v[lk] << ", ";
+        }
+        if (0 <= rk && rk < H) {
+            cout << "right key = " << v[rk] << ", ";
+        }
+        cout << endl;
+    }
 }
 
 int main() {

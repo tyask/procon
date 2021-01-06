@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-
-namespace {
 using namespace std;
 using ll   = long long;
 using ld   = long double;
@@ -68,16 +66,35 @@ template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; retur
 template <typename N> bool is_even(N n) { return n % 2 == 0; }
 template <typename N> bool is_odd(N n) { return !is_even(n); }
 
-void YES(bool b=true) { out(b? "YES" : "NO"); }
-void Yes(bool b=true) { out(b? "Yes" : "No"); }
-void yes(bool b=true) { out(b? "yes" : "no"); }
-void NO(bool b=true) { YES(!b); }
-void No(bool b=true) { Yes(!b); }
-void no(bool b=true) { yes(!b); }
-
-}
+void YES(bool b) { out(b? "YES" : "NO"); }
+void Yes(bool b) { out(b? "Yes" : "No"); }
+void yes(bool b) { out(b? "yes" : "no"); }
 
 void solve() {
+    INT(q);
+    vec<string> vx(q);
+    vec<string> vy(q);
+    rep(q) cin >> vx[i] >> vy[i];
+    rep(qi, q) {
+        string x = vx[qi];
+        string y = vy[qi];
+
+        vec<vec<int>> m(x.size() + 1, vec<int>(y.size() + 1));
+        rep(i, x.size()+1) m[i][0] = 0;
+        rep(j, y.size()+1) m[0][j] = 0;
+
+        for (int i = 1; i <= x.size(); ++i) {
+            for (int j = 1; j <= y.size(); ++j) {
+                if (x[i-1] == y[j-1]) {
+                    m[i][j] = m[i-1][j-1] + 1;
+                } else {
+                    m[i][j] = max(m[i][j-1], m[i-1][j]);
+                }
+            }
+        }
+        out(m[x.size()][y.size()]);
+
+    }
 }
 
 int main() {

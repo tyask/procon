@@ -78,6 +78,24 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(N, D);
+    vec<vec<int>> vp(N, vec<int>(D));
+    rep(i, N) rep(j, D) cin >> vp[i][j];
+    int ans = 0;
+    rep(i, N-1) {
+        rep(j, i+1, N) {
+            auto& p1 = vp[i];
+            auto& p2 = vp[j];
+            int d = 0;
+            rep(k, D) d += pow(p1[k] - p2[k], 2);
+            double sd = sqrt(d);
+            if (sd == (int) sd) {
+                ans++;
+            }
+        } 
+    }
+
+    out(ans);
 }
 
 int main() {
