@@ -6,8 +6,8 @@ using ull  = unsigned long long;
 using uint = unsigned int;
 template<typename T> using vec = vector<T>;
 
-const ll  LMAX = numeric_limits<ll>::max();
-const ll  LMIN = numeric_limits<ll>::min();
+const ll LMAX  = numeric_limits<ll>::max();
+const ll LMIN  = numeric_limits<ll>::min();
 const int IMAX = numeric_limits<int>::max();
 const int IMIN = numeric_limits<int>::min();
 
@@ -29,6 +29,7 @@ const int IMIN = numeric_limits<int>::min();
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
 #define each(i, c) for (auto&& i : (c))
 #define itr(c) for (auto it = begin(c); it != end(c); ++it)
+
 #define all1(i) begin(i),end(i)
 #define all2(i,a) begin(i),begin(i)+a
 #define all3(i,a,b) begin(i)+a,begin(i)+b
@@ -43,7 +44,13 @@ template <typename T> void out(T&& t) { cout << t << endl; }
 
 template <typename T, typename... Args> void out(T&& head, Args&&... args) {
     cout << head << " ";
-    p(forward<Args>(args)...);
+    out(forward<Args>(args)...);
+}
+
+template <typename T, typename... Args> void debug(T&& head, Args&&... args) {
+#ifdef __ONPC__
+    out("[DEBUG]", forward<T>(head), forward<Args>(args)...);
+#endif
 }
 
 template <typename Cont> ostream& write(ostream& os, const Cont& c) {
@@ -54,39 +61,47 @@ template <typename Cont> ostream& write(ostream& os, const Cont& c) {
 template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
 template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
 
-template <typename T> T sum(const vec<T>& v) { return accumulate(v.begin(), v.end(), 0LL); };
+template <typename T, template<typename U, typename A=allocator<U>> class Cont> T sum(const Cont<T>& c) { return accumulate(all(c), 0LL); };
+template <typename T, template<typename U, typename A=allocator<U>> class Cont> T max(const Cont<T>& c) { return *max_element(all(c)); };
+template <typename T, template<typename U, typename A=allocator<U>> class Cont> T min(const Cont<T>& c) { return *min_element(all(c)); };
 
-void solve() {
-    INT(a, b, m);
-    VEC(int, va, a);
-    VEC(int, vb, b);
-    vec<int> vx(m), vy(m), vc(m);
-    rep(m) cin >> vx[i] >> vy[i] >> vc[i];
+template <typename N> bool is_even(N n) { return n % 2 == 0; }
+template <typename N> bool is_odd(N n) { return !is_even(n); }
 
-    int ma = *min_element(all(va));
-    int mb = *min_element(all(vb));
-    int m1 = ma + mb;
-    int ans = m1;
+void YES(bool b) { out(b? "YES" : "NO"); }
+void Yes(bool b) { out(b? "Yes" : "No"); }
+void yes(bool b) { out(b? "yes" : "no"); }
 
-    rep(m) {
-        int a = va[vx[i] - 1];
-        int b = vb[vy[i] - 1];
-        int m2 = a + b - vc[i];
-        ans = min(ans, m2);
+map<int, ll> m;
+ll lucas(int i) {
+    if (i == 0) {
+        return 2;
+    } else if (i == 1) {
+        return 1;
+    } else if (m[i] != 0) {
+        return m[i];
+    } else {
+        m[i] = lucas(i - 1) + lucas(i - 2);
+        return m[i];
     }
-    out(ans);
+}
+void solve() {
+    INT(n);
+    ll lu[86 + 1];
+    lu[0] = 2;
+    lu[1] = 1;
+    rep(i, 2, n + 1) lu[i] = lu[i - 1] + lu[i - 2];
+    out(lu[n]);
 }
 
 int main() {
 #ifdef __ONPC__
-int count = 5;
-#else
-int count = 1;
-#endif
-    rep(count) {
-        if (i != 0) {
-            out("*****");
-        }
+    rep(5) {
         solve();
+        out("*****");
     }
+#else
+    solve();
+#endif
+    
 }

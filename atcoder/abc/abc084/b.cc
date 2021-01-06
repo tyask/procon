@@ -6,8 +6,8 @@ using ull  = unsigned long long;
 using uint = unsigned int;
 template<typename T> using vec = vector<T>;
 
-const ll  LMAX = numeric_limits<ll>::max();
-const ll  LMIN = numeric_limits<ll>::min();
+const ll LMAX  = numeric_limits<ll>::max();
+const ll LMIN  = numeric_limits<ll>::min();
 const int IMAX = numeric_limits<int>::max();
 const int IMIN = numeric_limits<int>::min();
 
@@ -29,6 +29,7 @@ const int IMIN = numeric_limits<int>::min();
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
 #define each(i, c) for (auto&& i : (c))
 #define itr(c) for (auto it = begin(c); it != end(c); ++it)
+
 #define all1(i) begin(i),end(i)
 #define all2(i,a) begin(i),begin(i)+a
 #define all3(i,a,b) begin(i)+a,begin(i)+b
@@ -57,36 +58,34 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { retur
 template <typename T> T sum(const vec<T>& v) { return accumulate(v.begin(), v.end(), 0LL); };
 
 void solve() {
-    INT(a, b, m);
-    VEC(int, va, a);
-    VEC(int, vb, b);
-    vec<int> vx(m), vy(m), vc(m);
-    rep(m) cin >> vx[i] >> vy[i] >> vc[i];
-
-    int ma = *min_element(all(va));
-    int mb = *min_element(all(vb));
-    int m1 = ma + mb;
-    int ans = m1;
-
-    rep(m) {
-        int a = va[vx[i] - 1];
-        int b = vb[vy[i] - 1];
-        int m2 = a + b - vc[i];
-        ans = min(ans, m2);
+    INT(a, b);
+    STR(s);
+    rep(s.size()) {
+        char c = s[i];
+        if (i == a) {
+            if (c != '-') {
+                out("No");
+                return;
+            }
+        } else {
+            if (isdigit(c)) {
+                out("No");
+                return;
+            }
+        }
     }
-    out(ans);
+
+    out("Yes");
 }
 
 int main() {
 #ifdef __ONPC__
-int count = 5;
-#else
-int count = 1;
-#endif
-    rep(count) {
-        if (i != 0) {
-            out("*****");
-        }
+    rep(5) {
         solve();
+        out("*****");
     }
+#else
+    solve();
+#endif
+    
 }
