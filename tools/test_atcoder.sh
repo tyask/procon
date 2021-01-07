@@ -10,7 +10,7 @@ fi
 
 DIR=$1
 SRC=$DIR/main.cpp
-ROOT=$(dirname $0)
+ROOT=$(dirname $0)/..
 BIN=$ROOT/bin/a.out
 TIMEOUT=1
 

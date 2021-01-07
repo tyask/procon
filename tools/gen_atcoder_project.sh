@@ -9,7 +9,8 @@ if [ $# -lt 1 ]; then
 fi
 
 contest=$1
-workspace=$(dirname $0)/atcoder
+root=$(dirname $0)/..
+workspace=$root/atcoder
 
 case $contest in
 abc*) workspace+=/abc;;
