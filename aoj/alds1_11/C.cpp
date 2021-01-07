@@ -42,18 +42,20 @@ const int IMIN = numeric_limits<int>::min();
 #define all(...) overload3(__VA_ARGS__,all3,all2,all1)(__VA_ARGS__)
 
 template<class T> void scan(T& a){ cin >> a; }
-template<class T> void scan(vec<T>& a){ scan(a, a.size()); }
 template<class T> void scan(vec<T>& a, int n){ a.resize(n); for(auto&& i : a) scan(i); }
+template<class T> void scan(vec<T>& a){ scan(a, a.size()); }
 template<class T> void scan(vvec<T>& a){ for(auto&& v : a) scan(v); }
 void in(){}
 template <class Head, class... Tail> void in(Head& head, Tail&... tail){ scan(head); in(tail...); }
 
-template <typename T> void out(T&& t) { cout << t << endl; }
-template <typename T> void outh(T&& t) { cout << t << " "; }
-template <typename T, typename... Args> void out(T&& head, Args&&... tail) { outh(head); out(tail...); };
+template <typename T> void out_impl(ostream& os, T&& t) { cout << t << endl; }
+template <typename T> void outh_impl(ostream& os, T&& t) { cout << t << " "; }
+template <typename T, typename... Args> void out_impl(ostream& os, T&& head, Args&&... tail) { outh_impl(os, head); out_impl(os, tail...); };
+
+template <typename T, typename... Args> void out(T&& head, Args&&... tail) { out_impl(cout, head, tail...); }
 template <typename T, typename... Args> void debug(T&& head, Args&&... tail) {
 #ifdef __DEBUG__
-    out("[DEBUG]", head, tail...);
+    out_impl(cerr, "[DEBUG]", head, tail...);
 #endif
 }
 
@@ -82,7 +84,6 @@ void No(bool b=true) { Yes(!b); }
 void no(bool b=true) { yes(!b); }
 
 }
-
 void solve() {
     INT(n);
     vvec<int> vg(n, vec<int>(n));
@@ -95,19 +96,11 @@ void solve() {
         }
     }
 
-    rep(n) {
-        vg[i]
-    }
+    // rep(n) {
+    //     vg[i]
+    // }
 }
 
 int main() {
-#ifdef __DEBUG__
-    rep(5) {
-        solve();
-        out("*****");
-    }
-#else
     solve();
-#endif
-    
 }

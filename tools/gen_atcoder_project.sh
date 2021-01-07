@@ -23,5 +23,5 @@ exe mkdir -p $workspace
 
 exe atcoder-tools gen $contest \
     --without-login \
-    --template $(dirname $0)/template.cc \
+    --template $(dirname $0)/template.cpp \
     --workspace $workspace
