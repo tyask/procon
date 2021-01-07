@@ -42,20 +42,18 @@ const int IMIN = numeric_limits<int>::min();
 #define all(...) overload3(__VA_ARGS__,all3,all2,all1)(__VA_ARGS__)
 
 template<class T> void scan(T& a){ cin >> a; }
-template<class T> void scan(vec<T>& a){ scan(a, a.size()); }
 template<class T> void scan(vec<T>& a, int n){ a.resize(n); for(auto&& i : a) scan(i); }
+template<class T> void scan(vec<T>& a){ scan(a, a.size()); }
 template<class T> void scan(vvec<T>& a){ for(auto&& v : a) scan(v); }
 void in(){}
 template <class Head, class... Tail> void in(Head& head, Tail&... tail){ scan(head); in(tail...); }
 
-template <typename T> void out_impl(ostream& os, T&& t) { cout << t << endl; }
-template <typename T> void outh_impl(ostream& os, T&& t) { cout << t << " "; }
-template <typename T, typename... Args> void out_impl(ostream& os, T&& head, Args&&... tail) { outh_impl(os, head); out_impl(os, tail...); };
-
-template <typename T, typename... Args> void out(T&& head, Args&&... tail) { out_impl(cout, head, tail...): }
+template <typename T> void out(T&& t) { cout << t << endl; }
+template <typename T> void outh(T&& t) { cout << t << " "; }
+template <typename T, typename... Args> void out(T&& head, Args&&... tail) { outh(head); out(tail...); };
 template <typename T, typename... Args> void debug(T&& head, Args&&... tail) {
 #ifdef __DEBUG__
-    out_impl(cerr, "[DEBUG]", head, tail...);
+    out("[DEBUG]", head, tail...);
 #endif
 }
 
@@ -83,7 +81,98 @@ void NO(bool b=true) { YES(!b); }
 void No(bool b=true) { Yes(!b); }
 void no(bool b=true) { yes(!b); }
 
+void init_cin(const char* s) { cin.rdbuf((new istringstream(s))->rdbuf()); }
+
+}
+
+int t = 0;
+vec<int> starts;
+vec<int> ee;
+
+void depth_search(vvec<int>& g, int c) {
+    if (starts[c] == 0) starts[c] = ++t; else return;
+
+    rep(j, g[c].size()) {
+        if (g[c][j] == 1) {
+            debug(c+1, j+1);
+            depth_search(g, j);
+        }
+    }
+
+    ee[c] = ++t;
+}
+
+void depth_search_on_stack(vvec<int>& g, int c) {
+    if (starts[c] == 0) starts[c] = ++t; else return;
+
+    stack<int> s;
+    s.push(c);
+
+    while (!s.empty()) {
+        int u = s.top();
+        bool pend = false;
+        rep(j, g[u].size()) {
+            if(g[u][j] && starts[j] == 0) {
+                starts[j] = ++t;
+                s.push(j);
+                pend = true;
+                break;
+            }
+        }
+        if (!pend) {
+            s.pop();
+            ee[u] = ++t;
+        }
+    }
+}
+
+void solve() {
+    INT(n);
+    vvec<int> vg(n, vec<int>(n));
+    starts.resize(n);
+    ee.resize(n);
+    rep(n) {
+        INT(u, k);
+        VEC(int, v, k);
+        auto& g = vg[u-1];
+        rep(j, v.size()) {
+            g[v[j]-1] = 1;
+        }
+    }
+
+    rep(n) debug(vg[i]);
+    // rep(n) depth_search(vg, i);
+    rep(n) depth_search_on_stack(vg, i);
+    rep(n) out(i+1, starts[i], ee[i]);
 }
 
 int main() {
+#ifdef __DEBUG__
+    init_cin(R"(
+4
+1 1 2
+2 1 4
+3 0
+4 1 3
+        )");
+    solve();
+
+    init_cin(R"(
+6
+1 2 2 3
+2 2 3 4
+3 1 5
+4 1 6
+5 1 6
+6 0
+        )");
+    solve();
+    // rep(5) {
+    //     solve();
+    //     out("*****");
+    // }
+#else
+    solve();
+#endif
+    
 }

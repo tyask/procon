@@ -48,14 +48,12 @@ template<class T> void scan(vvec<T>& a){ for(auto&& v : a) scan(v); }
 void in(){}
 template <class Head, class... Tail> void in(Head& head, Tail&... tail){ scan(head); in(tail...); }
 
-template <typename T> void out_impl(ostream& os, T&& t) { cout << t << endl; }
-template <typename T> void outh_impl(ostream& os, T&& t) { cout << t << " "; }
-template <typename T, typename... Args> void out_impl(ostream& os, T&& head, Args&&... tail) { outh_impl(os, head); out_impl(os, tail...); };
-
-template <typename T, typename... Args> void out(T&& head, Args&&... tail) { out_impl(cout, head, tail...): }
+template <typename T> void out(T&& t) { cout << t << endl; }
+template <typename T> void outh(T&& t) { cout << t << " "; }
+template <typename T, typename... Args> void out(T&& head, Args&&... tail) { outh(head); out(tail...); };
 template <typename T, typename... Args> void debug(T&& head, Args&&... tail) {
 #ifdef __DEBUG__
-    out_impl(cerr, "[DEBUG]", head, tail...);
+    out("[DEBUG]", head, tail...);
 #endif
 }
 
@@ -85,5 +83,31 @@ void no(bool b=true) { yes(!b); }
 
 }
 
+void solve() {
+    INT(n);
+    vvec<int> vg(n, vec<int>(n));
+    rep(n) {
+        INT(u, k);
+        VEC(int, v, k);
+        auto& g = vg[u-1];
+        rep(j, v.size()) {
+            g[v[j]-1] = 1;
+        }
+    }
+
+    rep(n) {
+        vg[i]
+    }
+}
+
 int main() {
+#ifdef __DEBUG__
+    rep(5) {
+        solve();
+        out("*****");
+    }
+#else
+    solve();
+#endif
+    
 }
