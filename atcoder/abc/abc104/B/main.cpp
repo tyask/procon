@@ -86,6 +86,16 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    STR(S);
+    if (S[0] != 'A') { out("WA"); return; }
+    int c = 0;
+    rep(i, 2, S.size()-1) if (S[i] == 'C') c++;
+    if (c != 1) { out("WA"); return; }
+    each(c, S) {
+        if (c != 'A' && c != 'C' && 'A' <= c && c <= 'Z') { out("WA"); return; }
+    }
+
+    out("AC");
 }
 
 int main() {

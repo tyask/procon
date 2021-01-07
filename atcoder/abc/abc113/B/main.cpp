@@ -86,6 +86,21 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(N, T, A);
+    VEC(int, H, N);
+
+    ld ans = DBL_MAX;
+    int pos = 0;
+    rep(N) {
+        int h = H[i];
+        ld d = abs(A - (T - h * 0.006));
+        if (chmin(ans, d)) {
+            pos = i;
+        }
+    }
+
+    out(pos+1);
+
 }
 
 int main() {

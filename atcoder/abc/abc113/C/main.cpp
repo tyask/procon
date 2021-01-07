@@ -42,8 +42,8 @@ const int IMIN = numeric_limits<int>::min();
 #define all(...) overload3(__VA_ARGS__,all3,all2,all1)(__VA_ARGS__)
 
 template<class T> void scan(T& a){ cin >> a; }
-template<class T> void scan(vec<T>& a, int n){ a.resize(n); for(auto&& i : a) scan(i); }
 template<class T> void scan(vec<T>& a){ scan(a, a.size()); }
+template<class T> void scan(vec<T>& a, int n){ a.resize(n); for(auto&& i : a) scan(i); }
 template<class T> void scan(vvec<T>& a){ for(auto&& v : a) scan(v); }
 void in(){}
 template <class Head, class... Tail> void in(Head& head, Tail&... tail){ scan(head); in(tail...); }
