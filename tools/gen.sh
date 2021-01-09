@@ -16,5 +16,5 @@ exe mkdir -p $DIR
 if [ -f $SRC ]; then
     echo "$SRC already exists"
 else
-    exe cp template.cc $target
+    exe cp $(dirname $0)/template.cpp $SRC
 fi
