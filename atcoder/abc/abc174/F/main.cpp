@@ -85,16 +85,11 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-#define __ATCODER__ 0
+#define __ATCODER__ 1
 
 #if __ATCODER__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
+void solve(long long N, long long Q, std::vector<long long> c, std::vector<long long> l, std::vector<long long> r) {
 }
-{% else %}
-void solve() {
-}
-{% endif %}
 #else
 void solve() {
 }
@@ -102,12 +97,21 @@ void solve() {
 
 int main() {
 #if __ATCODER__ == 1
-    {% if prediction_success %}
-    {{input_part}}
-    solve({{ actual_arguments }});
-    {% else %}
-    solve();
-    {% endif %}
+    long long N;
+    scanf("%lld",&N);
+    long long Q;
+    scanf("%lld",&Q);
+    std::vector<long long> c(N);
+    for(int i = 0 ; i < N ; i++){
+        scanf("%lld",&c[i]);
+    }
+    std::vector<long long> l(Q);
+    std::vector<long long> r(Q);
+    for(int i = 0 ; i < Q ; i++){
+        scanf("%lld",&l[i]);
+        scanf("%lld",&r[i]);
+    }
+    solve(N, Q, std::move(c), std::move(l), std::move(r));
 #else
     rep(10) {
         solve();

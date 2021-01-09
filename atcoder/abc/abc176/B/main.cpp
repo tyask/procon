@@ -85,16 +85,17 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-#define __ATCODER__ 0
+#define __ATCODER__ 1
 
 #if __ATCODER__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
+void solve(std::string N) {
+    ll s = 0;
+    each(c, N) {
+        int d = c - '0';
+        s += d;
+    }
+    Yes(s % 9 == 0);
 }
-{% else %}
-void solve() {
-}
-{% endif %}
 #else
 void solve() {
 }
@@ -102,12 +103,9 @@ void solve() {
 
 int main() {
 #if __ATCODER__ == 1
-    {% if prediction_success %}
-    {{input_part}}
-    solve({{ actual_arguments }});
-    {% else %}
-    solve();
-    {% endif %}
+    std::string N;
+    std::cin >> N;
+    solve(N);
 #else
     rep(10) {
         solve();

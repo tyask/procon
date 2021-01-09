@@ -85,16 +85,22 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-#define __ATCODER__ 0
+#define __ATCODER__ 1
 
 #if __ATCODER__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
+void solve(long long N, long long D, std::vector<long long> X, std::vector<long long> Y) {
+    ll dd = D * D;
+    int cnt = 0;
+    rep(N) {
+        ll xx = X[i] * X[i];
+        ll yy = Y[i] * Y[i];
+        if (xx + yy <= dd) {
+            cnt++;
+        }
+    }
+
+    out(cnt);
 }
-{% else %}
-void solve() {
-}
-{% endif %}
 #else
 void solve() {
 }
@@ -102,12 +108,17 @@ void solve() {
 
 int main() {
 #if __ATCODER__ == 1
-    {% if prediction_success %}
-    {{input_part}}
-    solve({{ actual_arguments }});
-    {% else %}
-    solve();
-    {% endif %}
+    long long N;
+    scanf("%lld",&N);
+    long long D;
+    scanf("%lld",&D);
+    std::vector<long long> X(N);
+    std::vector<long long> Y(N);
+    for(int i = 0 ; i < N ; i++){
+        scanf("%lld",&X[i]);
+        scanf("%lld",&Y[i]);
+    }
+    solve(N, D, std::move(X), std::move(Y));
 #else
     rep(10) {
         solve();

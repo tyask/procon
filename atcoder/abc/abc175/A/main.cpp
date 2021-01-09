@@ -85,16 +85,15 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-#define __ATCODER__ 0
+#define __ATCODER__ 1
 
 #if __ATCODER__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
+void solve(std::string S) {
+    if (S.find("RRR") != string::npos) out(3);
+    else if (S.find("RR") != string::npos) out(2);
+    else if (S.find("R") != string::npos) out(1);
+    else out(0);
 }
-{% else %}
-void solve() {
-}
-{% endif %}
 #else
 void solve() {
 }
@@ -102,12 +101,9 @@ void solve() {
 
 int main() {
 #if __ATCODER__ == 1
-    {% if prediction_success %}
-    {{input_part}}
-    solve({{ actual_arguments }});
-    {% else %}
-    solve();
-    {% endif %}
+    std::string S;
+    std::cin >> S;
+    solve(S);
 #else
     rep(10) {
         solve();

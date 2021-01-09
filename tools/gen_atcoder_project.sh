@@ -32,7 +32,10 @@ else
     exe mkdir -p $workspace
 fi
 
+template=$root/bin/atcoder_template.cpp
+exe "sed 's/\(#define __ATCODER__\) 0/\1 1/' $(dirname $0)/template.cpp > $template"
+
 exe atcoder-tools gen $contest \
     --without-login \
-    --template $(dirname $0)/template.cpp \
+    --template $template \
     --workspace $workspace
