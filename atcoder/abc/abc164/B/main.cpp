@@ -85,16 +85,14 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-#define __ATCODER__ 0
+#define __ATCODER__ 1
 
 #if __ATCODER__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
+void solve(long long A, long long B, long long C, long long D) {
+    int t = (C + B - 1)  / B;
+    int a = (A + D - 1) / D;
+    Yes(t <= a);
 }
-{% else %}
-void solve() {
-}
-{% endif %}
 #else
 void solve() {
 }
@@ -102,19 +100,20 @@ void solve() {
 
 int main() {
 #if __ATCODER__ == 1
-    {% if prediction_success %}
-    {{input_part}}
-    solve({{ actual_arguments }});
-    {% else %}
-    solve();
-    {% endif %}
-#elif __DEBUG__
+    long long A;
+    scanf("%lld",&A);
+    long long B;
+    scanf("%lld",&B);
+    long long C;
+    scanf("%lld",&C);
+    long long D;
+    scanf("%lld",&D);
+    solve(A, B, C, D);
+#else
     rep(10) {
         solve();
         out("*****");
     }
-#else
-    solve();
 #endif
 
     return 0;

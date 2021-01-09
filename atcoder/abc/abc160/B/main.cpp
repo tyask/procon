@@ -85,16 +85,14 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-#define __ATCODER__ 0
+#define __ATCODER__ 1
 
 #if __ATCODER__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
+void solve(long long X) {
+    ll a = X / 500;
+    ll b = X % 500 / 5;
+    out(a*1000+b*5);
 }
-{% else %}
-void solve() {
-}
-{% endif %}
 #else
 void solve() {
 }
@@ -102,12 +100,9 @@ void solve() {
 
 int main() {
 #if __ATCODER__ == 1
-    {% if prediction_success %}
-    {{input_part}}
-    solve({{ actual_arguments }});
-    {% else %}
-    solve();
-    {% endif %}
+    long long X;
+    scanf("%lld",&X);
+    solve(X);
 #elif __DEBUG__
     rep(10) {
         solve();
