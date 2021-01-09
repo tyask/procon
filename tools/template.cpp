@@ -48,8 +48,8 @@ template<class T> void scan(vvec<T>& a){ for(auto&& v : a) scan(v); }
 void in(){}
 template <class Head, class... Tail> void in(Head& head, Tail&... tail){ scan(head); in(tail...); }
 
-template <typename T> void out_impl(ostream& os, T&& t) { cout << t << endl; }
-template <typename T> void outh_impl(ostream& os, T&& t) { cout << t << " "; }
+template <typename T> void out_impl(ostream& os, T&& t) { os << t << endl; }
+template <typename T> void outh_impl(ostream& os, T&& t) { os << t << " "; }
 template <typename T, typename... Args> void out_impl(ostream& os, T&& head, Args&&... tail) { outh_impl(os, head); out_impl(os, tail...); };
 
 template <typename T, typename... Args> void out(T&& head, Args&&... tail) { out_impl(cout, head, tail...); }
