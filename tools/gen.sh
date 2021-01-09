@@ -2,23 +2,19 @@
 
 source $(dirname $0)/common.sh
 
-if [ $# -lt 2 ]; then
+if [ $# -lt 1 ]; then
     echo "Argument Error."
-    echo "Usage: $0 <DIR> <FILES...>"
+    echo "Usage: $0 <SRC>"
     exit 1
 fi
 
-dir=$1; shift
-files=($@)
+SRC=$1
+DIR=$(dirname $SRC)
 
-exe mkdir -p $dir
+exe mkdir -p $DIR
 
-for file in ${files[@]}; do
-    target=$dir/$file
-    if [ -f $target ]; then
-        echo "$target already exists"
-    else
-        exe cp template.cc $target
-    fi
-done
-
+if [ -f $SRC ]; then
+    echo "$SRC already exists"
+else
+    exe cp template.cc $target
+fi

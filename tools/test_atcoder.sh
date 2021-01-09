@@ -14,12 +14,12 @@ ROOT=$(dirname $0)/..
 BIN=$ROOT/bin/a.out
 TIMEOUT=1
 
+exe rm $BIN
 exe g++ $SRC -o $BIN -D__DEBUG__
 
 exe atcoder-tools test \
     -d $DIR \
     -t $TIMEOUT \
-    -e $BIN \
-    --skip-almost-ac-feedback
+    -e $BIN
     
 

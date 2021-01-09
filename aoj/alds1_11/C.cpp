@@ -96,9 +96,25 @@ void solve() {
         }
     }
 
-    // rep(n) {
-    //     vg[i]
-    // }
+    queue<int> q;
+    q.push(0);
+    vec<int> d(n, -1);
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        rep(i, n) {
+            if (vg[u][i] && d[i] == -1) {
+                d[i] = max(d[u], 0) + 1;
+                q.push(i);
+            }
+        }
+    }
+
+    d[0] = 0;
+    rep(n) {
+        out(i+1, d[i]);
+    }
+
 }
 
 int main() {

@@ -9,7 +9,8 @@
                 "${file}",
                 "-o",
                 "${workspaceFolder}/bin/${fileBasenameNoExtension}",
-                "-D__DEBUG__"
+                "-D__DEBUG__",
+                "-D__TRY_MULTI__"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
