@@ -2,16 +2,30 @@
 
 source $(dirname $0)/common.sh
 
-if [ $# -lt 1 ]; then
-    echo "Argument Error"
-    echo "Usage $0 <CONTEST>"
-    exit 1
-fi
-
-contest=$1
 root=$(dirname $0)/..
 workspace=$root/atcoder
 config=$(dirname $0)/atcodertools.toml
+
+function usage() {
+    echo "Argument Error"
+    echo "Usage $0 <CONTEST> [-l|--login]"
+    exit 1
+}
+
+if [ $# -lt 1 ]; then
+    usage
+fi
+
+contest=$1; shift
+login=false
+for p in "$@"; do
+    case $p in
+        -l|--login) login=true;;
+        *) echo "Argument Error: $p"; usage;;
+    esac
+done
+
+$login || additional_opts+=" --without-login"
 
 case $contest in
 abc*) workspace+=/abc;;
@@ -37,7 +51,7 @@ template=$root/bin/atcoder_template.cpp
 exe "sed 's/\(#define __ATCODER__\) 0/\1 1/' $(dirname $0)/template.cpp > $template"
 
 exe atcoder-tools gen $contest \
-    --without-login \
     --template $template \
     --workspace $workspace \
-    --config $config
+    --config $config \
+    $additional_opts
