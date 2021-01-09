@@ -11,6 +11,7 @@ fi
 contest=$1
 root=$(dirname $0)/..
 workspace=$root/atcoder
+config=$(dirname $0)/atcodertools.toml
 
 case $contest in
 abc*) workspace+=/abc;;
@@ -38,4 +39,5 @@ exe "sed 's/\(#define __ATCODER__\) 0/\1 1/' $(dirname $0)/template.cpp > $templ
 exe atcoder-tools gen $contest \
     --without-login \
     --template $template \
-    --workspace $workspace
+    --workspace $workspace \
+    --config $config

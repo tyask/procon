@@ -85,16 +85,20 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-#define __ATCODER__ 0
+#define __ATCODER__ 1
 
 #if __ATCODER__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
+void solve(long long N, std::vector<std::string> S) {
+    map<string, int> r;
+    each(s, S) {
+        r[s]++;
+    }
+
+    printf("AC x %d\n", r["AC"]);
+    printf("WA x %d\n", r["WA"]);
+    printf("TLE x %d\n", r["TLE"]);
+    printf("RE x %d\n", r["RE"]);
 }
-{% else %}
-void solve() {
-}
-{% endif %}
 #else
 void solve() {
 }
@@ -102,16 +106,17 @@ void solve() {
 
 int main() {
 #if __ATCODER__ == 1
-    {% if prediction_success %}
-    {{input_part}}
-    solve({{ actual_arguments }});
-    {% else %}
-    solve();
-    {% endif %}
+    long long N;
+    scanf("%lld",&N);
+    std::vector<std::string> S(N);
+    for(int i = 0 ; i < N ; i++){
+        std::cin >> S[i];
+    }
+    solve(N, std::move(S));
 #else
     rep(10) {
         solve();
-        out("*****");
+        debug("*****");
     }
 #endif
 
