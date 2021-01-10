@@ -89,6 +89,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<std::string> S) {
+    out(set<string>(all(S)).size());
 }
 #else
 void solve() {

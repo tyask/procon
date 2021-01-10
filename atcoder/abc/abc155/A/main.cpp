@@ -86,6 +86,8 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(A, B, C);
+    Yes((A==B&&B!=C) || (B==C&&C!=A) || (C==A&&A!=B));
 }
 
 int main() {

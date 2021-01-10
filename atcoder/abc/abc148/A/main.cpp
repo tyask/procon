@@ -86,6 +86,8 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(A, B);
+    out(6-(A+B));
 }
 
 int main() {

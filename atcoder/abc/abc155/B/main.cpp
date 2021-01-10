@@ -86,6 +86,16 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(N);
+    VEC(int, A, N);
+    const char* ans = "APPROVED";
+    each(a, A) {
+        if (is_even(a)&&(a%3!=0&&a%5!=0)) {
+            ans = "DENIED";
+            break;
+        }
+    }
+    out(ans);
 }
 
 int main() {

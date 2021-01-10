@@ -86,6 +86,10 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(N);
+    STR(S, T);
+    rep(N) cout << S[i] << T[i];
+    cout << endl;
 }
 
 int main() {

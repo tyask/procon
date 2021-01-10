@@ -52,7 +52,7 @@ template <typename T> void out_impl(ostream& os, T&& t) { cout << t << endl; }
 template <typename T> void outh_impl(ostream& os, T&& t) { cout << t << " "; }
 template <typename T, typename... Args> void out_impl(ostream& os, T&& head, Args&&... tail) { outh_impl(os, head); out_impl(os, tail...); };
 
-template <typename T, typename... Args> void out(T&& head, Args&&... tail) { out_impl(cout, head, tail...): }
+template <typename T, typename... Args> void out(T&& head, Args&&... tail) { out_impl(cout, head, tail...); }
 template <typename T, typename... Args> void debug(T&& head, Args&&... tail) {
 #ifdef __DEBUG__
     out_impl(cerr, "[DEBUG]", head, tail...);
@@ -86,4 +86,6 @@ void no(bool b=true) { yes(!b); }
 }
 
 int main() {
+    STR(S);
+    Yes(S!="AAA"&&S!="BBB");
 }

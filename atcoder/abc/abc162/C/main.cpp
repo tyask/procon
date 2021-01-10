@@ -88,7 +88,18 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
+ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
 void solve(long long K) {
+    ll s = 0;
+    for(int a = 1; a <= K; ++a) {
+        for(int b = 1; b <= K; ++b) {
+            for(int c = 1; c <= K; ++c) {
+                s += gcd(gcd(a, b), c);
+            }
+        }
+    }
+    out(s);
+
 }
 #else
 void solve() {

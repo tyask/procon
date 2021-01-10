@@ -20,6 +20,6 @@ exe g++ $SRC -o $BIN -D__DEBUG__
 exe atcoder-tools test \
     -d $DIR \
     -t $TIMEOUT \
-    -e $BIN
+    -e $BIN \
     
 

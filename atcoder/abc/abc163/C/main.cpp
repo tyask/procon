@@ -89,6 +89,9 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<long long> A) {
+    vec<ll> m(N);
+    each(a, A) m[a-1]++;
+    each(x, m) out(x);
 }
 #else
 void solve() {
