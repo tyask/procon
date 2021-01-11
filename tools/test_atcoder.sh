@@ -12,7 +12,7 @@ DIR=$1
 SRC=$DIR/main.cpp
 ROOT=$(dirname $0)/..
 BIN=$ROOT/bin/a.out
-TIMEOUT=1
+TIMEOUT=2
 
 exe rm $BIN
 exe g++ $SRC -o $BIN -D__DEBUG__

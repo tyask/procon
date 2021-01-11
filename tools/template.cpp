@@ -36,10 +36,10 @@ const int IMIN = numeric_limits<int>::min();
 #define each(i, c) for (auto&& i : (c))
 #define itr(c) for (auto it = begin(c); it != end(c); ++it)
 
-#define all1(i) begin(i),end(i)
-#define all2(i,a) begin(i),begin(i)+a
-#define all3(i,a,b) begin(i)+a,begin(i)+b
-#define all(...) overload3(__VA_ARGS__,all3,all2,all1)(__VA_ARGS__)
+#define rng1(i) begin(i),end(i)
+#define rngll2(i,a) begin(i),begin(i)+a
+#define rng3(i,a,b) begin(i)+a,begin(i)+b
+#define rng(...) overload3(__VA_ARGS__,all3,all2,all1)(__VA_ARGS__)
 
 template<class T> void scan(T& a){ cin >> a; }
 template<class T> void scan(vec<T>& a, int n){ a.resize(n); for(auto&& i : a) scan(i); }
@@ -72,6 +72,8 @@ template <typename Cont> auto max(const Cont& c) { return *max_element(all(c)); 
 template <typename Cont> auto min(const Cont& c) { return *min_element(all(c)); };
 template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
+ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
+ll lcm(ll a, ll b){ if(!a || !b) return 0; return a * b / gcd(a, b); }
 
 template <typename N> bool is_even(N n) { return n % 2 == 0; }
 template <typename N> bool is_odd(N n) { return !is_even(n); }

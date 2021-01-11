@@ -72,6 +72,8 @@ template <typename Cont> auto max(const Cont& c) { return *max_element(all(c)); 
 template <typename Cont> auto min(const Cont& c) { return *min_element(all(c)); };
 template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
+ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
+ll lcm(ll a, ll b){ if(!a || !b) return 0; return a * b / gcd(a, b); }
 
 template <typename N> bool is_even(N n) { return n % 2 == 0; }
 template <typename N> bool is_odd(N n) { return !is_even(n); }
@@ -86,6 +88,8 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    LL(A, B);
+    out(lcm(A, B));
 }
 
 int main() {

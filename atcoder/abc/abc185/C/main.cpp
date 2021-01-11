@@ -85,7 +85,22 @@ void no(bool b=true) { yes(!b); }
 
 }
 
+int split2(int l) {
+    if (l == 1) return 0;
+    rep(i, 1, l) {
+
+    }
+}
+
 void solve() {
+    INT(L);
+
+    int l = L;
+    rep(11) {
+        rep(j, l) {
+            int r = l - j;
+        }
+    }
 }
 
 int main() {
