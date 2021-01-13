@@ -89,6 +89,16 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<long long> A) {
+    ll h = A[0];
+    ll ans = 0;
+    rep(N) {
+        if (h > A[i]) {
+            ans += h - A[i];
+        } else if (h < A[i]) {
+            h = A[i];
+        }
+    }
+    out(ans);
 }
 #else
 void solve() {

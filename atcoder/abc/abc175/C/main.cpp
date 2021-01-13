@@ -89,7 +89,14 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long X, long long K, long long D) {
+    X = abs(X);
+    ll n = X / D;
+    if (n >= K) out(X - K * D);
+    else {
+        out(is_even(K-n)? X % D : D - X % D);
+    }
 }
+
 #else
 void solve() {
 }

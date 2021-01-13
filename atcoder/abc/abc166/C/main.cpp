@@ -89,6 +89,17 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long M, std::vector<long long> H, std::vector<long long> A, std::vector<long long> B) {
+    vec<ll> maxs(N, 0);
+    rep(M) {
+        ll a = A[i]-1;
+        ll b = B[i]-1;
+        chmax(maxs[a], H[b]);
+        chmax(maxs[b], H[a]);
+    }
+
+    int ans = 0;
+    rep(N) if (H[i] > maxs[i]) ans++;
+    out(ans);
 }
 #else
 void solve() {

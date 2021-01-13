@@ -85,7 +85,27 @@ void no(bool b=true) { yes(!b); }
 
 }
 
+ll MOD =  1000000007;
+ll mod(ll val, ll m) {
+  ll res = val % m;
+  return (res >= 0) ? res : res + m;
+}
+
 void solve() {
+    INT(N);
+    VEC(ll, A, N);
+    vec<ll> m(N);
+
+    m[0] = A[0];
+    rep(i, 1, N) {
+        m[i] = mod(m[i-1] + A[i], MOD);
+    }
+
+    ll s = 0;
+    rep(i, N-1) {
+        s = mod(s + mod(A[i] * mod(m[N-1] - m[i], MOD), MOD), MOD);
+    }
+    out(s);
 }
 
 int main() {

@@ -86,6 +86,31 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    LL(N);
+    vec<int> d;
+    while (N > 0) {
+        d.push_back(N % 10);
+        N /= 10;
+    }
+
+    int ans = -1;
+    for(int bit = 1; bit < (1<<d.size()); ++bit) {
+        int s = 0;
+        int c = 0;
+        for(int i = 0; i < d.size(); ++i) {
+            if (bit & (1<<i)) {
+                s += d[i];
+                c++;
+            }
+        }
+
+        if (s != 0 && s % 3 == 0) {
+            chmax(ans, c);
+        }
+    }
+
+    int n = d.size();
+    out((ans >= 0) ? n - ans : -1);
 }
 
 int main() {

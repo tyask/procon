@@ -39,7 +39,7 @@ const int IMIN = numeric_limits<int>::min();
 #define rng1(i) begin(i),end(i)
 #define rngll2(i,a) begin(i),begin(i)+a
 #define rng3(i,a,b) begin(i)+a,begin(i)+b
-#define rng(...) overload3(__VA_ARGS__,all3,all2,all1)(__VA_ARGS__)
+#define rng(...) overload3(__VA_ARGS__,rng3,rng2,rng1)(__VA_ARGS__)
 
 template<class T> void scan(T& a){ cin >> a; }
 template<class T> void scan(vec<T>& a, int n){ a.resize(n); for(auto&& i : a) scan(i); }
@@ -47,6 +47,7 @@ template<class T> void scan(vec<T>& a){ scan(a, a.size()); }
 template<class T> void scan(vvec<T>& a){ for(auto&& v : a) scan(v); }
 void in(){}
 template <class Head, class... Tail> void in(Head& head, Tail&... tail){ scan(head); in(tail...); }
+void init_cin(const std::string& s) { cin.rdbuf((new istringstream(s))->rdbuf()); }
 
 template <typename T> void out_impl(ostream& os, T&& t) { os << t << endl; }
 template <typename T> void outh_impl(ostream& os, T&& t) { os << t << " "; }
@@ -67,9 +68,9 @@ template <typename Cont> ostream& write(ostream& os, const Cont& c) {
 template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
 template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
 
-template <typename Cont> auto sum(const Cont& c) { return accumulate(all(c), 0LL); };
-template <typename Cont> auto max(const Cont& c) { return *max_element(all(c)); };
-template <typename Cont> auto min(const Cont& c) { return *min_element(all(c)); };
+template <typename Cont> auto sum(const Cont& c) { return accumulate(rng(c), 0LL); };
+template <typename Cont> auto max(const Cont& c) { return *max_element(rng(c)); };
+template <typename Cont> auto min(const Cont& c) { return *min_element(rng(c)); };
 template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }

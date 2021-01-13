@@ -89,6 +89,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<long long> A) {
+    YES(set<ll>(all(A)).size() == A.size());
 }
 #else
 void solve() {

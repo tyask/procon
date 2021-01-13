@@ -85,10 +85,11 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-int split2(int l) {
-    if (l == 1) return 0;
-    rep(i, 1, l) {
+int split2(int l, int s) {
+    if (s == 0) return 0;
 
+    for (int i = 1; i < l; ++i) {
+        split2(i, s-1) + split2(l-i, s-1);
     }
 }
 

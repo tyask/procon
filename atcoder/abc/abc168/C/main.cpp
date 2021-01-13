@@ -89,6 +89,8 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long A, long long B, long long H, long long M) {
+    ld r = (30 * H - 11 / (ld) 2 * M) * M_PI / 180;
+    printf("%.9llf\n", sqrt(A*A+B*B-2*A*B*cos(r)));
 }
 #else
 void solve() {

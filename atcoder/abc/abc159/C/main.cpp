@@ -89,6 +89,8 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long L) {
+    ld l = L / (ld)3;
+    printf("%.6llf\n", l*l*l);
 }
 #else
 void solve() {

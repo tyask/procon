@@ -86,6 +86,34 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(N);
+    struct Point { int x, y; };
+    vec<Point> p(N);
+    rep(N) cin >> p[i].x >> p[i].y;
+
+    rep(i, 0, N) {
+        rep(j, i+1, N) {
+            rep(k, j+1, N) {
+                Point v = { p[j].x - p[i].x, p[j].y - p[i].y };
+                Point u = { p[k].x - p[i].x, p[k].y - p[i].y };
+                if (v.x == 0 && u.x == 0) {
+                    Yes();
+                    return;
+                }
+
+                if (v.x == 0 || u.x == 0) {
+                    continue;
+                }
+
+                if (v.y / (ld)v.x == u.y / (ld)u.x) {
+                    Yes();
+                    return;
+                }
+            }
+        }
+    }
+
+    No();
 }
 
 int main() {

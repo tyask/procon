@@ -103,10 +103,12 @@ void solve() {
 
     vec<int> visited(n, 0);
     vec<int> d(n, IMAX);
-    int v = 0;
+    vec<int> p(n, -1);
+    d[0] = 0;
+
     while (1) {
         int mincost = IMAX;
-        int u = -1;
+        int u;
         rep(i, n) {
             if (!visited[i] && d[i] < mincost) {
                 mincost = d[i];
@@ -119,11 +121,15 @@ void solve() {
         visited[u] = 1;
         rep(v, n) {
             if (!visited[v] && G[u][v] >= 0 && G[u][v]<d[v]) {
-
+                d[v] = G[u][v];
+                p[v] = u;
             }
         }
-
     }
+
+    int sum = 0;
+    rep(n) if (p[i] != -1) sum += G[i][p[i]];
+    out(sum);
 }
 #endif
 

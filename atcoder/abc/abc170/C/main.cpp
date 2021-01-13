@@ -33,6 +33,12 @@ const int IMIN = numeric_limits<int>::min();
 #define rep3(i,a,b) for(ll i=a;i<b;++i)
 #define rep4(i,a,b,c) for(ll i=a;i<b;i+=c)
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
+#define repe1(n) for(ll i=0;i<=n;++i)
+#define repe2(i,n) for(ll i=0;i<=n;++i)
+#define repe3(i,a,b) for(ll i=a;i<=b;++i)
+#define repe4(i,a,b,c) for(ll i=a;i<=b;i+=c)
+#define repe(...) overload4(__VA_ARGS__,repe4,repe3,repe2,repe1)(__VA_ARGS__)
+
 #define each(i, c) for (auto&& i : (c))
 #define itr(c) for (auto it = begin(c); it != end(c); ++it)
 
@@ -89,6 +95,19 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long X, long long N, std::vector<long long> p) {
+    set<ll> s(all(p));
+    ll d = IMAX;
+    ll ans = 0;
+    repe(i, -100, 200) {
+        if (s.find(i) == s.end()) {
+            ll a = abs(X-i);
+            if (a < d) {
+                d = a;
+                ans = i;
+            }
+        }
+    }
+    out(ans);
 }
 #else
 void solve() {

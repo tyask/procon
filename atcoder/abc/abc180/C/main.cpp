@@ -86,6 +86,12 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    LL(N);
+    set<ll> ans;
+    for(ll i = 1; i * i <= N; ++i) {
+        if (N % i == 0) { ans.insert(i); ans.insert(N / i); }
+    }
+    each(x, ans) out(x);
 }
 
 int main() {

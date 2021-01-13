@@ -86,6 +86,20 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(N);
+    int ans = 0;
+    for (int c = 1; c < N; ++c) {
+        int r = N-c;
+        for (int a = 1; a * a <= r; ++a) {
+            if (r % a == 0) {
+                // out(a, r / a, c);
+                if (a * a == r) ans++;
+                else ans += 2;
+            }
+        }
+    }
+
+    out(ans);
 }
 
 int main() {
