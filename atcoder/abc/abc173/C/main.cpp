@@ -89,6 +89,31 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve() {
+    INT(H, W, K);
+    vvec<char> v(H, vec<char>(W));
+    rep(i, H) rep(j, W) cin >> v[i][j];
+
+    int nb = 0;
+    rep(i, H) rep(j, W) {
+        nb += v[i][j]=='#';
+    }
+
+    int ans = 0;
+    for (int hb = 0; hb < (1<<H); ++hb) {
+        for (int wb = 0; wb < (1<<W); ++wb) {
+            int n = 0;
+            rep(i, H) rep(j, W) {
+                if (!(hb & (1<<i)) && !(wb & (1<<j)) && v[i][j]=='#') {
+                    n++;
+                }
+            }
+            if (n == K) {
+                ans++;
+            }
+        }
+    }
+
+    out(ans);
 }
 #else
 void solve() {

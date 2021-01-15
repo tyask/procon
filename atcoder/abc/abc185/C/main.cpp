@@ -85,23 +85,29 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-int split2(int l, int s) {
-    if (s == 0) return 0;
-
-    for (int i = 1; i < l; ++i) {
-        split2(i, s-1) + split2(l-i, s-1);
-    }
-}
-
 void solve() {
     INT(L);
+    vec<ll> nums(11);
+    rep(11) nums[i] = L-1-i;
 
-    int l = L;
-    rep(11) {
-        rep(j, l) {
-            int r = l - j;
-        }
+    // rep(11) {
+    //     ll d = 11 - i;
+    //     rep(j, 11) {
+    //         if (nums[j] % d == 0) {
+    //             nums[j] /= d;
+    //             break;
+    //         }
+    //     }
+    // }
+
+    ll ans = 1;
+    for (int i = 1; i <= 11; ++i) {
+        ans *= L - i;
+        ans /= i;
     }
+
+    // rep(11) ans *= nums[i];
+    out(ans);
 }
 
 int main() {

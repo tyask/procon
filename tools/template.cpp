@@ -9,10 +9,16 @@ using uint = unsigned int;
 template<typename T> using vec = vector<T>;
 template<typename T> using vvec = vec<vec<T>>;
 
-const ll LMAX  = numeric_limits<ll>::max();
-const ll LMIN  = numeric_limits<ll>::min();
-const int IMAX = numeric_limits<int>::max();
-const int IMIN = numeric_limits<int>::min();
+const ll LINF=0x1fffffffffffffff;
+const ll MINF=0x7fffffffffff;
+const int INF=0x3fffffff;
+const int MOD=1000000007;
+const int MODD=998244353;
+const ld DINF=numeric_limits<ld>::infinity();
+const ld EPS=1e-9;
+const ld PI=3.1415926535897932;
+const ll dx[] = {0, 1, 0, -1, 1, 1, -1, -1};
+const ll dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
@@ -75,6 +81,9 @@ template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; retur
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
 ll lcm(ll a, ll b){ if(!a || !b) return 0; return a * b / gcd(a, b); }
+ll pow(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; n *= n; n >>= 1; } return ans; }
+ll powmod(ll n, ll k, ll m){ ll ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
+ll mod(ll n, ll m) { ll r = n % m; return (r < 0) ? r + m : r; }
 
 template <typename N> bool is_even(N n) { return n % 2 == 0; }
 template <typename N> bool is_odd(N n) { return !is_even(n); }

@@ -83,9 +83,17 @@ void NO(bool b=true) { YES(!b); }
 void No(bool b=true) { Yes(!b); }
 void no(bool b=true) { yes(!b); }
 
+ll modpow(ll a, ll b, ll p){ ll ans = 1; while(b){ if(b & 1) (ans *= a) %= p; (a *= a) %= p; b /= 2; } return ans; }
+ll mod(ll n, ll m) { ll r = n % m; return (r < 0) ? r + m : r; }
+
 }
 
 void solve() {
+    LL(N);
+    ll m = 1000000007;
+    ll d = mod(modpow(9, N, m) + modpow(9, N, m) - modpow(8, N, m), m);
+    ll ans = mod(modpow(10, N, m) - d, m);
+    out(ans);
 }
 
 int main() {
