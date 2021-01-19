@@ -9,10 +9,16 @@ using uint = unsigned int;
 template<typename T> using vec = vector<T>;
 template<typename T> using vvec = vec<vec<T>>;
 
-const ll LMAX  = numeric_limits<ll>::max();
-const ll LMIN  = numeric_limits<ll>::min();
-const int IMAX = numeric_limits<int>::max();
-const int IMIN = numeric_limits<int>::min();
+const ll LINF=0x1fffffffffffffff;
+const ll MINF=0x7fffffffffff;
+const int INF=0x3fffffff;
+const int MOD=1000000007;
+const int MODD=998244353;
+const ld DINF=numeric_limits<ld>::infinity();
+const ld EPS=1e-9;
+const ld PI=3.1415926535897932;
+const ll dx[] = {0, 1, 0, -1, 1, 1, -1, -1};
+const ll dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
@@ -33,6 +39,19 @@ const int IMIN = numeric_limits<int>::min();
 #define rep3(i,a,b) for(ll i=a;i<b;++i)
 #define rep4(i,a,b,c) for(ll i=a;i<b;i+=c)
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
+
+#define rrep1(n) for(ll i=(n)-1;i>=0;i--)
+#define rrep2(i,n) for(ll i=(n)-1;i>=0;i--)
+#define rrep3(i,a,n) for(ll i=(n)-1;i>=(a);i--)
+#define rrep4(i,a,n,s) for(ll i=a+(n-a-1)/s*s;i>=a;i-=s)
+#define rrep(...) overload4(__VA_ARGS__,rrep4,rrep3,rrep2,rrep1)(__VA_ARGS__)
+
+#define erep1(n) for(ll i=0;i<=n;++i)
+#define erep2(i,n) for(ll i=0;i<=n;++i)
+#define erep3(i,a,n) for(ll i=a;i<=n;++i)
+#define erep4(i,a,n,s) for(ll i=a;i<=n;i+=s)
+#define erep(...) overload4(__VA_ARGS__,erep4,erep3,erep2,erep1)(__VA_ARGS__)
+
 #define each(i, c) for (auto&& i : (c))
 #define itr(c) for (auto it = begin(c); it != end(c); ++it)
 
@@ -75,6 +94,9 @@ template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; retur
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
 ll lcm(ll a, ll b){ if(!a || !b) return 0; return a * b / gcd(a, b); }
+ll powint(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
+ll powmod(ll n, ll k, ll m){ ll ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
+ll mod(ll n, ll m) { ll r = n % m; return (r < 0) ? r + m : r; }
 
 template <typename N> bool is_even(N n) { return n % 2 == 0; }
 template <typename N> bool is_odd(N n) { return !is_even(n); }
@@ -92,14 +114,20 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long X, std::vector<long long> L) {
+    vec<ll> d(N+1);
+    d[0] = 0;
+    int ans = 1;
+    rep(i, 1, N+1) {
+        d[i] = d[i-1] + L[i-1];
+        if (d[i] > X) {
+            break;
+        }
+        ans++;
+    }
+    out(ans);
 }
-#else
-void solve() {
-}
-#endif
 
-int main() {
-#if __ATCODER__ == 1
+void solve() {
     long long N;
     scanf("%lld",&N);
     long long X;
@@ -109,7 +137,14 @@ int main() {
         scanf("%lld",&L[i]);
     }
     solve(N, X, std::move(L));
-#elif __DEBUG__
+}
+#else
+void solve() {
+}
+#endif
+
+int main() {
+#if __MULTIRUN__
     rep(10) {
         solve();
         out("*****");

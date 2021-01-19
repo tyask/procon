@@ -2,8 +2,8 @@
 
 source $(dirname $0)/../common.sh
 
-ROOT=$(dirname $0)/../..
-BASE_TEMPLATE=$(dirname $0)/../template.cpp
+ROOT=$(realpath $(dirname $0)/../..)
+BASE_TEMPLATE=$(realpath $(dirname $0)/../template.cpp)
 
 function gen_atcoder_template() {
     local template=$1

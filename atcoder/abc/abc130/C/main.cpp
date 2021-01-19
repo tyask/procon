@@ -92,6 +92,9 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long W, long long H, long long x, long long y) {
+    ld h = H;
+    ld w = W;
+    printf("%.9Lf %d\n", h*w/2, h/2==y&&w/2==x);
 }
 #else
 void solve() {

@@ -81,7 +81,7 @@ template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; retur
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
 ll lcm(ll a, ll b){ if(!a || !b) return 0; return a * b / gcd(a, b); }
-ll pow(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; a *= n; n >>= 1; } return ans; }
+ll pow(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; n *= n; n >>= 1; } return ans; }
 ll powmod(ll n, ll k, ll m){ ll ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
 ll mod(ll n, ll m) { ll r = n % m; return (r < 0) ? r + m : r; }
 

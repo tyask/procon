@@ -39,11 +39,24 @@ const ll dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 #define rep3(i,a,b) for(ll i=a;i<b;++i)
 #define rep4(i,a,b,c) for(ll i=a;i<b;i+=c)
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
+
+#define rrep1(n) for(ll i=(n)-1;i>=0;i--)
+#define rrep2(i,n) for(ll i=(n)-1;i>=0;i--)
+#define rrep3(i,a,n) for(ll i=(n)-1;i>=(a);i--)
+#define rrep4(i,a,n,s) for(ll i=a+(n-a-1)/s*s;i>=a;i-=s)
+#define rrep(...) overload4(__VA_ARGS__,rrep4,rrep3,rrep2,rrep1)(__VA_ARGS__)
+
+#define erep1(n) for(ll i=0;i<=n;++i)
+#define erep2(i,n) for(ll i=0;i<=n;++i)
+#define erep3(i,a,n) for(ll i=a;i<=n;++i)
+#define erep4(i,a,n,s) for(ll i=a;i<=n;i+=s)
+#define erep(...) overload4(__VA_ARGS__,erep4,erep3,erep2,erep1)(__VA_ARGS__)
+
 #define each(i, c) for (auto&& i : (c))
 #define itr(c) for (auto it = begin(c); it != end(c); ++it)
 
 #define rng1(i) begin(i),end(i)
-#define rngll2(i,a) begin(i),begin(i)+a
+#define rng2(i,a) begin(i),begin(i)+a
 #define rng3(i,a,b) begin(i)+a,begin(i)+b
 #define rng(...) overload3(__VA_ARGS__,rng3,rng2,rng1)(__VA_ARGS__)
 
@@ -81,7 +94,7 @@ template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; retur
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
 ll lcm(ll a, ll b){ if(!a || !b) return 0; return a * b / gcd(a, b); }
-ll pow(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; n *= n; n >>= 1; } return ans; }
+ll powint(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
 ll powmod(ll n, ll k, ll m){ ll ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
 ll mod(ll n, ll m) { ll r = n % m; return (r < 0) ? r + m : r; }
 
@@ -103,6 +116,11 @@ void no(bool b=true) { yes(!b); }
 {% if prediction_success %}
 void solve({{ formal_arguments }}) {
 }
+
+void solve() {
+    {{input_part}}
+    solve({{ actual_arguments }});
+}
 {% else %}
 void solve() {
 }
@@ -113,14 +131,7 @@ void solve() {
 #endif
 
 int main() {
-#if __ATCODER__ == 1
-    {% if prediction_success %}
-    {{input_part}}
-    solve({{ actual_arguments }});
-    {% else %}
-    solve();
-    {% endif %}
-#elif __DEBUG__
+#if __MULTIRUN__
     rep(10) {
         solve();
         out("*****");

@@ -10,7 +10,7 @@
                 "-o",
                 "${workspaceFolder}/bin/${fileBasenameNoExtension}",
                 "-D__DEBUG__",
-                "-D__TRY_MULTI__"
+                "-D__MULTIRUN__"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -26,7 +26,7 @@
         },
         {
             "label": "AtCoderTools Test",
-            "command": "./tools/test_atcoder.sh",
+            "command": "./tools/atcoder/test.sh",
             "args": [
                 "${fileDirname}"
             ],

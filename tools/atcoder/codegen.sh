@@ -3,7 +3,7 @@
 . $(dirname $0)/../common.sh
 . $(dirname $0)/atcoder_common.sh
 
-root=$(dirname $0)/../..
+root=$(realpath $(dirname $0)/../..)
 config=$(dirname $0)/atcodertools.toml
 
 function usage() {
@@ -17,7 +17,7 @@ if [ $# -lt 1 ]; then
 fi
 
 contest=$1;
-problem=$2;
+problem=${2^^};
 shift 2
 url=$(printf 'https://atcoder.jp/contests/%s/tasks/%s_%s' $contest $contest $problem)
 echo "url: $url"

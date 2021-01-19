@@ -3,7 +3,7 @@
 . $(dirname $0)/../common.sh
 . $(dirname $0)/atcoder_common.sh
 
-root=$(dirname $0)/../..
+root=$(realpath $(dirname $0)/../..)
 workspace=$root/atcoder
 config=$(dirname $0)/atcodertools.toml
 
