@@ -114,6 +114,8 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long K, std::string S) {
+    S[K-1]+='a'-'A';
+    out(S);
 }
 
 void solve() {

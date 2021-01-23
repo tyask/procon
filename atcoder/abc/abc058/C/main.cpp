@@ -86,6 +86,24 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(n);
+    VEC(string, S, n);
+
+    vec<int> m('z'-'a' + 1, IMAX);
+    for(char c = 'a'; c <= 'z'; ++c) {
+        each(s, S) {
+            chmin(m[c-'a'], count(all(s), c));
+        }
+    }
+
+    string ans;
+    rep(i, m.size()) {
+        rep(j, m[i]) {
+            ans += 'a' + i;
+        }
+    }
+
+    out(ans);
 }
 
 int main() {

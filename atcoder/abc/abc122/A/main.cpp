@@ -114,6 +114,14 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(std::string b) {
+    string s;
+    each(c, b) {
+        if (c=='A') s+='T';
+        else if (c=='T') s+= 'A';
+        else if (c=='C') s+= 'G';
+        else if (c=='G') s+= 'C';
+    }
+    out(s);
 }
 
 void solve() {

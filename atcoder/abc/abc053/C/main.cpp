@@ -86,6 +86,12 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    LL(x);
+    ll a = x / 11 * 2;
+    ll r = x % 11;
+    if (r==0) out(a);
+    else if (r>6) out(a+2);
+    else out(a+1);
 }
 
 int main() {

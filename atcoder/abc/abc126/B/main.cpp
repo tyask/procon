@@ -114,6 +114,12 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(std::string S) {
+    bool m1 = 1 <= stoi(S.substr(0, 2)) && stoi(S.substr(0, 2)) <= 12;
+    bool m2 = 1 <= stoi(S.substr(2, 2)) && stoi(S.substr(2, 2)) <= 12;
+    if (m1&&m2) out("AMBIGUOUS");
+    else if (m1&&!m2) out("MMYY");
+    else if (!m1&&m2) out("YYMM");
+    else out("NA");
 }
 
 void solve() {

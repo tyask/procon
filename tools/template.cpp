@@ -95,7 +95,7 @@ template <typename Cont, typename Comp> auto sort(Cont& c, Comp comp) { sort(rng
 template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
-ll lcm(ll a, ll b){ if(!a || !b) return 0; return a * b / gcd(a, b); }
+ll lcm(ll a, ll b){ if(!a || !b) return 0; return a / gcd(a, b) * b; }
 ll powint(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
 ll powmod(ll n, ll k, ll m){ ll ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
 ll mod(ll n, ll m) { ll r = n % m; return (r < 0) ? r + m : r; }

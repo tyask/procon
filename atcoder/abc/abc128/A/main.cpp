@@ -86,6 +86,8 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(A, P);
+    out((A*3+P)/2);
 }
 
 int main() {

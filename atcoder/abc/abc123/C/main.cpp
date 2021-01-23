@@ -90,6 +90,8 @@ template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { retur
 template <typename Cont> auto sum(const Cont& c) { return accumulate(rng(c), 0LL); };
 template <typename Cont> auto max(const Cont& c) { return *max_element(rng(c)); };
 template <typename Cont> auto min(const Cont& c) { return *min_element(rng(c)); };
+template <typename Cont> auto sort(Cont& c) { sort(rng(c)); };
+template <typename Cont, typename Comp> auto sort(Cont& c, Comp comp) { sort(rng(c), comp); };
 template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
@@ -114,19 +116,6 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long A, long long B, long long C, long long D, long long E) {
-    vec<ll> c(6);
-    vec<ll> m{A, B, C, D, E};
-    c[0] = N;
-    ll t = 0;
-    while (c[5] < N) {
-        t++;
-        rrep(i, 5) {
-            ll n = min(c[i], m[i]);
-            c[i] -= n;
-            c[i+1] += n;
-        }
-    }
-    out(t);
 }
 
 void solve() {

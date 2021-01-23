@@ -34,7 +34,19 @@
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Run C++ Source",
+            "command": "./tools/run.sh",
+            "args": [
+                "${fileDirname}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
         }
+
     ],
     "version": "2.0.0"
 }
