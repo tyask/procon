@@ -94,6 +94,7 @@ template <typename Cont> auto sort(Cont& c) { sort(rng(c)); };
 template <typename Cont, typename Comp> auto sort(Cont& c, Comp comp) { sort(rng(c), comp); };
 template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
+template <typename T> vector<T> cumsum(const vec<T>& v) { vec<T> s(v.size()+1, 0); rep(v.size()) s[i+1] = s[i] + v[i]; return s; }
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
 ll lcm(ll a, ll b){ if(!a || !b) return 0; return a / gcd(a, b) * b; }
 ll powint(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
@@ -115,6 +116,9 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 0
 
 #if __ATCODER__ == 1
+#include <atcoder/all>
+using namespace atcoder;
+
 {% if prediction_success %}
 void solve({{ formal_arguments }}) {
 }

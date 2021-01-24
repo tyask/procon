@@ -116,6 +116,17 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long W, long long H, long long N, std::vector<long long> x, std::vector<long long> y, std::vector<long long> a) {
+    int lx = 0, rx=W, ry=0, hy=H;
+    rep(N) {
+        switch(a[i]) {
+        case 1: chmax(lx, x[i]); break;
+        case 2: chmin(rx, x[i]); break;
+        case 3: chmax(ry, y[i]); break;
+        case 4: chmin(hy, y[i]); break;
+        }
+    }
+
+    out(max(0, rx-lx)*max(0, hy-ry));
 }
 
 void solve() {

@@ -9,6 +9,7 @@
                 "${file}",
                 "-o",
                 "${workspaceFolder}/bin/${fileBasenameNoExtension}",
+                "-I${workspaceFolder}/lib/ac-library",
                 "-D__DEBUG__",
                 "-D__MULTIRUN__"
             ],
