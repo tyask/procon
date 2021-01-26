@@ -89,6 +89,11 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve() {
+    INT(N);
+    STR(C);
+
+    int nr = count(all(C), 'R');
+    out(count(all(C, nr), 'W'));
 }
 #else
 void solve() {

@@ -114,31 +114,65 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-#define __ATCODER__ 1
+#define __ATCODER__ 0
 
 #if __ATCODER__ == 1
-void solve(long long A, long long B, long long N) {
-    ll x = min(N, B - 1);
-    out((A * x / B) - (A * (x / B)));
+{% if prediction_success %}
+void solve({{ formal_arguments }}) {
 }
 
 void solve() {
-    long long A;
-    scanf("%lld",&A);
-    long long B;
-    scanf("%lld",&B);
-    long long N;
-    scanf("%lld",&N);
-    solve(A, B, N);
+    {{input_part}}
+    solve({{ actual_arguments }});
 }
-#else
+{% else %}
 void solve() {
+}
+{% endif %}
+#else
+bool dfs(const vvec<int>& g, vec<int>& color, int v, int c) {
+    color[v] = c;
+    rep(g[v].size()) {
+        if (color[g[v][i]]==c) return false;
+        if (color[g[v][i]]==0) {
+            if (!dfs(g, color, g[v][i], -c)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+void solve(int N, int M, vec<int> A, vec<int> B) {
+    vvec<int> g(N);
+    rep(M) {
+        g[A[i]].push_back(B[i]);
+        g[B[i]].push_back(A[i]);
+    }
+
+    vec<int> c(N);
+    bool ans = true;
+    rep(N) {
+        if (c[i] == 0) {
+            if (!dfs(g, c, i, 1)) {
+                ans = false;
+                break;
+            }
+        }
+    }
+
+    Yes(ans);
+}
+void solve() {
+    solve(3, 3, {0, 1, 2}, {1, 2, 0});
+    solve(4, 4, {0, 1, 2, 3}, {1, 2, 3, 0});
 }
 #endif
 
 int main() {
 #if __MULTIRUN__
-    rep(10) {
+    rep(1) {
         solve();
         out("*****");
     }

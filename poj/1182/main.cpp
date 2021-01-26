@@ -3,6 +3,7 @@
 namespace {
 using namespace std;
 using ll   = long long;
+using ld   = long double;
 using ull  = unsigned long long;
 using uint = unsigned int;
 template<typename T> using vec = vector<T>;
@@ -13,11 +14,11 @@ const ll MINF=0x7fffffffffff;
 const int INF=0x3fffffff;
 const int MOD=1000000007;
 const int MODD=998244353;
-const double DINF=numeric_limits<double>::infinity();
-const double EPS=1e-9;
-const double PI=3.1415926535897932;
-const int dx[] = {0, 1, 0, -1, 1, 1, -1, -1};
-const int dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
+const ld DINF=numeric_limits<ld>::infinity();
+const ld EPS=1e-9;
+const ld PI=3.1415926535897932;
+const ll dx[] = {0, 1, 0, -1, 1, 1, -1, -1};
+const ll dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
@@ -33,22 +34,22 @@ const int dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 #define VEC(type, name, size) vec<type> name(size); in(name)
 #define VV(type,name,h,w) vvec<type>name(h,vec<type>(w)); in(name)
 
-#define rep1(n) for(int i=0;i<n;++i)
-#define rep2(i,n) for(int i=0;i<n;++i)
-#define rep3(i,a,b) for(int i=a;i<b;++i)
-#define rep4(i,a,b,c) for(int i=a;i<b;i+=c)
+#define rep1(n) for(ll i=0;i<n;++i)
+#define rep2(i,n) for(ll i=0;i<n;++i)
+#define rep3(i,a,b) for(ll i=a;i<b;++i)
+#define rep4(i,a,b,c) for(ll i=a;i<b;i+=c)
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
 
-#define rrep1(n) for(int i=(n)-1;i>=0;i--)
-#define rrep2(i,n) for(int i=(n)-1;i>=0;i--)
-#define rrep3(i,a,n) for(int i=(n)-1;i>=(a);i--)
-#define rrep4(i,a,n,s) for(int i=a+(n-a-1)/s*s;i>=a;i-=s)
+#define rrep1(n) for(ll i=(n)-1;i>=0;i--)
+#define rrep2(i,n) for(ll i=(n)-1;i>=0;i--)
+#define rrep3(i,a,n) for(ll i=(n)-1;i>=(a);i--)
+#define rrep4(i,a,n,s) for(ll i=a+(n-a-1)/s*s;i>=a;i-=s)
 #define rrep(...) overload4(__VA_ARGS__,rrep4,rrep3,rrep2,rrep1)(__VA_ARGS__)
 
-#define erep1(n) for(int i=0;i<=n;++i)
-#define erep2(i,n) for(int i=0;i<=n;++i)
-#define erep3(i,a,n) for(int i=a;i<=n;++i)
-#define erep4(i,a,n,s) for(int i=a;i<=n;i+=s)
+#define erep1(n) for(ll i=0;i<=n;++i)
+#define erep2(i,n) for(ll i=0;i<=n;++i)
+#define erep3(i,a,n) for(ll i=a;i<=n;++i)
+#define erep4(i,a,n,s) for(ll i=a;i<=n;i+=s)
 #define erep(...) overload4(__VA_ARGS__,erep4,erep3,erep2,erep1)(__VA_ARGS__)
 
 #define each(i, c) for (auto&& i : (c))
@@ -85,8 +86,6 @@ template <typename Cont> ostream& write(ostream& os, const Cont& c) {
 
 template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
 template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
-template <typename K, typename V> ostream& operator<<(ostream& os, const map<K, V>& c) { return write(os, c); }
-template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) { return os << p.first << ':' << p.second; }
 
 template <typename Cont> auto sum(const Cont& c) { return accumulate(rng(c), 0LL); };
 template <typename Cont> auto max(const Cont& c) { return *max_element(rng(c)); };
@@ -114,24 +113,45 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-#define __ATCODER__ 1
+#define __ATCODER__ 0
 
 #if __ATCODER__ == 1
-void solve(long long A, long long B, long long N) {
-    ll x = min(N, B - 1);
-    out((A * x / B) - (A * (x / B)));
+#include <atcoder/all>
+using namespace atcoder;
+
+{% if prediction_success %}
+void solve({{ formal_arguments }}) {
 }
 
 void solve() {
-    long long A;
-    scanf("%lld",&A);
-    long long B;
-    scanf("%lld",&B);
-    long long N;
-    scanf("%lld",&N);
-    solve(A, B, N);
+    {{input_part}}
+    solve({{ actual_arguments }});
 }
+{% else %}
+void solve() {
+}
+{% endif %}
 #else
+#include <atcoder/all>
+using namespace atcoder;
+void solve(int N, int K, vec<int> t, vec<int> x, vec<int> y) {
+    dsu d(N);
+    int ans = 0;
+    rep(K) {
+        if (t[i]==1) {
+            if (d.size(x[i]-1)==1 || d.size(y[i]-1)==1) {
+                d.merge(x[i]-1, y[i]-1);
+            } else {
+                if (!d.same(x[i]-1, y[i]-1)) {
+                    ans++;
+                }
+            }
+        } else {
+            int rx = d.leader(x[i]-1);
+            int ry = d.leader(y[i]-1);
+        }
+}
+
 void solve() {
 }
 #endif

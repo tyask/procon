@@ -114,24 +114,84 @@ void no(bool b=true) { yes(!b); }
 
 }
 
-#define __ATCODER__ 1
+#define __ATCODER__ 0
 
 #if __ATCODER__ == 1
-void solve(long long A, long long B, long long N) {
-    ll x = min(N, B - 1);
-    out((A * x / B) - (A * (x / B)));
+{% if prediction_success %}
+void solve({{ formal_arguments }}) {
 }
 
 void solve() {
-    long long A;
-    scanf("%lld",&A);
-    long long B;
-    scanf("%lld",&B);
-    long long N;
-    scanf("%lld",&N);
-    solve(A, B, N);
+    {{input_part}}
+    solve({{ actual_arguments }});
 }
+{% else %}
+void solve() {
+}
+{% endif %}
 #else
+struct edge { int from, to, cost; };
+struct BellmanFord {
+    int V;
+    int E;
+    const vec<edge> es;
+    void shortest_path(int s) {
+        vec<int> d(V, INF);
+        d[s] = 0;
+        while (1) {
+            bool update = false;
+            rep(E) {
+                const edge& e = es[i];
+                if (d[e.from] != INF && d[e.to] > d[e.from] + e.cost) {
+                    d[e.to] = d[e.from] + e.cost;
+                    update = true;
+                }
+            }
+
+            if (!update) break;
+        }
+    }
+
+    bool find_negative_loop() {
+        vec<int> d(V);
+        rep(i, V) {
+            rep(j, E) {
+                const auto& e = es[j];
+                if (d[e.to] > d[e.from] + e.cost) {
+                    d[e.to] = d[e.from] + e.cost;
+                    if (i == V - 1) return true;
+                }
+            }
+        }
+
+        return false;
+    }
+};
+
+struct Dijkstra {
+    int V;
+    vvec<int> C;
+    Dijkstra(int v, vvec<int> c) : V(v), C(c) {};
+
+    void shortest_path(int s) {
+        vec<int> d(V, INF);
+        vec<int> used(V);
+        d[s] = 0;
+        while(1) {
+            int v = -1;
+            rep(u, V) {
+                if (!used[u] && (v == -1 || d[u] < d[v])) v = u;
+            }
+            if (v == -1) break;
+            used[v] = 1;
+
+            rep(u, V) {
+                d[u] = min(d[u], d[v] + C[v][u]);
+            }
+        }
+    }
+};
+
 void solve() {
 }
 #endif

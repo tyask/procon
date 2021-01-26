@@ -116,13 +116,13 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 std::vector<std::string> SS;
-map<string, map<bool, map<int, ll>>> m;
+map<bool, map<int, ll>> m;
 // y[i]がbとなる個数
 ll y(bool b, int i) {
     if (i == 0) return 1;
 
     string& s = SS[i-1];
-    if (m[s][b][i] > 0) return m[s][b][i];
+    if (m[b][i] > 0) return m[b][i];
 
     ll ret = 0;
     if (s=="AND") {
@@ -139,7 +139,7 @@ ll y(bool b, int i) {
         }
     }
 
-    return m[s][b][i] = ret;
+    return m[b][i] = ret;
 }
 
 void solve(long long N, std::vector<std::string> S) {
