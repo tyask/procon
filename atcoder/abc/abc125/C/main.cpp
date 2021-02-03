@@ -3,7 +3,6 @@
 namespace {
 using namespace std;
 using ll   = long long;
-using ld   = long double;
 using ull  = unsigned long long;
 using uint = unsigned int;
 template<typename T> using vec = vector<T>;
@@ -14,11 +13,11 @@ const ll MINF=0x7fffffffffff;
 const int INF=0x3fffffff;
 const int MOD=1000000007;
 const int MODD=998244353;
-const ld DINF=numeric_limits<ld>::infinity();
-const ld EPS=1e-9;
-const ld PI=3.1415926535897932;
-const ll dx[] = {0, 1, 0, -1, 1, 1, -1, -1};
-const ll dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
+const double DINF=numeric_limits<double>::infinity();
+const double EPS=1e-9;
+const double PI=3.1415926535897932;
+const int dx[] = {0, 1, 0, -1, 1, 1, -1, -1};
+const int dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
@@ -34,22 +33,22 @@ const ll dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 #define VEC(type, name, size) vec<type> name(size); in(name)
 #define VV(type,name,h,w) vvec<type>name(h,vec<type>(w)); in(name)
 
-#define rep1(n) for(ll i=0;i<n;++i)
-#define rep2(i,n) for(ll i=0;i<n;++i)
-#define rep3(i,a,b) for(ll i=a;i<b;++i)
-#define rep4(i,a,b,c) for(ll i=a;i<b;i+=c)
+#define rep1(n) for(int i=0;i<n;++i)
+#define rep2(i,n) for(int i=0;i<n;++i)
+#define rep3(i,a,b) for(int i=a;i<b;++i)
+#define rep4(i,a,b,c) for(int i=a;i<b;i+=c)
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
 
-#define rrep1(n) for(ll i=(n)-1;i>=0;i--)
-#define rrep2(i,n) for(ll i=(n)-1;i>=0;i--)
-#define rrep3(i,a,n) for(ll i=(n)-1;i>=(a);i--)
-#define rrep4(i,a,n,s) for(ll i=a+(n-a-1)/s*s;i>=a;i-=s)
+#define rrep1(n) for(int i=(n)-1;i>=0;i--)
+#define rrep2(i,n) for(int i=(n)-1;i>=0;i--)
+#define rrep3(i,a,n) for(int i=(n)-1;i>=(a);i--)
+#define rrep4(i,a,n,s) for(int i=a+(n-a-1)/s*s;i>=a;i-=s)
 #define rrep(...) overload4(__VA_ARGS__,rrep4,rrep3,rrep2,rrep1)(__VA_ARGS__)
 
-#define erep1(n) for(ll i=0;i<=n;++i)
-#define erep2(i,n) for(ll i=0;i<=n;++i)
-#define erep3(i,a,n) for(ll i=a;i<=n;++i)
-#define erep4(i,a,n,s) for(ll i=a;i<=n;i+=s)
+#define erep1(n) for(int i=0;i<=n;++i)
+#define erep2(i,n) for(int i=0;i<=n;++i)
+#define erep3(i,a,n) for(int i=a;i<=n;++i)
+#define erep4(i,a,n,s) for(int i=a;i<=n;i+=s)
 #define erep(...) overload4(__VA_ARGS__,erep4,erep3,erep2,erep1)(__VA_ARGS__)
 
 #define each(i, c) for (auto&& i : (c))
@@ -86,6 +85,8 @@ template <typename Cont> ostream& write(ostream& os, const Cont& c) {
 
 template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
 template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
+template <typename K, typename V> ostream& operator<<(ostream& os, const map<K, V>& c) { return write(os, c); }
+template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) { return os << p.first << ':' << p.second; }
 
 template <typename Cont> auto sum(const Cont& c) { return accumulate(rng(c), 0LL); };
 template <typename Cont> auto max(const Cont& c) { return *max_element(rng(c)); };
@@ -94,8 +95,10 @@ template <typename Cont> auto sort(Cont& c) { sort(rng(c)); };
 template <typename Cont, typename Comp> auto sort(Cont& c, Comp comp) { sort(rng(c), comp); };
 template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
+template <typename T> vector<T> cumsum(const vec<T>& v) { vec<T> s(v.size()+1, 0); rep(v.size()) s[i+1] = s[i] + v[i]; return s; }
+template <typename T> vector<T> uniq(const vec<T>& v) { set<T> s(rng(v)); return vec<T>(rng(s)); }
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
-ll lcm(ll a, ll b){ if(!a || !b) return 0; return a * b / gcd(a, b); }
+ll lcm(ll a, ll b){ if(!a || !b) return 0; return a / gcd(a, b) * b; }
 ll powint(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
 ll powmod(ll n, ll k, ll m){ ll ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
 ll mod(ll n, ll m) { ll r = n % m; return (r < 0) ? r + m : r; }
@@ -115,7 +118,52 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
+void solve2(long long N, std::vector<long long> A) {
+    vec<int> lg(N);
+    vec<int> rg(N);
+    lg[0] = A[0];
+    rg[N-1] = A[N-1];
+    rep(i, 1, N) {
+        lg[i] = gcd(lg[i-1], A[i]);
+        rg[N-1-i] = gcd(rg[N-1-i+1], A[N-1-i]);
+    }
+
+    ll ans = 1;
+    rep(N) {
+        if (i == 0) chmax(ans, rg[1]);
+        if (i == N-1) chmax(ans, lg[i-1]);
+        else chmax(ans, gcd(lg[i-1], rg[i+1]));
+    }
+    out(ans);
+
+}
+
 void solve(long long N, std::vector<long long> A) {
+    map<int, int> c;
+    rep(N) c[A[i]]++;
+
+    A = uniq(A);
+
+    map<int, int, decltype(greater<int>())> m;
+    rep(A.size()) {
+        ll a = A[i];
+
+        for (int j = 1; j * j <= a; ++j) {
+            if (a % j != 0) continue;
+            m[j] += c[a];
+            if (a != j * j) m[a/j] += c[a];
+        }
+    }
+
+    int ans = 1;
+    each(p, m) {
+        if (p.second == N || p.second == N - 1) {
+            ans = p.first;
+            break;
+        }
+    }
+
+    out(ans);
 }
 
 void solve() {
@@ -125,7 +173,7 @@ void solve() {
     for(int i = 0 ; i < N ; i++){
         scanf("%lld",&A[i]);
     }
-    solve(N, std::move(A));
+    solve2(N, std::move(A));
 }
 #else
 void solve() {

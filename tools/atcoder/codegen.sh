@@ -12,25 +12,15 @@ function usage() {
     exit 1
 }
 
-if [ $# -lt 1 ]; then
+if [ $# -lt 2 ]; then
     usage
+    exit
 fi
 
 contest=$1;
 problem=${2^^};
 shift 2
 url=$(printf 'https://atcoder.jp/contests/%s/tasks/%s_%s' $contest $contest $problem)
-echo "url: $url"
-
-login=false
-for p in "$@"; do
-    case $p in
-        -l|--login) login=true;;
-        *) echo "Argument Error: $p"; usage;;
-    esac
-done
-
-$login || additional_opts+=" --without-login"
 
 workspace=$(gen_workspace $contest)
 problem_dir=$workspace/$contest/$problem
@@ -48,8 +38,5 @@ fi
 
 exe mkdir -p $problem_dir
 
-template=$root/bin/atcoder_template.cpp
-gen_atcoder_template $template
-
-exe "atcoder-tools codegen $url --template $template --config $config $additional_opts > $src"
+exe "$(dirname $0)/codegen_impl.sh $url $@ > $src"
 

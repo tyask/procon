@@ -91,6 +91,11 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long a, long long b, long long x) {
+    if (x / a <= a * b / 2) {
+        printf("%.6f\n", 90 - atan(2*double(x)/(a*b*b)) * 180 / M_PI);
+    } else {
+        printf("%.6f\n", 90 - atan(double(a)/(2*(b-double(x)/(a*a)))) * 180 / M_PI);
+    }
 }
 #else
 void solve() {
