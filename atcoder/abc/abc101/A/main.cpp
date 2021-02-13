@@ -114,6 +114,9 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(std::string S) {
+    int ans = 0;
+    each(c, S) ans += (c=='+')? 1 : -1;
+    out(ans);
 }
 
 void solve() {

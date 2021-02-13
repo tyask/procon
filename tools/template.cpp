@@ -59,6 +59,9 @@ const int dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 #define rng3(i,a,b) begin(i)+a,begin(i)+b
 #define rng(...) overload3(__VA_ARGS__,rng3,rng2,rng1)(__VA_ARGS__)
 
+#define PB push_back
+#define MP make_pair
+
 template<class T> void scan(T& a){ cin >> a; }
 template<class T> void scan(vec<T>& a, int n){ a.resize(n); for(auto&& i : a) scan(i); }
 template<class T> void scan(vec<T>& a){ scan(a, a.size()); }

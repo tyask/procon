@@ -86,6 +86,8 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    INT(X, Y);
+    out(X + Y/2);
 }
 
 int main() {

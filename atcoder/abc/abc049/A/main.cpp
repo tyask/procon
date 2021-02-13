@@ -86,6 +86,19 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    CHR(c);
+    switch(c) {
+    case 'a':
+    case 'e':
+    case 'i':
+    case 'o':
+    case 'u':
+        out("vowel");
+        break;
+    default:
+        out("consonant");
+        break;
+    }
 }
 
 int main() {

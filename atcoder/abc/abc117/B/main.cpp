@@ -114,6 +114,10 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<long long> L) {
+    sort(rng(L));
+    ll s = sum(vec<ll>(rng(L, N-1)));
+    ll m = L[N-1];
+    Yes(m<s);
 }
 
 void solve() {

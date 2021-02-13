@@ -114,6 +114,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long T, long long X) {
+    printf("%.3lf\n", double(T)/X);
 }
 
 void solve() {

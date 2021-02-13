@@ -119,6 +119,8 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long A, long long B, long long C) {
+    int m = max({A, B, C});
+    out(A+B+C-m+m*10);
 }
 
 void solve() {

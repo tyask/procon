@@ -92,6 +92,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long A, long long B, long long C) {
+    out(min(B/A, C));
 }
 #else
 void solve() {

@@ -37,7 +37,7 @@ const int IMIN = numeric_limits<int>::min();
 #define itr(c) for (auto it = begin(c); it != end(c); ++it)
 
 #define rng1(i) begin(i),end(i)
-#define rngll2(i,a) begin(i),begin(i)+a
+#define rng2(i,a) begin(i),begin(i)+a
 #define rng3(i,a,b) begin(i)+a,begin(i)+b
 #define rng(...) overload3(__VA_ARGS__,rng3,rng2,rng1)(__VA_ARGS__)
 
@@ -92,6 +92,8 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<long long> p) {
+    sort(rng(p));
+    out(sum(vec<ll>(rng(p, N-1))) + p[N-1]/2);
 }
 #else
 void solve() {

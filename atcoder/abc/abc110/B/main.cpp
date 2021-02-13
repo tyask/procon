@@ -119,6 +119,17 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long M, long long X, long long Y, std::vector<long long> x, std::vector<long long> y) {
+    sort(x);
+    sort(y);
+    bool ans = false;
+    erep(z, X+1, Y) {
+        if (z <= Y && x[N-1] < z && y[0] >= z) {
+            ans = true;
+            break;
+        }
+    }
+
+    out(ans? "No War" : "War");
 }
 
 void solve() {

@@ -114,6 +114,8 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve() {
+    INT(AB, BC, CA);
+    out(AB*BC/2);
 }
 #else
 void solve() {

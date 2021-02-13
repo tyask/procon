@@ -119,6 +119,8 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<long long> A) {
+    sort(A);
+    out(A[N-1]-A[0]);
 }
 
 void solve() {

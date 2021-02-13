@@ -114,6 +114,13 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N) {
+    int d = 0;
+    ll n = N;
+    while (N > 0) {
+        d += N % 10;
+        N /= 10;
+    }
+    Yes(n % d == 0);
 }
 
 void solve() {

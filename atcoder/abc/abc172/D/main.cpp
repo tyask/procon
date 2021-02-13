@@ -117,18 +117,37 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
-void solve(long long N) {
-    ll ans = 0;
-    vec<int> m(N+1);
-    erep(i, 1, N) {
-        erep(j, 1, N, i) {
-            m[j]++;
+vec<int> sieve(int n) {
+    vec<int> minf(n+1);
+    rep(n+1) minf[i] = i;
+    for (int i = 2; i * i <= n; ++i) {
+        if (minf[i] == i) {
+            for (int j = 2; i * j <= n; ++j) {
+                chmin(minf[i*j], i);
+            }
         }
     }
 
-    erep(i, 1, N) {
-        ans += i * m[i];
+    return minf;
+}
+
+int f(const vec<int>& minf, int x) {
+    map<int, int> m;
+    while (x > 1) {
+        m[minf[x]]++;
+        x /= minf[x];
     }
+
+    ll ret = 1;
+    each(p, m) ret *= p.second + 1;
+    return ret;
+}
+void solve(long long N) {
+    ll ans = 0;
+    vec<int> minf = sieve(N);
+    // erep(k, 1, N) {
+    //     ans += k * f(minf, k);
+    // }
 
     out(ans);
 }

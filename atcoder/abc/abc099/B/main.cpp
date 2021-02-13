@@ -119,6 +119,10 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long a, long long b) {
+    int d = b - a;
+    ll s = 0;
+    erep(i, 1, d) s += i;
+    out(s - b); 
 }
 
 void solve() {

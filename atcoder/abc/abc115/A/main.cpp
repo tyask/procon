@@ -92,6 +92,9 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long D) {
+    string ans = "Christmas";
+    rep(25-D) ans += " Eve";
+    out(ans);
 }
 #else
 void solve() {

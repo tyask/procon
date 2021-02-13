@@ -119,6 +119,15 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N) {
+    int ans = 0;
+    rep(i, N, 1000) {
+        if (i/100==i/10%10&&i/100==i%10) {
+            ans = i;
+            break;
+        }
+    }
+
+    out(ans);
 }
 
 void solve() {

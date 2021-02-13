@@ -114,6 +114,22 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N) {
+    int ans = 0;
+    erep(n, 1, N) {
+        if (n % 2 == 0) continue;
+        int c = 0;
+        for (int i = 1; i * i <= n; ++i) {
+            if (n % i != 0) continue;
+            c++;
+            if (n != i * i) c++;
+        }
+
+        if (c == 8) {
+            ans++;
+        }
+    }
+
+    out(ans);
 }
 
 void solve() {

@@ -118,6 +118,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long X) {
+    YES(X==7||X==5||X==3);
 }
 
 void solve() {

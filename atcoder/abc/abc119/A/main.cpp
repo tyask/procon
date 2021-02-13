@@ -101,6 +101,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(std::string S) {
+    out(S<="2019/04/30"? "Heisei" : "TBD");
 }
 #else
 void solve() {

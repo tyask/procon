@@ -92,6 +92,15 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long A, long long B, long long K) {
+    int ans = 0;
+    for(int i = min(A, B); i >= 1; --i) {
+        if (A%i==0&&B%i==0) K--;
+        if (K==0) {
+            ans = i;
+            break;
+        }
+    }
+    out(ans);
 }
 #else
 void solve() {

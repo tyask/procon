@@ -114,6 +114,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long i) {
+    out(N-i+1);
 }
 
 void solve() {

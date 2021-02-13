@@ -119,6 +119,15 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long T, std::vector<long long> c, std::vector<long long> t) {
+    int ans = INF;
+    rep(N) {
+        if (t[i] <= T) {
+            chmin(ans, c[i]);
+        }
+    }
+
+    if (ans==INF) out("TLE");
+    else out(ans);
 }
 
 void solve() {

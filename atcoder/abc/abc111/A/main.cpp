@@ -119,6 +119,13 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long n) {
+    string s = to_string(n);
+    rep(s.size()) {
+        if (s[i]=='1') s[i] = '9';
+        else if (s[i]=='9') s[i] = '1';
+    }
+
+    out(s);
 }
 
 void solve() {

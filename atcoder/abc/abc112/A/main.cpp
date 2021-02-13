@@ -119,6 +119,13 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve() {
+    INT(N);
+    if (N==1) {
+        out("Hello World");
+    } else {
+        INT(A, B);
+        out(A+B);
+    }
 }
 #else
 void solve() {

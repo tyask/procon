@@ -101,6 +101,16 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<long double> x, std::vector<std::string> u) {
+    double ans = 0;
+    rep(N) {
+        if (u[i]=="JPY") {
+            ans += x[i];
+        } else {
+            ans += x[i] * 380000;
+        }
+    }
+
+    printf("%.5lf\n", ans);
 }
 #else
 void solve() {
