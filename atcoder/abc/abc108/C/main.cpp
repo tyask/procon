@@ -122,6 +122,22 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long K) {
+    ll ans = 0;
+    vec<ll> m(K);
+    // Kで割るとx余る数を数える.
+    erep(i, 1, N) m[i%K]++;
+
+    rep(ma, K) { // ma = a % K
+        // a + b = (Kの倍数) なので、a mod K = ma の場合、b = K - ma (mod K)である必要がある.
+        // これをmbとおく. cについても同様にc % K = mcとおく.
+        // b + c = (Kの倍数)なので、mb + mcもKの倍数でなければならない(0でもいい).
+        int mb = (K - ma) % K;
+        int mc = (K - ma) % K;
+        if ((mb + mc) % K != 0) continue;
+        ans += m[ma] * m[mb] * m[mc];
+    }
+
+    out(ans);
 }
 
 void solve() {

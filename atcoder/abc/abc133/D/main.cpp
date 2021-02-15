@@ -92,6 +92,16 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<long long> A) {
+    ll x = 0;
+    rep(N) x += (i+1)%2==1 ? A[i] : -A[i];
+
+    vec<ll> ans(N);
+    ans[0] = x;
+    rep(i, 1, N) {
+        ans[i] = (A[i-1] - ans[i-1]/2) * 2;
+    }
+
+    out(ans);
 }
 #else
 void solve() {
