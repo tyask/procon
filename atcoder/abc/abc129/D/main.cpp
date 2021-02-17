@@ -114,6 +114,32 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long H, long long W, std::vector<std::string> S) {
+    vec<string> s(H+2, string(W+2, '#'));
+    rep(i, H) rep(j, W) s[i+1][j+1] = S[i][j];
+    vvec<int> a(H, vec<int>(W));
+    rep(i, 1, H+1) {
+        int l = -1;
+        rep(j, W+2) {
+            if (s[i][j]=='.') continue;
+            rep(k, l+1, j) {
+                a[i-1][k-1] += j - (l + 1);
+            }
+            l = j;
+        }
+    }
+
+    rep(j, 1, W+1) {
+        int t = -1;
+        rep(i, H+2) {
+            if (s[i][j]=='.') continue;
+            rep(k, t+1, i) a[k-1][j-1] += i - (t + 1);
+            t = i;
+        }
+    }
+
+    int ans = 0;
+    rep(i, H) rep(j, W) chmax(ans, a[i][j]);
+    out(ans-1);
 }
 
 void solve() {

@@ -116,6 +116,14 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<long long> A) {
+    int cm = count_if(rng(A), [](ll x){ return x < 0; });
+    vec<ll> a(N);
+    rep(N) a[i] = abs(A[i]);
+    if (cm % 2 == 0) {
+        out(sum(a));
+    } else {
+        out(sum(a)-2*min(a));
+    }
 }
 
 void solve() {

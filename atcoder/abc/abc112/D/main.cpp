@@ -119,6 +119,14 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long M) {
+    ll ans = 0;
+    for (ll i = 1; i * i <= M; ++i) {
+        if (M % i != 0) continue;
+        ll d = M / i;
+        if (d >= N) chmax(ans, i);
+        if (i >= N) chmax(ans, d);
+    }
+    out(ans);
 }
 
 void solve() {

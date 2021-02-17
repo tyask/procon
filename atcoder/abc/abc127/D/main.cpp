@@ -116,6 +116,37 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long M, std::vector<long long> A, std::vector<long long> B, std::vector<long long> C) {
+    vec<pair<ll, ll>> m(M);
+    rep(M) m[i] = make_pair(B[i], C[i]);
+    sort(m, [](auto p1, auto p2){ return p1.second > p2.second;});
+    sort(A);
+    int i = 0;
+    each(p, m) {
+        if (i >= N) break;
+        rep(j, p.first) {
+            if (i+j >= N) break;
+            A[i+j] = max(A[i+j], p.second) ;
+        }
+
+        i += p.first;
+    }
+
+    out(sum(A));
+}
+
+void solve2(long long N, long long M, std::vector<long long> A, std::vector<long long> B, std::vector<long long> C) {
+    priority_queue<pair<int, int>> q;
+    rep(N) q.push({A[i], 1});
+    rep(M) q.push({C[i], B[i]});
+    
+    ll ans = 0;
+    rep(N) {
+        auto p = q.top(); q.pop();
+        ans += p.first;
+        p.second--;
+        if (p.second > 0) q.push(p);
+    }
+    out(ans);
 }
 
 void solve() {
@@ -133,7 +164,7 @@ void solve() {
         scanf("%lld",&B[i]);
         scanf("%lld",&C[i]);
     }
-    solve(N, M, std::move(A), std::move(B), std::move(C));
+    solve2(N, M, std::move(A), std::move(B), std::move(C));
 }
 #else
 void solve() {

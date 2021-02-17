@@ -91,7 +91,29 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
+ll calc(ll n) {
+    ll r = 0;
+    n++;
+    rep(63) {
+        ll m = 1LL << i;
+        ll m2 = m * 2;
+        ll c = (n / m2) * m + max<ll>(0, (n % m2) - m);
+        r |= (c&1)<<i;
+    }
+
+    return r;
+}
+
+ll calc2(ll n) {
+    n++;
+    ll r = (n/2) % 2;
+    if (n % 2 == 1) r ^= (n - 1);
+    return r;
+}
+
 void solve(long long A, long long B) {
+    ll ans = calc2(B) ^ calc2(A-1);
+    out(ans);
 }
 #else
 void solve() {
