@@ -10,7 +10,11 @@
                 "-o",
                 "${workspaceFolder}/bin/${fileBasenameNoExtension}",
                 "-I${workspaceFolder}/ext/ac-library",
+                "-I${workspaceFolder}/ext/googletest/googletest/include",
                 "-I${workspaceFolder}/tools/lib",
+                "-L${workspaceFolder}/ext/googletest/lib",
+                "-lgtest",
+                "-lpthread",
                 "-D__DEBUG__",
                 "-D__MULTIRUN__"
             ],

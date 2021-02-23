@@ -116,6 +116,19 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::string S) {
+    int r = 0;
+    int l = 0;
+    each(c, S) {
+        if (c == '(') l++;
+        else if (c==')') {
+            if (l > 0) l--;
+            else r++;
+        }
+    }
+
+    out(string(r, '(') + S + string(l, ')'));
+
+
 }
 
 void solve() {

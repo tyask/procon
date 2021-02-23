@@ -115,7 +115,36 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
+struct edge{ int to; ll cost; };
 void solve(long long N, std::vector<long long> a, std::vector<long long> b, std::vector<long long> c, long long Q, long long K, std::vector<long long> x, std::vector<long long> y) {
+    vvec<edge> g(N);
+    rep(N-1) {
+        g[a[i]-1].push_back({b[i]-1, c[i]});
+        g[b[i]-1].push_back({a[i]-1, c[i]});
+    }
+
+    using P = pair<ll, int>;
+    priority_queue<P, vec<P>, greater<P>> q;
+    vec<ll> d(N, LINF);
+    K--;
+    d[K] = 0;
+    q.emplace(0, K);
+    while (!q.empty()) {
+        auto p = q.top(); q.pop();
+        ll c = p.first;
+        int v = p.second;
+        if (d[v] < c) continue;
+        each(e, g[v]) {
+            if (chmin(d[e.to], d[v] + e.cost)) {
+                q.emplace(d[e.to], e.to);
+            }
+        }
+    }
+
+    rep(Q) {
+        out(d[x[i]-1] + d[y[i]-1]);
+    }
+
 }
 
 void solve() {

@@ -116,6 +116,9 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(std::string s, std::string t) {
+    sort(s);
+    sort(t, greater<char>());
+    Yes(s < t);
 }
 
 void solve() {

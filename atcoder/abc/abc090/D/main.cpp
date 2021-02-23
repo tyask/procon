@@ -116,6 +116,15 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long K) {
+    if (K==0) {
+        out(N*N);
+        return;
+    }
+    ll ans = 0;
+    erep(b, 1, N) {
+        ans += N / b * max(b - K, 0ll) + max(N % b - K + 1, 0ll);
+    }
+    out(ans);
 }
 
 void solve() {

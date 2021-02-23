@@ -68,18 +68,11 @@ template<class T> void scan(vec<T>& a){ scan(a, a.size()); }
 template<class T> void scan(vvec<T>& a){ for(auto&& v : a) scan(v); }
 void in(){}
 template <class Head, class... Tail> void in(Head& head, Tail&... tail){ scan(head); in(tail...); }
-void init_cin(const std::string& s) { cin.rdbuf((new istringstream(s))->rdbuf()); }
 
-template <typename T> void out_impl(ostream& os, T&& t) { os << t << endl; }
-template <typename T> void outh_impl(ostream& os, T&& t) { os << t << " "; }
-template <typename T, typename... Args> void out_impl(ostream& os, T&& head, Args&&... tail) { outh_impl(os, head); out_impl(os, tail...); };
-
-template <typename T, typename... Args> void out(T&& head, Args&&... tail) { out_impl(cout, head, tail...); }
-template <typename T, typename... Args> void debug(T&& head, Args&&... tail) {
-#ifdef __DEBUG__
-    out_impl(cerr, "[DEBUG]", head, tail...);
-#endif
-}
+template <typename T> void out(ostream& os, T&& t) { os << t << endl; }
+template <typename T> void outh(ostream& os, T&& t) { os << t << " "; }
+template <typename T, typename... Args> void out(ostream& os, T&& head, Args&&... tail) { outh(os, head); out(os, tail...); };
+template <typename T, typename... Args> void out(T&& head, Args&&... tail) { out(cout, head, tail...); }
 
 template <typename Cont> ostream& write(ostream& os, const Cont& c) {
     itr(c) { os << ((it == c.begin()) ? "" : " ") << *it; }
@@ -88,6 +81,7 @@ template <typename Cont> ostream& write(ostream& os, const Cont& c) {
 
 template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
 template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
+template <typename T> ostream& operator<<(ostream& os, const set<T>& c) { return write(os, c); }
 template <typename K, typename V> ostream& operator<<(ostream& os, const map<K, V>& c) { return write(os, c); }
 template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) { return os << p.first << ':' << p.second; }
 
@@ -95,6 +89,7 @@ template <typename Cont> auto sum(const Cont& c) { return accumulate(rng(c), 0LL
 template <typename Cont> auto max(const Cont& c) { return *max_element(rng(c)); };
 template <typename Cont> auto min(const Cont& c) { return *min_element(rng(c)); };
 template <typename Cont> auto sort(Cont& c) { sort(rng(c)); };
+template <typename Cont> auto reverse(Cont& c) { reverse(rng(c)); };
 template <typename Cont, typename Comp> auto sort(Cont& c, Comp comp) { sort(rng(c), comp); };
 template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
@@ -103,11 +98,6 @@ template <typename T> vector<T> uniq(const vec<T>& v) { set<T> s(rng(v)); return
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
 ll lcm(ll a, ll b){ if(!a || !b) return 0; return a / gcd(a, b) * b; }
 ll powint(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
-ll powmod(ll n, ll k, ll m){ ll ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
-ll mod(ll n, ll m) { ll r = n % m; return (r < 0) ? r + m : r; }
-
-template <typename N> bool is_even(N n) { return n % 2 == 0; }
-template <typename N> bool is_odd(N n) { return !is_even(n); }
 
 void YES(bool b=true) { out(b? "YES" : "NO"); }
 void Yes(bool b=true) { out(b? "Yes" : "No"); }

@@ -119,6 +119,14 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long A, long long B, std::vector<long long> X) {
+    ll p = X[0];
+    ll ans = 0;
+    rep(i, 1, N) {
+        ll a = (X[i] - p) * A;
+        ans += min(a, B);
+        p = X[i];
+    }
+    out(ans);
 }
 
 void solve() {

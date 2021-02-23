@@ -116,6 +116,22 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long H, long long W, long long N, std::vector<long long> a) {
+    vvec<int> ans(H, vec<int>(W));
+    int c = 0;
+    int s = 0;
+    each(n, a) {
+        c++;
+        rep(n) {
+            int ni = s / W;
+            int nj = s % W;
+            // out(s, ni, nj, c);
+            ans[ni][nj] = c;
+            s++;
+        }
+    }
+
+    rep(H) if (i % 2 == 1) reverse(rng(ans[i]));
+    rep(H) out(ans[i]);
 }
 
 void solve() {

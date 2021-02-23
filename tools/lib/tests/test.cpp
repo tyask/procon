@@ -10,7 +10,7 @@ int main() {
     mint m(200);
     cout << m << endl;
 
-    combination<mint> comb(10);
+    mod::combination<mint> comb(10);
     cout << comb(5, 2) << endl;
 
     UnionFind uf(10);

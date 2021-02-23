@@ -88,6 +88,7 @@ template <typename Cont> ostream& write(ostream& os, const Cont& c) {
 
 template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
 template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
+template <typename T> ostream& operator<<(ostream& os, const set<T>& c) { return write(os, c); }
 template <typename K, typename V> ostream& operator<<(ostream& os, const map<K, V>& c) { return write(os, c); }
 template <typename T, typename U> ostream& operator<<(ostream& os, const pair<T, U>& p) { return os << p.first << ':' << p.second; }
 
@@ -121,7 +122,24 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
+map<ll, ll> prime_fact(ll n) {
+    map<ll, ll> ret;
+    for (ll d = 2; d * d <= n; ++d) {
+        ll e = 0;
+        while (n % d == 0) {
+            e++;
+            n /= d;
+        }
+        if (e > 0) ret[d] = e;
+    }
+
+    if (n != 1) ret[n] = 1;
+    return ret;
+}
+
 void solve(long long A, long long B) {
+    auto m = prime_fact(gcd(A, B));
+    out(m.size()+1);
 }
 
 void solve() {

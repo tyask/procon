@@ -116,6 +116,30 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long H, std::vector<long long> a, std::vector<long long> b) {
+    vec<pair<ll, int>> s;
+    rep(N) {
+        s.push_back({a[i], 0});
+        s.push_back({b[i], 1});
+    }
+    sort(s, greater<pair<ll, int>>());
+
+    ll ans = 0;
+    each(p, s) {
+        if (H <= 0) {
+            break;
+        }
+
+        if (p.second == 1) {
+            H -= p.first;
+            ans++;
+        } else {
+            ll a = p.first;
+            ans += (H+a-1) / a;
+            break;
+        }
+    }
+
+    out(ans);
 }
 
 void solve() {

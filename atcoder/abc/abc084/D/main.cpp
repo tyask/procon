@@ -119,6 +119,49 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long Q, std::vector<long long> l, std::vector<long long> r) {
+    const int M = 100001;
+    vec<int> ps(M);
+    vec<int> v(M);
+    ps[2] = 1;
+    erep(n, 3, M, 2)  {
+        bool p = true;
+        for (int i = 3; i * i <= n; ++i) {
+            if (n % i == 0) {
+                p = false;
+                break;
+            }
+        }
+
+        if (p) {
+            ps[n] = 1;
+            if (ps[(n+1)/2]) v[n] = 1;
+        }
+    }
+
+    vec<int> s = cumsum(v);
+    rep(Q) {
+        out(s[r[i]+1] - s[l[i]]);
+    }
+}
+
+void solve2(long long Q, std::vector<long long> l, std::vector<long long> r) {
+    const int M = 100001;
+    vec<bool> ps(M, true);
+    rep(i, 2, M) {
+        if (ps[i]) {
+            rep(j, i+i, M, i) {
+                ps[j] = false;
+            }
+        }
+    }
+
+    vec<int> v(M);
+    erep(i, 3, M, 2) if (ps[i] && ps[(i+1)/2]) v[i]++;
+    vec<int> s = cumsum(v);
+    rep(Q) {
+        out(s[r[i]+1] - s[l[i]]);
+    }
+
 }
 
 void solve() {
@@ -130,7 +173,7 @@ void solve() {
         scanf("%lld",&l[i]);
         scanf("%lld",&r[i]);
     }
-    solve(Q, std::move(l), std::move(r));
+    solve2(Q, std::move(l), std::move(r));
 }
 #else
 void solve() {

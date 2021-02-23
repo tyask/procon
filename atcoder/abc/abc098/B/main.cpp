@@ -114,6 +114,17 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::string S) {
+
+    int ans = 0;
+    rep(i, 1, N-1) {
+        set<char> s1, s2;
+        rep(j, 0, i) s1.insert(S[j]);
+        rep(j, i, N) s2.insert(S[j]);
+        int cnt = 0;
+        erep(c, 'a', 'z') if (s1.count(c)>0&&s2.count(c)>0) cnt++;
+        chmax(ans, cnt);
+    }
+    out(ans);
 }
 
 void solve() {
