@@ -15,6 +15,7 @@
                 "-L${workspaceFolder}/ext/googletest/lib",
                 "-lgtest",
                 "-lpthread",
+                "-std=c++17",
                 "-D__DEBUG__",
                 "-D__MULTIRUN__"
             ],

@@ -119,6 +119,11 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long a, long long b, long long x) {
+    if (a == 0) {
+        out(b/x+1);
+    } else {
+        out(b/x-(a-1)/x);
+    }
 }
 
 void solve() {

@@ -116,6 +116,41 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 struct edge{ int to; ll cost; };
+struct dijkstra {
+    using ll = long long;
+    template<typname T> vec = vector<T>;
+    const ll LINF = LLONG_MAX/3;
+
+    vec<vec<edge>> g;
+    dijkstra(int n) : g(n) {};
+
+    dijkstra& add(int from, int to, ll cost) {
+        g.at(from) = {to, cost};
+        return *this;
+    }
+
+    vec<ll> run(int s) {
+        using P = pair<ll, int>; // cost, node
+        priority_queue<P, vec<P>, greater<P>> q;
+        vec<ll> d(N, LINF);
+        d[s] = 0;
+        q.emplace(0, s);
+        while (!q.empty()) {
+            auto p = q.top(); q.pop();
+            ll c = p.first;
+            int v = p.second;
+            if (d[v] < c) continue;
+            each(e, g[v]) {
+                if (chmin(d[e.to], d[v] + e.cost)) {
+                    q.emplace(d[e.to], e.to);
+                }
+            }
+        }
+
+        return d;
+    }
+}
+
 void solve(long long N, std::vector<long long> a, std::vector<long long> b, std::vector<long long> c, long long Q, long long K, std::vector<long long> x, std::vector<long long> y) {
     vvec<edge> g(N);
     rep(N-1) {

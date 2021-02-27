@@ -121,7 +121,47 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
+struct edge{ int to; ll cost; ll k; };
+struct dijkstra {
+    using ll = long long;
+    template<typename T> using vec = vector<T>;
+    const ll LINF = LLONG_MAX/3;
+
+    vec<vec<edge>> g;
+    dijkstra(int n) : g(n) {};
+
+    vec<ll> run(int s) {
+        using P = pair<ll, int>; // cost, node
+        priority_queue<P, vec<P>, greater<P>> que;
+        vec<ll> d(g.size(), LINF);
+        d[s] = 0;
+        que.emplace(0, s);
+        while (!que.empty()) {
+            auto p = que.top(); que.pop();
+            ll cost = p.first; int v = p.second;
+            if (d[v] < cost) continue;
+            for (edge e : g[v]) {
+                ll n = (d[v]+e.k-1)/e.k*e.k;
+                if (chmin(d[e.to], n + e.cost)) {
+                    que.emplace(d[e.to], e.to);
+                }
+            }
+        }
+
+        return d;
+    }
+};
+
 void solve(long long N, long long M, long long X, long long Y, std::vector<long long> A, std::vector<long long> B, std::vector<long long> T, std::vector<long long> K) {
+    dijkstra di(N);
+    rep(M) {
+        di.g[A[i]-1].push_back({B[i]-1, T[i], K[i]});
+        di.g[B[i]-1].push_back({A[i]-1, T[i], K[i]});
+    }
+
+    vec<ll> d = di.run(X-1);
+    if (d[Y-1]==di.LINF) out(-1);
+    else out(d[Y-1]);
 }
 
 void solve() {

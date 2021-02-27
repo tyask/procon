@@ -119,6 +119,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long a, long long b, long long c, long long d) {
+    Yes(abs(a-c)<=d||abs(a-b)<=d&&abs(b-c)<=d);
 }
 
 void solve() {
