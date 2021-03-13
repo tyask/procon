@@ -115,6 +115,17 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve() {
+    STR(s);
+    int n = s.size();
+    int i = 0, j = s.size()-1;
+    while (i - j > 1) {
+        if (s[i]==s[j]) {
+            i++; j--;
+            continue;
+        }
+
+        
+    }
 }
 #else
 void solve() {

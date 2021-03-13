@@ -118,6 +118,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N) {
+    out(N*(N-1)/2);
 }
 
 void solve() {

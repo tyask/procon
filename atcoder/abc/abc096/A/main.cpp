@@ -92,6 +92,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long a, long long b) {
+    out((a-1)+(a<=b));
 }
 #else
 void solve() {

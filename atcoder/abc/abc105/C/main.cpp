@@ -122,6 +122,18 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N) {
+    string ans;
+
+    while (N != 0) {
+        int r = N % 2;
+        if (r < 0) r += 2;
+        N = (N - r) / -2;
+        ans += r + '0';
+    }
+
+    reverse(rng(ans));
+    if (ans.empty()) ans = "0";
+    out(ans);
 }
 
 void solve() {

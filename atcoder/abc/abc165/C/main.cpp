@@ -88,7 +88,38 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
+ll N, M, Q, ans = 0;
+vec<ll> a, b, c, d;
+void dfs(vec<int>& v, int p) {
+    if (v[N-1]>0) {
+        ll n = 0;
+        rep(Q) if (v[b[i]-1] - v[a[i]-1] == c[i]) n += d[i];
+        chmax(ans, n);
+        return;
+    }
+
+    rep(i, v[p], M+1) {
+        v[p+1] = i;
+        dfs(v, p+1);
+    }
+    v[p+1] = 0;
+}
+
 void solve(long long N, long long M, long long Q, std::vector<long long> a, std::vector<long long> b, std::vector<long long> c, std::vector<long long> d) {
+    ::N = N;
+    ::M = M;
+    ::Q = Q;
+    ::a = a;
+    ::b = b;
+    ::c = c;
+    ::d = d;
+    vec<int> v(N, 0);
+    rep(i, 1, M+1) {
+        v[0] = i;
+        dfs(v, 0);
+    }
+
+    out(ans);
 }
 #else
 void solve() {

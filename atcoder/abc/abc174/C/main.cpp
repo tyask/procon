@@ -89,6 +89,18 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long K) {
+    set<int> s;
+    ll a = 0;
+    int ans = 0;
+    rep(K) {
+        ans++;
+        a = (a*10 + 7) % K;
+        if (a == 0) break;
+        if (s.count(a)>0) { ans = -1; break; }
+        s.insert(a);
+    }
+
+    out(ans);
 }
 #else
 void solve() {

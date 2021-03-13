@@ -81,7 +81,7 @@ template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; retur
 template<class T, class U> bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
 ll gcd(ll a, ll b){ while(b){ ll c = b; b = a % b; a = c; } return a; }
 ll lcm(ll a, ll b){ if(!a || !b) return 0; return a * b / gcd(a, b); }
-ll pow(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; a *= n; n >>= 1; } return ans; }
+// ll pow(ll n, ll k){ ll ans = 1; while(k){ if(k & 1) ans *= n; a *= n; n >>= 1; } return ans; }
 ll powmod(ll n, ll k, ll m){ ll ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
 ll mod(ll n, ll m) { ll r = n % m; return (r < 0) ? r + m : r; }
 
@@ -100,7 +100,51 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
+ll A, B, C, N;
+vec<ll> l;
+int ans = INF;
+void dfs(int idx, int a, int b, int c, int mp) {
+    if (idx == l.size()) {
+        if (a==0||b==0||c==0) return;
+        chmin(ans, abs(A-a)+abs(B-b)+abs(C-c)+mp - 30);
+        return;
+    }
+
+    dfs(idx+1, a, b, c, mp);
+    dfs(idx+1, a+l[idx], b, c, mp+10);
+    dfs(idx+1, a, b+l[idx], c, mp+10);
+    dfs(idx+1, a, b, c+l[idx], mp+10);
+}
+
+void dfs2(int depth, vec<int> v) {
+    if (depth == N) {
+        vec<int> b(3);
+        int mp = 0;
+        rep(N) {
+            if (v[i]>0) {
+                b[v[i]-1] += l[i];
+                mp += 10;
+            }
+        }
+        if (count(rng(b), 0)>0) {
+            return;
+        }
+
+        chmin(ans, abs(b[0]-A)+abs(b[1]-B)+abs(b[2]-C)+mp-30);
+        return;
+    }
+
+    rep(4) {
+        v[depth] = i;
+        dfs2(depth+1, v);
+    }
+}
+
 void solve(long long N, long long A, long long B, long long C, std::vector<long long> l) {
+    ::N = N, ::A = A, ::B = B, ::C = C, ::l = l;
+    // dfs(0, 0, 0, 0, 0);
+    dfs2(0, vec<int>(N));
+    out(ans);
 }
 #else
 void solve() {

@@ -88,6 +88,7 @@ template <typename T> ostream& operator<<(ostream& os, const vector<T>& c) { ret
 template <typename T> ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
 
 template <typename Cont> auto sum(const Cont& c) { return accumulate(rng(c), 0LL); };
+template <typename T> auto sum(const initializer_list<T>& c) { return sum(vec<T>(c)); };
 template <typename Cont> auto max(const Cont& c) { return *max_element(rng(c)); };
 template <typename Cont> auto min(const Cont& c) { return *min_element(rng(c)); };
 template <typename Cont> auto sort(Cont& c) { sort(rng(c)); };
@@ -116,6 +117,9 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long A, long long B, long long C, long long D, long long E) {
+    ll m = min({A, B, C, D, E});
+    ll ans = 5 + ((N+m-1) / m - 1);
+    out(ans);
 }
 
 void solve() {
