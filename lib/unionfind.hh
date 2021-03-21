@@ -9,7 +9,7 @@ struct UnionFind {
     template<typename K, typename V> using map = std::map<K, V>;
     vec<int> d;
 
-    UnionFind(int n=0): d(n,-1) {}
+    UnionFind(int n): d(n,-1) {}
 
     int find(int x) {
         if (d[x] < 0) return x;
@@ -26,8 +26,8 @@ struct UnionFind {
     }
 
     bool same(int x, int y) { return find(x) == find(y);}
-
     int size(int x) { return -d[find(x)];}
+    void reset() { fill(d.begin(), d.end(), -1); }
 
     vec<vec<int>> groups() {
         int n = d.size();

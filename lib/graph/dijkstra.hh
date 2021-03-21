@@ -15,8 +15,9 @@ struct dijkstra {
     int n;
     vec<vec<edge>> g;
     vec<ll> d;
+    vec<ll> prev;
 
-    dijkstra(int n) : n(n), g(n), d(n) {};
+    dijkstra(int n) : n(n), g(n) {};
 
     dijkstra& add(int from, edge e) {
         assert(0<=from && from<n && 0<=e.to && e.to<n);
@@ -25,10 +26,11 @@ struct dijkstra {
     }
 
     void run(int s) {
-        assert(0<=s && s<= n);
+        assert(0<=s && s<n);
         using P = pair<ll, int>; // cost, node
         priority_queue<P, vec<P>, greater<P>> que;
-        fill(d.begin(), d.end(), LINF);
+        d.resize(n, LINF);
+        prev.resize(n, -1);
         d[s] = 0;
         que.emplace(0, s);
         while (!que.empty()) {
@@ -37,9 +39,17 @@ struct dijkstra {
             for (edge e : g[v]) {
                 if (chmin(d[e.to], d[v] + e.cost)) {
                     que.emplace(d[e.to], e.to);
+                    prev[e.to] = v;
                 }
             }
         }
+    }
+
+    vector<int> shortest_path(int t) {
+        vector<int> path;
+        for (; t != -1; t = prev[t]) path.push_back(t);
+        reverse(path.begin(), path.end());
+        return path;
     }
 
 };

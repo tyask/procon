@@ -11,7 +11,7 @@
                 "${workspaceFolder}/bin/${fileBasenameNoExtension}",
                 "-I${workspaceFolder}/ext/ac-library",
                 "-I${workspaceFolder}/ext/googletest/googletest/include",
-                "-I${workspaceFolder}/tools/lib",
+                "-I${workspaceFolder}/lib",
                 "-L${workspaceFolder}/ext/googletest/lib",
                 "-lgtest",
                 "-lpthread",

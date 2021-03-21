@@ -1,10 +1,9 @@
-#pragma region lib
+#include <bits/stdc++.h>
+namespace {
 #pragma GCC diagnostic ignored "-Wunused-result"
 #pragma GCC diagnostic ignored "-Wunused-function"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
-
-#include <bits/stdc++.h>
+#pragma GCC diagnostic ignored "-Wunused-variable"
 
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
@@ -120,7 +119,13 @@ TEMPLATE(N) N floor(N a, N b) { return a / b; }
 TEMPLATE(N) N ceil(N a, N b) { return (a + b - 1) / b; }
 TEMPLATE(N) size_t popcount(N n) { return bitset<sizeof(N)>(n).count(); }
 
-struct setupio { setupio() { ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0); cout << fixed << setprecision(15); } } setupio;
+struct setupio {
+    setupio() {
+        // ios_base::sync_with_stdio(0);
+        cin.tie(0), cout.tie(0);
+        cout << fixed << setprecision(15);
+    }
+} setupio;
 
 #define YESNO(y, n) void y(bool b=true) { out(b?#y:#n); } void n(bool b=true) { y(!b); }
 YESNO(YES, NO)
@@ -129,7 +134,7 @@ YESNO(yes, no)
 YESNO(POSSIBLE, IMPOSSIBLE)
 YESNO(Possible, Impossible)
 
-#pragma endregion lib
+}
 
 #define __ATCODER__ 0
 
