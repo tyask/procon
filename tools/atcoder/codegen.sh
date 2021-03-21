@@ -31,6 +31,7 @@ if [ -f $src ]; then
 """The src file already exists: $src.
 Can I continue to overwrite the src file? (y/n): """ ans
     case ${ans:0:1} in
+        y|Y) ;;
         n|N) exit 0;;
         *) ;;
     esac

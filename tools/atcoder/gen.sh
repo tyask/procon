@@ -35,6 +35,7 @@ if [ -d "$contest_dir" ]; then
 """The contest directory already exists: $contest_dir.
 Can I continue to generate contest directory? (y/n): """ ans
     case ${ans:0:1} in
+        y|Y) ;;
         n|N) exit 0;;
         *) ;;
     esac

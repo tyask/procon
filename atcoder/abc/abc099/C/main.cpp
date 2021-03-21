@@ -125,46 +125,47 @@ YESNO(possible, impossible)
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
-ll N;
-int dfs(int n) {
-    if (n == 0) return 1;
-    else if (n < 0) return INF;
-    int m = n;
-    rep(i, 1, 10) {
-        chmin(m, dfs(n-powint(6, i)) + 1);
-    }
-    rep(i, 1, 10) {
-        chmin(m, dfs(n-powint(9, i)) + 1);
-    }
-
-    return m;
-}
+const int M = 100001;
 void solve(long long N) {
-    int ans = INF;
-    rep(i, 0, 10) {
-        rep(j, 0, 10) {
-            int p6 = (i == 0) ? 0 : powint(6, i);
-            int p9 = (j == 0) ? 0 : powint(9, j);
-            int val = p6 + p9;
-            if (val <= N) {
-                int c = 0;
-                c += (i == 0) ? 0 : 1;
-                c += (j == 0) ? 0 : 1;
-                c += N - val;
-                out(ans, i, j, p6, p9, val);
-                chmin(ans, c);
-            } else {
-                break;
-            }
-        }
+    vec<int> mem(M, -1);
+    function<int(int)> dfs = [&](int n) {
+        if (n == 0) return 0;
+        if (mem[n]>=0) return mem[n];
+        int a = n;
+        for(int p = 1; p <= n; p *= 6) chmin(a, dfs(n-p) + 1);
+        for(int p = 1; p <= n; p *= 9) chmin(a, dfs(n-p) + 1);
+        return mem[n] = a;
+    };
+
+    out(dfs(N));
+}
+
+// 貰うDP
+void solve2(ll N) {
+    vec<int> dp(M, N);
+    dp[0] = 0;
+    erep(i, 1, N) {
+        for(int p = 1; p <= i; p *= 6) chmin(dp[i], dp[i-p]+1);
+        for(int p = 1; p <= i; p *= 9) chmin(dp[i], dp[i-p]+1);
     }
-    out(ans);
+    out(dp[N]);
+}
+
+// 配るDP
+void solve3(ll N) {
+    vec<int> dp(M, N);
+    dp[0] = 0;
+    erep(i, 0, N) {
+        for(int p = 1; i+p <= N; p *= 6) chmin(dp[i+p], dp[i]+1);
+        for(int p = 1; i+p <= N; p *= 9) chmin(dp[i+p], dp[i]+1);
+    }
+    out(dp[N]);
 }
 
 void solve() {
     long long N;
     scanf("%lld",&N);
-    solve(N);
+    solve3(N);
 }
 #else
 void solve() {

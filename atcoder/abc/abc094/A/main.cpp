@@ -114,6 +114,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long A, long long B, long long X) {
+    YES(A<=X&&X<=A+B);
 }
 
 void solve() {

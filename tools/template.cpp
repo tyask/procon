@@ -1,9 +1,11 @@
+#pragma region lib
 #pragma GCC diagnostic ignored "-Wunused-result"
 #pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
 
 #include <bits/stdc++.h>
 
-namespace {
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
 #define overload2(_1,_2,name,...) name
@@ -33,6 +35,7 @@ const int    dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 
 #define PB push_back
 #define MP make_pair
+#define MT make_tuple
 #define FI first
 #define SE second
 
@@ -44,24 +47,25 @@ const int    dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 #define CHR(...)  char   __VA_ARGS__; in(__VA_ARGS__)
 #define DBL(...)  double __VA_ARGS__; in(__VA_ARGS__)
 #define VEC(type, name, size) vec<type>  name(size);           in(name)
-#define VV(type,name, h, w)   vvec<type> name(h,vec<type>(w)); in(name)
+#define vv(type, name, h, ...) vvec<type> name(h, vec<type>(__VA_ARGS__))
+#define VV(type, name, h, w)   vv(type, name, h, w); in(name)
 
-#define rep1(n)       for(int i=0; i<n; ++i)
-#define rep2(i,n)     for(int i=0; i<n; ++i)
-#define rep3(i,a,b)   for(int i=a; i<b; ++i)
-#define rep4(i,a,b,c) for(int i=a; i<b; i+=c)
+#define rep1(n)       for(ll i=0; i<n; ++i)
+#define rep2(i,n)     for(ll i=0; i<n; ++i)
+#define rep3(i,a,b)   for(ll i=a; i<b; ++i)
+#define rep4(i,a,b,c) for(ll i=a; i<b; i+=c)
 #define rep(...) overload4(__VA_ARGS__,rep4,rep3,rep2,rep1)(__VA_ARGS__)
 
-#define rrep1(n)       for(int i=(n)-1; i>=0;   --i)
-#define rrep2(i,n)     for(int i=(n)-1; i>=0;   --i)
-#define rrep3(i,a,n)   for(int i=(n)-1; i>=(a); --i)
-#define rrep4(i,a,n,s) for(int i=a+(n-a-1)/s*s; i>=a; i-=s)
+#define rrep1(n)       for(ll i=(n)-1; i>=0;   --i)
+#define rrep2(i,n)     for(ll i=(n)-1; i>=0;   --i)
+#define rrep3(i,a,n)   for(ll i=(n)-1; i>=(a); --i)
+#define rrep4(i,a,n,s) for(ll i=a+(n-a-1)/s*s; i>=a; i-=s)
 #define rrep(...) overload4(__VA_ARGS__,rrep4,rrep3,rrep2,rrep1)(__VA_ARGS__)
 
-#define erep1(n)       for(int i=0; i<=n; ++i)
-#define erep2(i,n)     for(int i=0; i<=n; ++i)
-#define erep3(i,a,n)   for(int i=a; i<=n; ++i)
-#define erep4(i,a,n,s) for(int i=a; i<=n; i+=s)
+#define erep1(n)       for(ll i=0; i<=n; ++i)
+#define erep2(i,n)     for(ll i=0; i<=n; ++i)
+#define erep3(i,a,n)   for(ll i=a; i<=n; ++i)
+#define erep4(i,a,n,s) for(ll i=a; i<=n; i+=s)
 #define erep(...) overload4(__VA_ARGS__,erep4,erep3,erep2,erep1)(__VA_ARGS__)
 
 #define each(i, c) for (auto&& i : (c))
@@ -94,7 +98,9 @@ TEMPLATE(K, V) ostream& operator<<(ostream& os, const map<K, V>& c) { return wri
 TEMPLATE(T, U) ostream& operator<<(ostream& os, const pair<T, U>& p) { return os << p.first << ':' << p.second; }
 
 TEMPLATE(Cont) auto sum(const Cont& c) { return accumulate(rng(c), 0LL); }
-TEMPLATE(T)    auto sum(const initializer_list<T>& c) { return sum(vec<T>(c)); }
+TEMPLATE(N)    auto sum(const initializer_list<N>& c) { return sum(vec<N>(c)); }
+TEMPLATE(Cont) auto sumproduct(const Cont& c) { typename Cont::value_type v = 1; each(x, c) v*=x; return v; }
+TEMPLATE(N)    auto sumproduct(const initializer_list<N>& c) { return sumproduct(vec<N>(c)); }
 TEMPLATE(Cont) auto max(const Cont& c) { return *max_element(rng(c)); }
 TEMPLATE(Cont) auto min(const Cont& c) { return *min_element(rng(c)); }
 TEMPLATE(Cont) auto sort(Cont& c) { sort(rng(c)); }
@@ -102,7 +108,7 @@ TEMPLATE(Cont, Comp) auto sort(Cont& c, Comp comp) { sort(rng(c), comp); }
 TEMPLATE(Cont) auto reverse(Cont& c) { reverse(rng(c)); }
 TEMPLATE(T, U) bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
 TEMPLATE(T, U) bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
-TEMPLATE(T) vec<T> cumsum(const vec<T>& v) { vec<T> s(v.size()+1, 0); rep(v.size()) s[i+1] = s[i] + v[i]; return s; }
+TEMPLATE(N) vec<N> cumsum(const vec<N>& v) { vec<N> s(v.size()+1, 0); rep(v.size()) s[i+1] = s[i] + v[i]; return s; }
 TEMPLATE(T) vec<T> uniq(const vec<T>& v) { set<T> s(rng(v)); return vec<T>(rng(s)); }
 TEMPLATE(T, S)    T pop(queue<T, S>& q) { T t = q.front(); q.pop(); return t; }
 TEMPLATE(T, S, C) T pop(priority_queue<T, S, C>& q) { T t = q.top(); q.pop(); return t; }
@@ -112,6 +118,9 @@ TEMPLATE(N) N lcm(N a, N b){ if(!a || !b) return 0; return a / gcd(a, b) * b; }
 TEMPLATE(N) N powint(N n, N k){ N ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
 TEMPLATE(N) N floor(N a, N b) { return a / b; }
 TEMPLATE(N) N ceil(N a, N b) { return (a + b - 1) / b; }
+TEMPLATE(N) size_t popcount(N n) { return bitset<sizeof(N)>(n).count(); }
+
+struct setupio { setupio() { ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0); cout << fixed << setprecision(15); } } setupio;
 
 #define YESNO(y, n) void y(bool b=true) { out(b?#y:#n); } void n(bool b=true) { y(!b); }
 YESNO(YES, NO)
@@ -119,9 +128,8 @@ YESNO(Yes, No)
 YESNO(yes, no)
 YESNO(POSSIBLE, IMPOSSIBLE)
 YESNO(Possible, Impossible)
-YESNO(possible, impossible)
 
-}
+#pragma endregion lib
 
 #define __ATCODER__ 0
 

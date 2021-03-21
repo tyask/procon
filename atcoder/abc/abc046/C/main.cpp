@@ -116,6 +116,27 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, std::vector<long long> T, std::vector<long long> A) {
+    const ll MAX = powint(10, 18);
+    ll t = 0, a = 0;
+    rep(N) {
+        ll ti = T[i], ai = A[i];
+        ll l = 0, r = MAX+1;
+        while (l+1<r) {
+            ll m = (l+r)/2;
+            if (ti <= ai) {
+                m = (t+ti-1)/ti;
+            } else {
+                m = (a+ai-1)/ai;
+            }
+            ti *= m;
+            ai *= m;
+        }
+
+        t = ti;
+        a = ai;
+    }
+
+    out(t+a);
 }
 
 void solve() {

@@ -92,6 +92,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long N, long long X, std::vector<long long> m) {
+    out((X - sum(m)) / min(m) + N);
 }
 #else
 void solve() {

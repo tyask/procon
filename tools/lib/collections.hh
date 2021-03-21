@@ -13,7 +13,7 @@ template<typename T> set<T> andset(const set<T>& a, const set<T>& b) {
     return r;
 }
 
-template<typename T> set<T> unionset(const set<T>& a, const set<T>& b) {
+template<typename T> set<T> orset(const set<T>& a, const set<T>& b) {
     set<T> r;
     set_union(a.begin(), a.end(), b.begin(), b.end(), inserter(r, r.end()));
     return r;

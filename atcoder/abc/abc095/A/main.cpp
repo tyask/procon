@@ -92,6 +92,7 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(std::string S) {
+    out(700+count(rng(S), 'o')*100);
 }
 #else
 void solve() {
