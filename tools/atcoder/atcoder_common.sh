@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source $(dirname $0)/../common.sh
+source $(dirname ${BASH_SOURCE[0]})/../common.sh
 
-ROOT=$(realpath $(dirname $0)/../..)
-BASE_TEMPLATE=$(realpath $(dirname $0)/../template.cpp)
+ROOT=$(realpath $(dirname ${BASH_SOURCE[0]})/../..)
+BASE_TEMPLATE=$(realpath $(dirname ${BASH_SOURCE[0]})/../template.cpp)
 export ENABLE_PREDICTION=1
 
 function gen_atcoder_template() {
