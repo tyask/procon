@@ -16,8 +16,7 @@
                 "-lgtest",
                 "-lpthread",
                 "-std=c++17",
-                "-D__DEBUG__",
-                "-D__MULTIRUN__"
+                "-D__LOCAL__"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -52,8 +51,18 @@
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
-        }
-
+        },
+        {
+            "label": "CF Test",
+            "command": "/home/fumin/go/src/github.com/xalanq/cf-tool/cf",
+            "args": [
+                "test"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": []
+        },
     ],
     "version": "2.0.0"
 }

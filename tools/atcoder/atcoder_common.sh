@@ -4,10 +4,11 @@ source $(dirname $0)/../common.sh
 
 ROOT=$(realpath $(dirname $0)/../..)
 BASE_TEMPLATE=$(realpath $(dirname $0)/../template.cpp)
+export ENABLE_PREDICTION=1
 
 function gen_atcoder_template() {
     local template=$1
-    exe "sed 's/\(#define __ATCODER__\) 0/\1 1/' $BASE_TEMPLATE > $template"
+    exe "sed 's/\(#define __AUTO_GENERATE__\) 0/\1 1/' $BASE_TEMPLATE > $template"
 }
 
 function gen_workspace() {

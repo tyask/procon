@@ -13,7 +13,7 @@ BIN=$ROOT/bin/a.out
 TIMEOUT=2
 
 exe rm $BIN
-exe g++ $SRC -o $BIN -D__DEBUG__ -I$ROOT/lib/ac-library -std=c++17 -Wall
+exe g++ $SRC -o $BIN -I$ROOT/lib/ac-library -std=c++17 -Wall
 
 exe atcoder-tools test \
     -d $DIR \

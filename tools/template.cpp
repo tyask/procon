@@ -1,9 +1,48 @@
+#if !__INCLUDE_LEVEL__
+
+#include __FILE__
+
+#define __AUTO_GENERATE__ 0
+#if __AUTO_GENERATE__ == 1
+{% if prediction_success %}
+void solve({{ formal_arguments }}) {
+}
+
+void solve() {
+    {{input_part}}
+    solve({{ actual_arguments }});
+}
+{% else %}
+void solve() {
+}
+{% endif %}
+#else
+void solve() {
+}
+#endif
+
+int main() {
+#if __TEST__
+    rep(10) {
+        solve();
+        out("*****");
+    }
+#else
+    solve();
+#endif
+
+    return 0;
+}
+
+#else
+
+// template
 #include <bits/stdc++.h>
-namespace {
 #pragma GCC diagnostic ignored "-Wunused-result"
 #pragma GCC diagnostic ignored "-Wunused-function"
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #pragma GCC diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wsign-compare"
 
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...) name
@@ -75,15 +114,15 @@ const int    dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 #define rng3(i,a,b) begin(i)+a, begin(i)+b
 #define rng(...) overload3(__VA_ARGS__,rng3,rng2,rng1)(__VA_ARGS__)
 
-TEMPLATE(T) void scan(T& a){ cin >> a; }
-TEMPLATE(T) void scan(vec<T>& a, int n){ a.resize(n); for(auto&& i : a) scan(i); }
-TEMPLATE(T) void scan(vec<T>& a){ scan(a, a.size()); }
-TEMPLATE(T) void scan(vvec<T>& a){ for(auto&& v : a) scan(v); }
+TEMPLATE(T) void scan(T& a) { cin >> a; }
+TEMPLATE(T) void scan(vec<T>& a, int n) { a.resize(n); for(auto&& i : a) scan(i); }
+TEMPLATE(T) void scan(vec<T>& a) { scan(a, a.size()); }
+TEMPLATE(T) void scan(vvec<T>& a) { for(auto&& v : a) scan(v); }
 void scan_line(string& s) { getline(cin, s); }
-void in(){}
-TEMPLATE(Head, ...Tail) void in(Head& head, Tail&... tail){ scan(head); in(tail...); }
+void in() {}
+TEMPLATE(Head, ...Tail) void in(Head& head, Tail&... tail) { scan(head); in(tail...); }
 
-TEMPLATE(T) void out(ostream& os, T&& t) { os << t << endl; }
+TEMPLATE(T) void out(ostream& os, T&& t) { os << t << '\n'; }
 TEMPLATE(T) void outh(ostream& os, T&& t) { os << t << " "; }
 TEMPLATE(T, ...Args) void out(ostream& os, T&& head, Args&&... tail) { outh(os, head); out(os, tail...); };
 TEMPLATE(T, ...Args) void out(T&& head, Args&&... tail) { out(cout, head, tail...); }
@@ -91,6 +130,7 @@ const char* space_or_empty[] = {"", " "};
 TEMPLATE(Cont) ostream& write(ostream& os, const Cont& c) { itr(c) os << space_or_empty[it!=c.begin()] << *it; return os; }
 
 TEMPLATE(T)    ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
+TEMPLATE(T)    ostream& operator<<(ostream& os, const vvec<T>& c) { each(v, c) out(os, v); return os; }
 TEMPLATE(T)    ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
 TEMPLATE(T)    ostream& operator<<(ostream& os, const set<T>& c) { return write(os, c); }
 TEMPLATE(K, V) ostream& operator<<(ostream& os, const map<K, V>& c) { return write(os, c); }
@@ -105,19 +145,26 @@ TEMPLATE(Cont) auto min(const Cont& c) { return *min_element(rng(c)); }
 TEMPLATE(Cont) auto sort(Cont& c) { sort(rng(c)); }
 TEMPLATE(Cont, Comp) auto sort(Cont& c, Comp comp) { sort(rng(c), comp); }
 TEMPLATE(Cont) auto reverse(Cont& c) { reverse(rng(c)); }
-TEMPLATE(T, U) bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
-TEMPLATE(T, U) bool chmax(T& a, const U& b){ if(a < b){ a = b; return 1; } return 0; }
-TEMPLATE(N) vec<N> cumsum(const vec<N>& v) { vec<N> s(v.size()+1, 0); rep(v.size()) s[i+1] = s[i] + v[i]; return s; }
+TEMPLATE(T, U) bool chmin(T& a, const U& b) { if(a > b){ a = b; return 1; } return 0; }
+TEMPLATE(T, U) bool chmax(T& a, const U& b) { if(a < b){ a = b; return 1; } return 0; }
 TEMPLATE(T) vec<T> uniq(const vec<T>& v) { set<T> s(rng(v)); return vec<T>(rng(s)); }
 TEMPLATE(T, S)    T pop(queue<T, S>& q) { T t = q.front(); q.pop(); return t; }
 TEMPLATE(T, S, C) T pop(priority_queue<T, S, C>& q) { T t = q.top(); q.pop(); return t; }
 
-TEMPLATE(N) N gcd(N a, N b){ while(b){ N c = b; b = a % b; a = c; } return a; }
-TEMPLATE(N) N lcm(N a, N b){ if(!a || !b) return 0; return a / gcd(a, b) * b; }
-TEMPLATE(N) N powint(N n, N k){ N ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
-TEMPLATE(N) N floor(N a, N b) { return a / b; }
-TEMPLATE(N) N ceil(N a, N b) { return (a + b - 1) / b; }
-TEMPLATE(N) size_t popcount(N n) { return bitset<sizeof(N)>(n).count(); }
+TEMPLATE(N) N gcd(N a, N b)    { while(b){ N c = b; b = a % b; a = c; } return a; }
+TEMPLATE(N) N lcm(N a, N b)    { if(!a || !b) return 0; return a / gcd(a, b) * b; }
+TEMPLATE(N) N powint(N n, N k) { N ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
+TEMPLATE(N) N floor(N a, N b)  { return a / b; }
+TEMPLATE(N) N ceil(N a, N b)   { return (a + b - 1) / b; }
+TEMPLATE(N) N mod(N n, N m)    { N r = n % m; return (r < 0) ? r + m : r; }
+TEMPLATE(N) N powmod(N n, N k, N m) { N ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
+TEMPLATE(N) size_t popcount(N n)    { return bitset<sizeof(N)*8>(n).count(); }
+TEMPLATE(N) struct cumsum {
+    vec<N> s;
+    cumsum(const vec<N>& v): s(v.size()+1) { rep(v.size()) s[i+1]=s[i]+v[i]; }
+    N operator()(int l, int r) { return s[r]-s[l]; }
+    N operator[](int i) { return s[i]; }
+};
 
 struct setupio {
     setupio() {
@@ -134,37 +181,4 @@ YESNO(yes, no)
 YESNO(POSSIBLE, IMPOSSIBLE)
 YESNO(Possible, Impossible)
 
-}
-
-#define __ATCODER__ 0
-
-#if __ATCODER__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
-}
-
-void solve() {
-    {{input_part}}
-    solve({{ actual_arguments }});
-}
-{% else %}
-void solve() {
-}
-{% endif %}
-#else
-void solve() {
-}
 #endif
-
-int main() {
-#if __MULTIRUN__
-    rep(10) {
-        solve();
-        out("*****");
-    }
-#else
-    solve();
-#endif
-
-    return 0;
-}

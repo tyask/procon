@@ -1,3 +1,6 @@
+[codestyle]
+code_generator_file="~/work/procon/tools/atcoder/cpp_template_generator.py"
+
 [etc]
 in_example_format="data/in_{}.txt"
 out_example_format="data/out_{}.txt"

@@ -49,8 +49,6 @@ template<long long M> std::ostream& operator<<(std::ostream& os, const mint<M>& 
 using mint1000000007 = mint<1000000007>;
 using mint998244353  = mint<998244353>;
 
-// ll powmod(ll n, ll k, ll m){ ll ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
-// ll mod(ll n, ll m) { ll r = n % m; return (r < 0) ? r + m : r; }
 
 }
 
