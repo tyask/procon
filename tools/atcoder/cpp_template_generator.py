@@ -1,5 +1,6 @@
 from typing import Dict, Any, Optional
 
+import os
 from atcodertools.codegen.code_style_config import CodeStyleConfig
 from atcodertools.codegen.models.code_gen_args import CodeGenArgs
 from atcodertools.codegen.template_engine import render
@@ -17,7 +18,7 @@ def _loop_header(var: Variable, for_second_index: bool):
         index = var.first_index
         loop_var = "i"
 
-    return "for(int {loop_var} = 0 ; {loop_var} < {length} ; {loop_var}++){{".format(
+    return "rep({loop_var}, {length})".format(
         loop_var=loop_var,
         length=index.get_length()
     )
@@ -38,7 +39,10 @@ class CppCodeGenerator:
         return dict(formal_arguments=self._formal_arguments(),
                     actual_arguments=self._actual_arguments(),
                     input_part=self._input_part(),
-                    prediction_success=True)
+                    prediction_success=self._enable_prediction())
+
+    def _enable_prediction(self):
+        return os.getenv('ENABLE_PREDICTION')
 
     def _input_part(self):
         lines = []
@@ -48,18 +52,18 @@ class CppCodeGenerator:
 
     def _convert_type(self, type_: Type) -> str:
         if type_ == Type.float:
-            return "long double"
+            return "double"
         elif type_ == Type.int:
-            return "long long"
+            return "ll"
         elif type_ == Type.str:
-            return "std::string"
+            return "str"
         else:
             raise NotImplementedError
 
     def _get_declaration_type(self, var: Variable):
         ctype = self._convert_type(var.type)
         for _ in range(var.dim_num()):
-            ctype = 'std::vector<{}>'.format(ctype)
+            ctype = 'vec<{}>'.format(ctype)
         return ctype
 
     def _actual_arguments(self) -> str:
@@ -67,7 +71,7 @@ class CppCodeGenerator:
             :return the string form of actual arguments e.g. "N, K, a"
         """
         return ", ".join([
-            v.name if v.dim_num() == 0 else 'std::move({})'.format(v.name)
+            v.name if v.dim_num() == 0 else 'move({})'.format(v.name)
             for v in self._format.all_vars()])
 
     def _formal_arguments(self):
@@ -86,7 +90,7 @@ class CppCodeGenerator:
         :return: Create declaration part E.g. array[1..n] -> std::vector<int> array = std::vector<int>(n-1+1);
         """
         if var.dim_num() == 0:
-            dims = []
+            return None
         elif var.dim_num() == 1:
             dims = [var.first_index.get_length()]
         elif var.dim_num() == 2:
@@ -103,7 +107,7 @@ class CppCodeGenerator:
             ctor = '({})'.format(dims[-1])
             ctype = self._convert_type(var.type)
             for dim in dims[-2::-1]:
-                ctype = 'std::vector<{}>'.format(ctype)
+                ctype = 'vec<{}>'.format(ctype)
                 ctor = '({}, {}{})'.format(dim, ctype, ctor)
 
         line = "{decl_type} {name}{constructor};".format(
@@ -116,13 +120,17 @@ class CppCodeGenerator:
     def _input_code_for_var(self, var: Variable) -> str:
         name = self._get_var_name(var)
         if var.type == Type.float:
-            return 'scanf("%Lf",&{name});'.format(name=name)
+            return 'DBL({name});'.format(name=name)
         elif var.type == Type.int:
-            return 'scanf("%lld",&{name});'.format(name=name)
+            return 'LL({name});'.format(name=name)
         elif var.type == Type.str:
-            return 'std::cin >> {name};'.format(name=name)
+            return 'STR({name});'.format(name=name)
         else:
             raise NotImplementedError
+
+    def _input_code_for_declared_var(self, var: Variable) -> str:
+        name = self._get_var_name(var)
+        return 'in({name});'.format(name=name)
 
     @staticmethod
     def _get_var_name(var: Variable):
@@ -136,26 +144,26 @@ class CppCodeGenerator:
     def _render_pattern(self, pattern: Pattern):
         lines = []
         for var in pattern.all_vars():
-            lines.append(self._generate_declaration(var))
+            decl = self._generate_declaration(var)
+            if decl:
+                lines.append(decl)
 
         representative_var = pattern.all_vars()[0]
         if isinstance(pattern, SingularPattern):
             lines.append(self._input_code_for_var(representative_var))
         elif isinstance(pattern, ParallelPattern):
-            lines.append(_loop_header(representative_var, False))
+            line = _loop_header(representative_var, False) + ' { '
             for var in pattern.all_vars():
-                lines.append("{indent}{line}".format(indent=self._indent(1),
-                                                     line=self._input_code_for_var(var)))
-            lines.append("}")
+                line += '{input} '.format(input=self._input_code_for_declared_var(var))
+            line += '}'
+            lines.append(line)
         elif isinstance(pattern, TwoDimensionalPattern):
-            lines.append(_loop_header(representative_var, False))
-            lines.append(
-                "{indent}{line}".format(indent=self._indent(1), line=_loop_header(representative_var, True)))
+            line = _loop_header(representative_var, False) + ' '
+            line += _loop_header(representative_var, True) + ' { '
             for var in pattern.all_vars():
-                lines.append("{indent}{line}".format(indent=self._indent(2),
-                                                     line=self._input_code_for_var(var)))
-            lines.append("{indent}}}".format(indent=self._indent(1)))
-            lines.append("}")
+                line += '{input} '.format(input=self._input_code_for_declared_var(var))
+            line += '}'
+            lines.append(line)
         else:
             raise NotImplementedError
 

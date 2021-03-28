@@ -1,4 +1,5 @@
-#if !__INCLUDE_LEVEL__
+#ifndef INCLUDE_MAIN
+#define INCLUDE_MAIN
 
 #include __FILE__
 

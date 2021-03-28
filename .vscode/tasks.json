@@ -16,7 +16,7 @@
                 "-lgtest",
                 "-lpthread",
                 "-std=c++17",
-                "-D__LOCAL__"
+                "-D__TEST__"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
