@@ -32,7 +32,7 @@
         },
         {
             "label": "AtCoderTools Test",
-            "command": "./tools/atcoder/test.sh",
+            "command": "tools/atcoder/test.sh",
             "args": [
                 "${fileDirname}"
             ],

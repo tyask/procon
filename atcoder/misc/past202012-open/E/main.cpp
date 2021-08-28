@@ -145,8 +145,45 @@ YESNO(Possible, Impossible)
 #if __ATCODER__ == 1
 void solve() {
     INT(H, W);
-    VV(char, S, H, W);
-    VV(char, T, H, W);
+    VEC(str, S, H);
+    VEC(str, T, H);
+
+    int h = H, w = W;
+    bool ans = false;
+    rep(r, 4) {
+        int tl=INF, tr=0, tt=INF, tb=0;
+        rep(i,h)rep(j,w)if(T[i][j]=='#') {
+            chmin(tl, j);
+            chmax(tr, j);
+            chmin(tt, i);
+            chmax(tb, i);
+        }
+
+        int th = tb-tt+1, tw = tr-tl+1;
+
+        bool ok = false;
+        rep(i,H)rep(j,W) {
+            if (i+th>H||j+tw>W) continue;
+            bool ok2 = true;
+            rep(di,th)rep(dj,tw) {
+                int si = i+di, sj = j+dj;
+                int ti = tt+di, tj = tl+dj;
+                // out(si,sj,ti,tj,T.size(),T[0].size());
+                if (S[si][sj]=='#'&&T[ti][tj]=='#') ok2 = false;
+            }
+
+            if (ok2) ok = true;
+        }
+
+        if (ok) ans = true;
+
+        vec<str> t(w, str(h, ' '));
+        rep(i,h)rep(j,w) t[j][h-i-1]=T[i][j];
+        T = t;
+        swap(h, w);
+    }
+
+    Yes(ans);
 }
 #else
 void solve() {

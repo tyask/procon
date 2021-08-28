@@ -144,6 +144,27 @@ YESNO(Possible, Impossible)
 
 #if __ATCODER__ == 1
 void solve(std::string S, long long X) {
+    int n = S.size();
+    vec<ll> dp(n+1);
+    vec<char> c(n+1);
+    dp[0] = 0;
+    rep(n) {
+        if (isdigit(S[i])) dp[i+1] = dp[i]+(S[i]-'0')*dp[i];
+        else { dp[i+1] = dp[i]+1; c[i+1]=S[i]; }
+    }
+
+    char ans = 0;
+    while(1) {
+        int p = distance(dp.begin(), lower_bound(rng(dp), X));
+        if (c[p]) {
+            ans = c[p];
+            break;
+        }
+
+        X=(X-1)%dp[p-1]+1;
+    }
+
+    out(ans);
 }
 
 void solve() {

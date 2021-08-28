@@ -37,23 +37,26 @@ template<typename MINT> using comb = combination<MINT>;
 
 namespace math {
 
+// パスカルの三角形によりnCkを計算
 struct combination {
-private:
     using ll = long long;
-    std::vector<ll> facts;
+    template<typename T> using vec = std::vector<T>;
+    vec<vec<ll>> m;
 
-public:
-    combination(int n) : facts(n+1) {
-        facts[0] = 1;
-        for (int i = 1; i <= n; ++i) facts[i] = facts[i-1]*i;
+    combination(int n) : m(n+1, vec<ll>(n+1)) {
+        m[0][0] = 1;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                m[i+1][j] += m[i][j];
+                m[i+1][j+1] += m[i][j];
+            }
+        }
     }
 
     ll operator()(int n, int k) const {
         if (k < 0 || k > n) return 0;
-        return fact(n) / (fact(k) * fact(n-k));
+        return m[n][k];
     }
-
-    ll fact(int k) const { return facts.at(k); }
 
 };
 
