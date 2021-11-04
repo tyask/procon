@@ -7,13 +7,13 @@ namespace {
 #pragma GCC diagnostic ignored "-Wsign-compare"
 
 #define overload4(_1,_2,_3,_4,name,...) name
-#define overload3(_1,_2,_3,name,...) name
-#define overload2(_1,_2,name,...) name
+#define overload3(_1,_2,_3,name,...)    name
+#define overload2(_1,_2,name,...)       name
 
-#define template1(t) template<typename t>
-#define template2(t, u) template<typename t, typename u>
+#define template1(t)       template<typename t>
+#define template2(t, u)    template<typename t, typename u>
 #define template3(t, u, v) template<typename t, typename u, typename v>
-#define TEMPLATE(...) overload3(__VA_ARGS__, template3, template2, template1)(__VA_ARGS__)
+#define TEMPLATE(...)      overload3(__VA_ARGS__, template3, template2, template1)(__VA_ARGS__)
 
 using namespace std;
 using ll   = long long;
@@ -22,12 +22,12 @@ using uint = unsigned int;
 using str  = string;
 using pii  = pair<int, int>;
 using pll  = pair<ll, ll>;
-TEMPLATE(T) using vec = vector<T>;
+TEMPLATE(T) using vec  = vector<T>;
 TEMPLATE(T) using vvec = vec<vec<T>>;
+TEMPLATE(T) using pq   = priority_queue<T>; // descending
+TEMPLATE(T) using pqg  = priority_queue<T, vec<T>, greater<T>>; // ascending
 
-const ll     LINF = LLONG_MAX/3;
-const int    INF  = INT_MAX/2-100;
-const double DINF = numeric_limits<double>::infinity();
+TEMPLATE(N) static constexpr N inf = numeric_limits<N>::max() / 2;
 const double EPS  = 1e-9;
 const double PI   = 3.1415926535897932;
 const int    dx[] = {0, 1, 0, -1, 1, 1, -1, -1};
@@ -46,7 +46,7 @@ const int    dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 #define LINE(...) string __VA_ARGS__; scan_line(__VA_ARGS__)
 #define CHR(...)  char   __VA_ARGS__; in(__VA_ARGS__)
 #define DBL(...)  double __VA_ARGS__; in(__VA_ARGS__)
-#define VEC(type, name, size) vec<type>  name(size);           in(name)
+#define VEC(type, name, size)  vec<type>  name(size); in(name)
 #define vv(type, name, h, ...) vvec<type> name(h, vec<type>(__VA_ARGS__))
 #define VV(type, name, h, w)   vv(type, name, h, w); in(name)
 
@@ -69,7 +69,7 @@ const int    dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 #define erep(...) overload4(__VA_ARGS__,erep4,erep3,erep2,erep1)(__VA_ARGS__)
 
 #define each(i, c) for (auto&& i : (c))
-#define itr(c) for (auto it = begin(c); it != end(c); ++it)
+#define itr(c)     for (auto it = begin(c); it != end(c); ++it)
 
 #define rng1(i)     begin(i),   end(i)
 #define rng2(i,a)   begin(i),   begin(i)+a
@@ -88,8 +88,8 @@ TEMPLATE(T) void out(ostream& os, T&& t) { os << t << '\n'; }
 TEMPLATE(T) void outh(ostream& os, T&& t) { os << t << " "; }
 TEMPLATE(T, ...Args) void out(ostream& os, T&& head, Args&&... tail) { outh(os, head); out(os, tail...); };
 TEMPLATE(T, ...Args) void out(T&& head, Args&&... tail) { out(cout, head, tail...); }
-const char* space_or_empty[] = {"", " "};
-TEMPLATE(Cont) ostream& write(ostream& os, const Cont& c) { itr(c) os << space_or_empty[it!=c.begin()] << *it; return os; }
+const char* empty_or_space[] = {"", " "};
+TEMPLATE(Cont) ostream& write(ostream& os, const Cont& c) { itr(c) os << empty_or_space[it!=c.begin()] << *it; return os; }
 
 TEMPLATE(T)    ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
 TEMPLATE(T)    ostream& operator<<(ostream& os, const vvec<T>& c) { each(v, c) out(os, v); return os; }
@@ -98,7 +98,7 @@ TEMPLATE(T)    ostream& operator<<(ostream& os, const set<T>& c) { return write(
 TEMPLATE(K, V) ostream& operator<<(ostream& os, const map<K, V>& c) { return write(os, c); }
 TEMPLATE(T, U) ostream& operator<<(ostream& os, const pair<T, U>& p) { return os << p.first << ':' << p.second; }
 
-TEMPLATE(Cont) auto sum(const Cont& c) { return accumulate(rng(c), 0LL); }
+TEMPLATE(Cont) auto sum(const Cont& c) { return accumulate(rng(c), typename Cont::value_type(0LL)); }
 TEMPLATE(N)    auto sum(const initializer_list<N>& c) { return sum(vec<N>(c)); }
 TEMPLATE(Cont) auto sumproduct(const Cont& c) { typename Cont::value_type v = 1; each(x, c) v*=x; return v; }
 TEMPLATE(N)    auto sumproduct(const initializer_list<N>& c) { return sumproduct(vec<N>(c)); }
@@ -126,6 +126,14 @@ TEMPLATE(N) struct cumsum {
     cumsum(const vec<N>& v): s(v.size()+1) { rep(v.size()) s[i+1]=s[i]+v[i]; }
     N operator()(int l, int r) { return s[r]-s[l]; }
     N operator[](int i) { return s[i]; }
+};
+
+TEMPLATE(N) struct cumsum2d {
+    vvec<N> s;
+    cumsum2d(const vvec<N>& v): s(v.size()+1, vec<N>(v[0].size()+1)) {
+        rep(i,v.size())rep(j,v[i].size()) s[i+1][j+1] = s[i][j+1] + s[i+1][j] - s[i][j] + v[i][j];
+    }
+    N operator()(int x1, int x2, int y1, int y2) { return s[x2][y2] - s[x1][y2] - s[x2][y1] + s[x1][y1]; }
 };
 
 struct setupio {

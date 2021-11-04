@@ -35,20 +35,18 @@ public:
     mint operator/(const mint a) const { return mint(*this) /= a;}
 };
 
-template<long long MOD> using mint = modint<MOD>;
-template<long long M> bool operator==(mint<M> a, mint<M> b) { return a.val() == b.val(); }
-template<long long M> bool operator!=(mint<M> a, mint<M> b) { return a.val() != b.val(); }
-template<long long M> bool operator< (mint<M> a, mint<M> b) { return a.val() < b.val(); }
-template<long long M> bool operator> (mint<M> a, mint<M> b) { return a.val() > b.val(); }
-template<long long M> bool operator<=(mint<M> a, mint<M> b) { return a.val() <= b.val(); }
-template<long long M> bool operator>=(mint<M> a, mint<M> b) { return a.val() >= b.val(); }
+template<long long M> bool operator==(modint<M> a, modint<M> b) { return a.val() == b.val(); }
+template<long long M> bool operator!=(modint<M> a, modint<M> b) { return a.val() != b.val(); }
+template<long long M> bool operator< (modint<M> a, modint<M> b) { return a.val() < b.val(); }
+template<long long M> bool operator> (modint<M> a, modint<M> b) { return a.val() > b.val(); }
+template<long long M> bool operator<=(modint<M> a, modint<M> b) { return a.val() <= b.val(); }
+template<long long M> bool operator>=(modint<M> a, modint<M> b) { return a.val() >= b.val(); }
 
-template<long long M> std::istream& operator>>(std::istream& is, mint<M>& m) { return is >> m.val();}
-template<long long M> std::ostream& operator<<(std::ostream& os, const mint<M>& m) { return os << m.val();}
+template<long long M> std::istream& operator>>(std::istream& is, modint<M>& m) { return is >> m.val();}
+template<long long M> std::ostream& operator<<(std::ostream& os, const modint<M>& m) { return os << m.val();}
 
-using mint1000000007 = mint<1000000007>;
-using mint998244353  = mint<998244353>;
-
+using mint1000000007 = modint<1000000007>;
+using mint998244353  = modint<998244353>;
 
 }
 
