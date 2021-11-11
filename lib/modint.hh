@@ -4,8 +4,7 @@
 #include <bits/stdc++.h>
 namespace {
 
-template<long long M>
-struct modint {
+template<long long M> struct modint {
 private:
     using ll = long long;
     using mint = modint<M>;

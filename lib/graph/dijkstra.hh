@@ -8,7 +8,7 @@ template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; retur
 
 struct dijkstra {
     using ll = long long;
-    struct edge{ int to; ll cost; };
+    struct edge{ ll to; ll cost; };
     template<typename T> using vec = vector<T>;
     const ll LINF = LLONG_MAX/3;
 
@@ -19,7 +19,7 @@ struct dijkstra {
 
     dijkstra(int n) : n(n), g(n) {};
 
-    dijkstra& add(int from, edge e) {
+    dijkstra& add(ll from, edge e) {
         assert(0<=from && from<n && 0<=e.to && e.to<n);
         g.at(from).push_back(e);
         return *this;
@@ -45,7 +45,11 @@ struct dijkstra {
         }
     }
 
-    vector<int> shortest_path(int t) {
+    ll shortest_path(int t) {
+        return d[t];
+    }
+
+    vector<int> restore_shortest_path(int t) {
         vector<int> path;
         for (; t != -1; t = prev[t]) path.push_back(t);
         reverse(path.begin(), path.end());

@@ -3,12 +3,14 @@
 
 #include <bits/stdc++.h>
 
-using namespace std;
 namespace fumin {
-template<typename T> int binary_search(int ng, int ok, function<bool(T)> is_ok) {
+
+using namespace std;
+
+template<typename N> N bin_search(N ng, N ok, function<bool(N)> isok) {
     while (abs(ok-ng)>1) {
-        int mid = (ok+ng) / 2;
-        if (is_ok(mid)) ok = mid;
+        N mid = (ok+ng) / 2;
+        if (isok(mid)) ok = mid;
         else ng = mid;
     }
     return ok;

@@ -13,6 +13,7 @@ function gen_atcoder_template() {
 
 function gen_workspace() {
     local contest=$1
+    local suffix=$2
     local workspace=$ROOT/atcoder
     case $contest in
     abc*) workspace+=/abc;;
@@ -20,5 +21,5 @@ function gen_workspace() {
     agc*) workspace+=/agc;;
     *)    workspace+=/misc;;
     esac
-    echo $workspace
+    echo ${workspace}${suffix}
 }

@@ -147,6 +147,18 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll P) {
+    vec<ll> v(10+1);
+    v[1] = 1;
+    erep(i,1,9) v[i+1] = v[i]*(i+1);
+    ll ans = 0;
+    erep(i,1,10) {
+        if (P==0) break;
+        int k = 10-i+1;
+        ll r = P/v[k];
+        if (r > 0 && r <= 100) P -= r*v[k];
+        ans += r;
+    }
+    out(ans);
 }
 
 void solve() {

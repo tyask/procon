@@ -4,12 +4,12 @@
 #include <bits/stdc++.h>
 namespace {
 
-struct UnionFind {
+struct unionfind {
     template<typename T> using vec = std::vector<T>;
     template<typename K, typename V> using map = std::map<K, V>;
     vec<int> d;
 
-    UnionFind(int n): d(n,-1) {}
+    unionfind(int n): d(n,-1) {}
 
     int find(int x) {
         if (d[x] < 0) return x;

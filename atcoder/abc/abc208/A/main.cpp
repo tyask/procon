@@ -147,6 +147,7 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll A, ll B) {
+    Yes(A*6>=B&&A<=B);
 }
 
 void solve() {

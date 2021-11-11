@@ -147,6 +147,15 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll K, vec<ll> a) {
+    ll r = K/N;
+    ll k = K%N;
+    vec<ll> b(a);
+    sort(b);
+    ll t = k>0? b[k-1] : -1;
+    rep(N) {
+        if (a[i]<=t) out(r+1);
+        else out(r);
+    }
 }
 
 void solve() {

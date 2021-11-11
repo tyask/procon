@@ -19,6 +19,7 @@ using namespace std;
 using ll   = long long;
 using ull  = unsigned long long;
 using uint = unsigned int;
+using ld   = long double;
 using str  = string;
 using pii  = pair<int, int>;
 using pll  = pair<ll, ll>;
@@ -28,8 +29,8 @@ TEMPLATE(T) using pq   = priority_queue<T>; // descending
 TEMPLATE(T) using pqg  = priority_queue<T, vec<T>, greater<T>>; // ascending
 
 TEMPLATE(N) static constexpr N inf = numeric_limits<N>::max() / 2;
-const double EPS  = 1e-9;
-const double PI   = 3.1415926535897932;
+const ld EPS = 1e-9;
+const ld PI  = 3.1415926535897932;
 const int    dx[] = {0, 1, 0, -1, 1, 1, -1, -1};
 const int    dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 
@@ -113,6 +114,10 @@ TEMPLATE(T) vec<T> uniq(const vec<T>& v) { set<T> s(rng(v)); return vec<T>(rng(s
 TEMPLATE(T, S)    T pop(queue<T, S>& q) { T t = q.front(); q.pop(); return t; }
 TEMPLATE(T, S, C) T pop(priority_queue<T, S, C>& q) { T t = q.top(); q.pop(); return t; }
 
+void decrements() {}
+TEMPLATE(Cont) void decrements(Cont&& c) { rep(c.size()) c[i]--; }
+TEMPLATE(Cont, ...Tail) void decrements(Cont&& head, Tail&&... tail) { decrements(head); decrements(forward<Tail>(tail)...); }
+
 TEMPLATE(N) N gcd(N a, N b)    { while(b){ N c = b; b = a % b; a = c; } return a; }
 TEMPLATE(N) N lcm(N a, N b)    { if(!a || !b) return 0; return a / gcd(a, b) * b; }
 TEMPLATE(N) N powint(N n, N k) { N ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
@@ -121,6 +126,8 @@ TEMPLATE(N) N ceil(N a, N b)   { return (a + b - 1) / b; }
 TEMPLATE(N) N mod(N n, N m)    { N r = n % m; return (r < 0) ? r + m : r; }
 TEMPLATE(N) N powmod(N n, N k, N m) { N ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
 TEMPLATE(N) size_t popcount(N n)    { return bitset<sizeof(N)*8>(n).count(); }
+TEMPLATE(N) N sumae(N n, N a, N e) { return n * (a + e) / 2; }
+TEMPLATE(N) N sumad(N n, N a, N d) { return n * (2 * a + (n - 1) * d) / 2; }
 TEMPLATE(N) struct cumsum {
     vec<N> s;
     cumsum(const vec<N>& v): s(v.size()+1) { rep(v.size()) s[i+1]=s[i]+v[i]; }
@@ -133,8 +140,11 @@ TEMPLATE(N) struct cumsum2d {
     cumsum2d(const vvec<N>& v): s(v.size()+1, vec<N>(v[0].size()+1)) {
         rep(i,v.size())rep(j,v[i].size()) s[i+1][j+1] = s[i][j+1] + s[i+1][j] - s[i][j] + v[i][j];
     }
-    N operator()(int x1, int x2, int y1, int y2) { return s[x2][y2] - s[x1][y2] - s[x2][y1] + s[x1][y1]; }
+    N operator()(int i1, int i2, int j1, int j2) { return s[i2][j2] - s[i1][j2] - s[i2][j1] + s[i1][j1]; }
 };
+
+ld deg(ld rad) { return rad*180/PI; }
+ld rad(ld deg) { return deg*PI/180; }
 
 struct setupio {
     setupio() {

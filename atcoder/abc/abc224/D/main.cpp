@@ -147,6 +147,38 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll M, vec<ll> u, vec<ll> v, vec<ll> p) {
+    const int N = 9;
+    vvec<int> g(N);
+    rep(M) {
+        g[u[i]-1].push_back(v[i]-1);
+        g[v[i]-1].push_back(u[i]-1);
+    }
+
+    vec<ll> m(9, -1);
+    rep(8) m[p[i]-1] = i;
+    set<vec<ll>> s;
+
+    struct ob { int c; vec<ll> m; };
+    queue<ob> q;
+    q.push({0, m});
+    while (q.size()) {
+        ob o = pop(q);
+        if (o.m == vec<ll>{0,1,2,3,4,5,6,7,-1}) {
+            out(o.c);
+            return;
+        }
+
+        if (!s.insert(o.m).second) continue;
+
+        int e = find(rng(o.m), -1) - o.m.begin();
+        each(n, g[e]) {
+            vec<ll> m2 = o.m;
+            swap(m2[e], m2[n]);
+            q.push({o.c+1, m2});
+        }
+    }
+
+    out(-1);
 }
 
 void solve() {

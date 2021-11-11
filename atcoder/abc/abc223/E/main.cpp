@@ -147,6 +147,29 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll X, ll Y, ll A, ll B, ll C) {
+    bool ans = false;
+    vec<ll> v{A,B,C};
+    sort(v);
+    do {
+        auto [a, b, c] = tuple{v[0], v[1], v[2]};
+        rep(2) {
+            swap(X, Y);
+            ll y1 = ceil(a,X);
+            ll yd = Y-y1;
+            if (yd<=0) continue;
+
+            ll y2 = ceil(b,X);
+            if (y2<yd) {
+                ll y3 = Y-(y1+y2);
+                if (y3*X >= c) ans = true;
+            }
+
+            ll x1 = ceil(b,yd);
+            ll x2 = X-x1;
+            if (x2*yd >= c) ans = true;
+        }
+    } while (next_permutation(rng(v)));
+    Yes(ans);
 }
 
 void solve() {
