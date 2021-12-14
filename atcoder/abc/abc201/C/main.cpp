@@ -146,32 +146,24 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
-int comb(int n, int r) {
-    if (r == 0 || r == n) return 1;
-    else if (r == 1) return n;
-    else return comb(n-1, r-1) + comb(n-1, r);
-}
-
-ll fact(int n) {
-    ll r = 1;
-    erep(i, 1, n) r *= i;
-    return r;
-}
-
-ll perm(int n, int r) {
-    if (r <= 0) return 1;
-    return fact(n) / fact(n-r);
-}
-
 void solve(str S) {
-    map<char, int> m;
-    each(c, S) m[c]++;
-    ll ans = 0;
-    auto [mo, mq] = pair{m['o'], m['?']};
-    if (mo <= 4 || mo + mq >= 4) {
-        ans = perm(4, mo) * perm(mq, 4-mo);
+    set<char> req;
+    set<char> pos;
+    rep(S.size()) {
+        if (S[i]=='o') req.insert(i+'0');
+        else if (S[i]=='?') pos.insert(i+'0');
     }
 
+    ll ans = 0;
+    rep(10000) {
+        char buf[5]{0};
+        sprintf(buf, "%04lld", i);
+        set<char> cs(rng(buf, 4));
+        bool ok = true;
+        each(c, req) if (!cs.count(c)) ok = false;
+        each(c, cs) if (!(req.count(c) || pos.count(c))) ok = false;
+        if (ok) ans++;
+    }
     out(ans);
 }
 

@@ -6,8 +6,7 @@
 
 namespace mod {
 
-template<typename MINT>
-struct combination {
+template<typename MINT> struct combination {
 private:
     std::vector<MINT> facts, ifacts;
 

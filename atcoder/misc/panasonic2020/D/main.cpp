@@ -121,7 +121,37 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
+string normalize(string s) {
+    map<char, char> m;
+    string ret;
+    int cnt = 0;
+    each(c, s) ret += m.count(c) ? m[c] : m[c] = 'a'+cnt++;
+    return ret;
+}
 void solve(long long N) {
+    vec<int> m;
+    set<string> a;
+    auto dfs = [&](auto self, int n) {
+        if (m.size()==N) {
+            string s;
+            each(n, m) s += 'a' + n;
+            string ss = normalize(s);
+            if (a.insert(ss).second) {
+                out(ss);
+                return true;
+            }
+            return false;
+        }
+        rep(i,0,N) {
+            m.PB(i);
+            bool r = self(self, i);
+            m.pop_back();
+            if (!r) break;
+        }
+        return false;
+    };
+
+    dfs(dfs, 0);
 }
 
 void solve() {

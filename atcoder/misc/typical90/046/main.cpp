@@ -157,6 +157,19 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, vec<ll> A, vec<ll> B, vec<ll> C) {
+    const ll M = 46;
+    vvec<ll> m(3, vec<ll>(M));
+    rep(n, 3) {
+        vec<ll> v = vvec<ll>{A, B, C}[n];
+        rep(i,N) m[n][v[i]%M]++;
+    }
+
+    ll ans = 0;
+    rep(a,M) rep(b,M) rep(c,M) {
+        if ((a+b+c)%M==0) ans += m[0][a]*m[1][b]*m[2][c];
+    }
+
+    out(ans);
 }
 
 void solve() {

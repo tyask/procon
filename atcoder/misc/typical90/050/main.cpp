@@ -156,7 +156,80 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+template<long long M> struct modint {
+private:
+    using ll = long long;
+    using mint = modint<M>;
+
+    ll v;
+public:
+    static constexpr ll MOD = M;
+    modint(ll v=0):v((v%MOD+MOD)%MOD){}
+    ll val() const { return v; }
+
+    mint operator-() const { return mint(-v);}
+    mint& operator++() { v++; if (v == MOD) v = -1; return *this; }
+    mint& operator--() { if (v == -1) v = MOD; v--; return *this; }
+    mint operator++(int) { mint r = *this; ++*this; return r; }
+    mint operator--(int) { mint r = *this; --*this; return r; }
+
+    mint& operator+=(const mint a) { if ((v += a.v) >= MOD) v -= MOD; return *this; }
+    mint& operator-=(const mint a) { if ((v += MOD-a.v) >= MOD) v -= MOD; return *this; }
+    mint& operator*=(const mint a) { (v *= a.v) %= MOD; return *this;}
+    mint operator+(const mint a) const { return mint(*this) += a;}
+    mint operator-(const mint a) const { return mint(*this) -= a;}
+    mint operator*(const mint a) const { return mint(*this) *= a;}
+
+    mint pow(ll t) const { if (t==0) return 1; mint a = pow(t>>1); a *= a; if (t&1) a *= *this; return a; }
+    mint inv() const { return pow(MOD-2);}
+    mint& operator/=(const mint a) { return *this *= a.inv();}
+    mint operator/(const mint a) const { return mint(*this) /= a;}
+};
+
+template<long long M> bool operator==(modint<M> a, modint<M> b) { return a.val() == b.val(); }
+template<long long M> bool operator!=(modint<M> a, modint<M> b) { return a.val() != b.val(); }
+template<long long M> bool operator< (modint<M> a, modint<M> b) { return a.val() < b.val(); }
+template<long long M> bool operator> (modint<M> a, modint<M> b) { return a.val() > b.val(); }
+template<long long M> bool operator<=(modint<M> a, modint<M> b) { return a.val() <= b.val(); }
+template<long long M> bool operator>=(modint<M> a, modint<M> b) { return a.val() >= b.val(); }
+
+template<long long M> std::istream& operator>>(std::istream& is, modint<M>& m) { return is >> m.val();}
+template<long long M> std::ostream& operator<<(std::ostream& os, const modint<M>& m) { return os << m.val();}
+
+using mint1000000007 = modint<1000000007>;
+using mint998244353  = modint<998244353>;
+using mint = mint1000000007;
+
+template<typename MINT> struct combination {
+private:
+    std::vector<MINT> facts, ifacts;
+
+public:
+    combination(int n):facts(n+1),ifacts(n+1) {
+        assert(n < MINT::MOD);
+        facts[0] = 1;
+        for (int i = 1; i <= n; ++i) facts[i] = facts[i-1]*i;
+        ifacts[n] = facts[n].inv();
+        for (int i = n; i >= 1; --i) ifacts[i-1] = ifacts[i]*i;
+    }
+
+    MINT operator()(int n, int k) const {
+        assert(n < MINT::MOD);
+        if (k < 0 || k > n) return 0;
+        return fact(n)*ifact(k)*ifact(n-k);
+    }
+
+    MINT fact(int k) const { return facts.at(k); }
+    MINT ifact(int k) const { return ifacts.at(k); }
+
+};
+
 void solve(ll N, ll L) {
+    ll m = N / L;
+    combination<mint> comb(N);
+    mint ans;
+    erep(m) ans += comb(i+N-L*i, i);
+    out(ans);
 }
 
 void solve() {

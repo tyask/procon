@@ -157,6 +157,32 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll K) {
+    const ll M = N - 1;
+    ll g = 0;
+    erep(n,3*M) {
+        ll c = (min<ll>(n, n-N) - max<ll>(n-2*N, 0) + 1) * (N+1);
+        if (n-N<N) c += sumad<ll>(N-(n-N), N, -1);
+        if (K-c <= 0) {
+            g = n;
+            break;
+        }
+        K -= c;
+    }
+    out(g, K);
+
+    ll ai = 0;
+    erep(i,g) {
+        ll jn = g-i+1;
+        if (K-jn <= 0) {
+            ai = i;
+            break;
+        }
+        K -= jn;
+    }
+
+    ll aj = K - 1;
+    ll ak = g - (ai + aj);
+    out(ai+1, aj+1, ak+1);
 }
 
 void solve() {

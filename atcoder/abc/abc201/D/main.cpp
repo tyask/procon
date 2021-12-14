@@ -147,7 +147,49 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve() {
+    LL(H,W);
+    vec<str> A(H);
+    rep(H) cin >> A[i];
+    vvec<int> g(H, vec<int>(W));
+    rep(i,H)rep(j,W) g[i][j] = A[i][j]=='+' ? 1 : -1;
+
+    vvec<ll> mem(H, vec<ll>(W, -LINF));
+    auto f = [&](auto self, int i, int j) -> ll {
+        if (i==H-1&&j==W-1) return 0;
+        if (mem[i][j]!=-LINF) return mem[i][j];
+        if (i+1<H) chmax(mem[i][j], g[i+1][j]-self(self, i+1, j));
+        if (j+1<W) chmax(mem[i][j], g[i][j+1]-self(self, i, j+1));
+        return mem[i][j];
+    };
+
+    ll x = f(f, 0, 0);
+    if (x>0) out("Takahashi");
+    else if (x<0) out("Aoki");
+    else out("Draw");
 }
+
+void solve2() {
+    LL(H,W);
+    vec<str> A(H);
+    rep(H) cin >> A[i];
+    vvec<int> g(H, vec<int>(W));
+    rep(i,H)rep(j,W) g[i][j] = A[i][j]=='+' ? 1 : -1;
+
+    // 貰うDP
+    vvec<ll> dp(H, vec<ll>(W, -LINF));
+    dp[H-1][W-1] = 0;
+    rrep(i,H)rrep(j,W) {
+        if (i==H-1&&j==W-1) continue;
+        if (i+1<H) chmax(dp[i][j], g[i+1][j]-dp[i+1][j]);
+        if (j+1<W) chmax(dp[i][j], g[i][j+1]-dp[i][j+1]);
+    }
+
+    ll x = dp[0][0];
+    if (x>0) out("Takahashi");
+    else if (x<0) out("Aoki");
+    else out("Draw");
+}
+
 #else
 void solve() {
 }
@@ -160,7 +202,7 @@ int main() {
         out("*****");
     }
 #else
-    solve();
+    solve2();
 #endif
 
     return 0;

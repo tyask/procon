@@ -19,6 +19,7 @@ function gen_workspace() {
     abc*) workspace+=/abc;;
     arc*) workspace+=/arc;;
     agc*) workspace+=/agc;;
+    ahc*) workspace+=/ahc;;
     *)    workspace+=/misc;;
     esac
     echo ${workspace}${suffix}

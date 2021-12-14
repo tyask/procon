@@ -91,7 +91,107 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
+struct dijkstra {
+    using ll = long long;
+    struct edge{ ll to; ll cost; };
+    template<typename T> using vec = vector<T>;
+    const ll LINF = LLONG_MAX/3;
+
+    int n;
+    vec<vec<edge>> g;
+    vec<ll> d;
+    vec<ll> prev;
+
+    dijkstra(int n) : n(n), g(n) {};
+
+    dijkstra& add(ll from, edge e) {
+        assert(0<=from && from<n && 0<=e.to && e.to<n);
+        g.at(from).push_back(e);
+        return *this;
+    }
+
+    void run(int s) {
+        assert(0<=s && s<n);
+        using P = pair<ll, int>; // cost, node
+        priority_queue<P, vec<P>, greater<P>> que;
+        d.resize(n, LINF);
+        prev.resize(n, -1);
+        d[s] = 0;
+        que.emplace(0, s);
+        while (!que.empty()) {
+            auto [cost, v] = que.top(); que.pop();
+            if (d[v] < cost) continue;
+            for (edge e : g[v]) {
+                if (chmin(d[e.to], d[v] + e.cost)) {
+                    que.emplace(d[e.to], e.to);
+                    prev[e.to] = v;
+                }
+            }
+        }
+    }
+
+    ll shortest_path(int t) {
+        return d[t];
+    }
+
+    vector<int> restore_shortest_path(int t) {
+        vector<int> path;
+        for (; t != -1; t = prev[t]) path.push_back(t);
+        reverse(path.begin(), path.end());
+        return path;
+    }
+
+};
+
 void solve(long long N, long long M, std::vector<long long> u, std::vector<long long> v, long long S, long long T) {
+    rep(M) u[i]--, v[i]--;
+    S--, T--;
+    vvec<ll> g(N);
+    rep(M) g[u[i]].push_back(v[i]);
+
+    queue<tuple<ll, ll, ll>> q;
+    ll ans = -1;
+    vec<ll> vis(N);
+    q.emplace(S, 3, 1);
+    vis[S] = 1;
+    while(q.size()) {
+        auto [v, k, c] = q.front(); q.pop();
+        if (k == 0) {
+            if (v == T) { ans = c; break; }
+            if (vis[v]) continue;
+            vis[v] = 1;
+            each(n, g[v]) q.emplace(n, 2, c+1);
+        } else {
+            each(n, g[v]) q.emplace(n, k-1, c);
+        }
+    }
+
+    out(ans);
+}
+
+void solve2(long long N, long long M, std::vector<long long> u, std::vector<long long> v, long long S, long long T) {
+    rep(M) u[i]--, v[i]--;
+    S--, T--;
+    vvec<ll> g(N);
+    rep(M) g[u[i]].push_back(v[i]);
+
+    queue<tuple<ll, ll>> q;
+    const ll LINF = 1001001001LL;
+    vvec<ll> dist(N, vec<ll>(3, LINF));
+    q.emplace(S, 0);
+    dist[S][0] = 0;
+    while(q.size()) {
+        auto [v, c] = q.front(); q.pop();
+        each(n, g[v]) {
+            ll nc = (c+1) % 3;
+            if (dist[n][nc]!=LINF) continue;
+            dist[n][nc] = dist[v][c] + 1;
+            q.emplace(n, nc);
+        }
+    }
+    ll ans = dist[T][0];
+    if (ans == LINF) ans = -1; else ans /= 3;
+    out(ans);
 }
 #else
 void solve() {
@@ -114,7 +214,7 @@ int main() {
     scanf("%lld",&S);
     long long T;
     scanf("%lld",&T);
-    solve(N, M, std::move(u), std::move(v), S, T);
+    solve2(N, M, std::move(u), std::move(v), S, T);
 #elif __DEBUG__
     rep(10) {
         solve();

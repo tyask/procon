@@ -86,6 +86,8 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    LL(x);
+    out(x<1200?"ABC":"ARC");
 }
 
 int main() {

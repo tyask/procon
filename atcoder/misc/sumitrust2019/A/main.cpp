@@ -86,6 +86,8 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    LL(M1,D1,M2,D2);
+    out(D2==1);
 }
 
 int main() {

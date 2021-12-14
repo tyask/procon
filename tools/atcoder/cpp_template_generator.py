@@ -130,7 +130,7 @@ class CppCodeGenerator:
 
     def _input_code_for_declared_var(self, var: Variable) -> str:
         name = self._get_var_name(var)
-        return 'in({name});'.format(name=name)
+        return 'input({name});'.format(name=name)
 
     @staticmethod
     def _get_var_name(var: Variable):

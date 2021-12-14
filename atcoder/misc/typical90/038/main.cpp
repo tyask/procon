@@ -157,6 +157,10 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll A, ll B) {
+    const ll M = powint(10ll, 18ll);
+    ll g = gcd(A, B);
+    if (A/g<=M/B) out(A/g*B);
+    else out("Large");
 }
 
 void solve() {

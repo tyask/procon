@@ -10,10 +10,10 @@ fi
 
 SRC=$DIR/main.cpp
 BIN=$ROOT/bin/a.out
-TIMEOUT=2
+TIMEOUT=4
 
 exe rm $BIN
-exe g++ $SRC -o $BIN -I$ROOT/lib/ac-library -std=c++17 -Wall
+exe g++ $SRC -o $BIN -I$ROOT/ext/ac-library -std=c++17 -Wall
 
 exe atcoder-tools test \
     -d $DIR \

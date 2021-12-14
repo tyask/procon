@@ -157,6 +157,13 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll K, vec<ll> A, vec<ll> B) {
+    vec<ll> v;
+    rep(N) {
+        v.PB(B[i]);
+        v.PB(A[i]-B[i]);
+    }
+    sort(v, greater<ll>());
+    out(sum(vec<ll>(rng(v, K))));
 }
 
 void solve() {

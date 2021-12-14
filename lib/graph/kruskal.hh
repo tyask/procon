@@ -22,7 +22,7 @@ struct kruskal {
 
     vector<edge> run() {
         sort(es.begin(), es.end(), [](auto& e1, auto& e2){return e1.cost < e2.cost;});
-        UnionFind uf(n);
+        unionfind uf(n);
         vector<edge> ret;
         for (edge e : es) {
             if (!uf.same(e.u, e.v)) {

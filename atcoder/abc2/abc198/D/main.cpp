@@ -166,14 +166,40 @@ YESNO(Possible, Impossible)
 #if __AUTO_GENERATE__ == 1
 void solve(vec<str> S) {
     const int M = 26;
-    each(s, S) s = str(10-s.size(), ' ') + s;
-    auto [s1,s2,s3] = tuple{S[0],S[1],S[2]};
-    map<char, int> m;
-    auto num = [](char c) { return c - '0'; };
-    auto dfs = [&](auto self, int i) {
-        int a = num(s1[i])+num(s2[i]);
+    set<char> cc;
+    each(s, S) each(c, s) cc.insert(c);
+    if (cc.size()>10) {
+        out("UNSOLVABLE");
+        return;
+    }
 
-    };
+    map<char, int> mc;
+    int ci = 0;
+    each(c, cc) mc[c] = ci++;
+
+    vec<int> nn(10);
+    iota(rng(nn), 0);
+    do {
+        map<char, int> mv;
+        each(p, mc) mv[p.first] = nn[p.second];
+
+        vec<ll> n(3);
+        bool ok = true;
+        rep(S.size()) {
+            str sx;
+            each(c, S[i]) sx += mv[c]+'0';
+            n[i] = stol(sx);
+            if (to_string(n[i]).size() != sx.size()) ok = false;
+            if (n[i]==0) ok = false;
+        }
+        if (!ok) continue;
+        if (n[0]+n[1]==n[2]) {
+            each(a, n) out(a);
+            return;
+        }
+    } while(next_permutation(rng(nn)));
+
+    out("UNSOLVABLE");
 }
 
 void solve() {

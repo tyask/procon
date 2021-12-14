@@ -157,6 +157,21 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll Q, vec<ll> A, vec<ll> T, vec<ll> x, vec<ll> y) {
+    rep(Q) x[i]--, y[i]--;
+    ll s = 0;
+    rep(Q) {
+        ll nx = (x[i]-s)%N;
+        ll ny = (y[i]-s)%N;
+        if (nx<0) nx = N+nx;
+        if (ny<0) ny = N+ny;
+        if (T[i]==1) {
+            swap(A[nx], A[ny]);
+        } else if (T[i]==2) {
+            s++;
+        } else {
+            out(A[nx]);
+        }
+    }
 }
 
 void solve() {

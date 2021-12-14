@@ -86,10 +86,25 @@ void no(bool b=true) { yes(!b); }
 }
 
 void solve() {
+    LL(N);
+    VEC(ll, A, N);
+    map<ll,ll> m;
+    each(a, A) m[a]++;
+    
+    ll d = 0;
+    for (auto [n, c] : m) {
+        if (c>1) {
+            ll p = c%2==0;
+            d -= p;
+            d = abs(d);
+        }
+    }
+
+    out(m.size()-d);
 }
 
 int main() {
-#ifdef __TRY_MULTI__
+#ifdef __TEST__
     rep(10) {
         solve();
         debug("*****");

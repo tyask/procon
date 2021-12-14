@@ -31,6 +31,7 @@ TEMPLATE(T) using pqg  = priority_queue<T, vec<T>, greater<T>>; // ascending
 TEMPLATE(N) static constexpr N inf = numeric_limits<N>::max() / 2;
 const ld EPS = 1e-9;
 const ld PI  = 3.1415926535897932;
+const ld TAU = 2 * PI;
 const int    dx[] = {0, 1, 0, -1, 1, 1, -1, -1};
 const int    dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 
@@ -40,16 +41,16 @@ const int    dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 #define FI first
 #define SE second
 
-#define INT(...)  int    __VA_ARGS__; in(__VA_ARGS__)
-#define LL(...)   ll     __VA_ARGS__; in(__VA_ARGS__)
-#define ULL(...)  ull    __VA_ARGS__; in(__VA_ARGS__)
-#define STR(...)  string __VA_ARGS__; in(__VA_ARGS__)
+#define INT(...)  int    __VA_ARGS__; input(__VA_ARGS__)
+#define LL(...)   ll     __VA_ARGS__; input(__VA_ARGS__)
+#define ULL(...)  ull    __VA_ARGS__; input(__VA_ARGS__)
+#define STR(...)  string __VA_ARGS__; input(__VA_ARGS__)
 #define LINE(...) string __VA_ARGS__; scan_line(__VA_ARGS__)
-#define CHR(...)  char   __VA_ARGS__; in(__VA_ARGS__)
-#define DBL(...)  double __VA_ARGS__; in(__VA_ARGS__)
-#define VEC(type, name, size)  vec<type>  name(size); in(name)
+#define CHR(...)  char   __VA_ARGS__; input(__VA_ARGS__)
+#define DBL(...)  double __VA_ARGS__; input(__VA_ARGS__)
+#define VEC(type, name, size)  vec<type>  name(size); input(name)
 #define vv(type, name, h, ...) vvec<type> name(h, vec<type>(__VA_ARGS__))
-#define VV(type, name, h, w)   vv(type, name, h, w); in(name)
+#define VV(type, name, h, w)   vv(type, name, h, w); input(name)
 
 #define rep1(n)       for(ll i=0; i<n; ++i)
 #define rep2(i,n)     for(ll i=0; i<n; ++i)
@@ -82,8 +83,8 @@ TEMPLATE(T) void scan(vec<T>& a, int n) { a.resize(n); for(auto&& i : a) scan(i)
 TEMPLATE(T) void scan(vec<T>& a) { scan(a, a.size()); }
 TEMPLATE(T) void scan(vvec<T>& a) { for(auto&& v : a) scan(v); }
 void scan_line(string& s) { getline(cin, s); }
-void in() {}
-TEMPLATE(Head, ...Tail) void in(Head& head, Tail&... tail) { scan(head); in(tail...); }
+void input() {}
+TEMPLATE(Head, ...Tail) void input(Head& head, Tail&... tail) { scan(head); input(tail...); }
 
 TEMPLATE(T) void out(ostream& os, T&& t) { os << t << '\n'; }
 TEMPLATE(T) void outh(ostream& os, T&& t) { os << t << " "; }
@@ -105,18 +106,30 @@ TEMPLATE(Cont) auto sumproduct(const Cont& c) { typename Cont::value_type v = 1;
 TEMPLATE(N)    auto sumproduct(const initializer_list<N>& c) { return sumproduct(vec<N>(c)); }
 TEMPLATE(Cont) auto max(const Cont& c) { return *max_element(rng(c)); }
 TEMPLATE(Cont) auto min(const Cont& c) { return *min_element(rng(c)); }
-TEMPLATE(Cont) auto sort(Cont& c) { sort(rng(c)); }
-TEMPLATE(Cont, Comp) auto sort(Cont& c, Comp comp) { sort(rng(c), comp); }
-TEMPLATE(Cont) auto reverse(Cont& c) { reverse(rng(c)); }
+TEMPLATE(Cont) auto& sort(Cont& c) { sort(rng(c)); return c; }
+TEMPLATE(Cont, Comp) auto& sort(Cont& c, Comp comp) { sort(rng(c), comp); return c; }
+TEMPLATE(Cont) auto& reverse(Cont& c) { reverse(rng(c)); return c; }
+TEMPLATE(T)    auto& uniq(vec<T>& v) { set<T> s(rng(v)); return v = vec<T>(rng(s)); }
 TEMPLATE(T, U) bool chmin(T& a, const U& b) { if(a > b){ a = b; return 1; } return 0; }
 TEMPLATE(T, U) bool chmax(T& a, const U& b) { if(a < b){ a = b; return 1; } return 0; }
-TEMPLATE(T) vec<T> uniq(const vec<T>& v) { set<T> s(rng(v)); return vec<T>(rng(s)); }
+TEMPLATE(Cont) size_t sz(const Cont& c) { return c.size(); }
+TEMPLATE(T)    void compress(vec<T>& v) { auto a = v; sort(uniq(a)); rep(sz(v)) v[i] = lower_bound(rng(a),v[i])-a.begin(); }
 TEMPLATE(T, S)    T pop(queue<T, S>& q) { T t = q.front(); q.pop(); return t; }
 TEMPLATE(T, S, C) T pop(priority_queue<T, S, C>& q) { T t = q.top(); q.pop(); return t; }
+TEMPLATE(T, S)    T pop_front(deque<T, S>& q) { T t = q.front(); q.pop_front(); return t; }
+TEMPLATE(T, S)    T pop_back(deque<T, S>& q) { T t = q.back(); q.pop_back(); return t; }
 
 void decrements() {}
 TEMPLATE(Cont) void decrements(Cont&& c) { rep(c.size()) c[i]--; }
-TEMPLATE(Cont, ...Tail) void decrements(Cont&& head, Tail&&... tail) { decrements(head); decrements(forward<Tail>(tail)...); }
+TEMPLATE(T, ...Tail) void decrements(T&& head, Tail&&... tail) { decrements(head); decrements(forward<Tail>(tail)...); }
+TEMPLATE(Cont) bool in(const Cont& c, ll i) { return 0 <= i && i < c.size(); }
+TEMPLATE(Cont) bool in(const vec<Cont>& c, ll i, ll j) { return in(c, i) && in(c[i], j); }
+TEMPLATE(Cont) vec<Cont> rot(const vec<Cont>& c) {
+    ll h = c.size(), w = c[0].size();
+    vec<Cont> a(w, Cont(h, c[0][0]));
+    rep(i,h)rep(j,w) a[j][h-1-i]=c[i][j];
+    return a;
+}
 
 TEMPLATE(N) N gcd(N a, N b)    { while(b){ N c = b; b = a % b; a = c; } return a; }
 TEMPLATE(N) N lcm(N a, N b)    { if(!a || !b) return 0; return a / gcd(a, b) * b; }
@@ -124,7 +137,7 @@ TEMPLATE(N) N powint(N n, N k) { N ans = 1; while(k){ if(k & 1) ans *= n; n *= n
 TEMPLATE(N) N floor(N a, N b)  { return a / b; }
 TEMPLATE(N) N ceil(N a, N b)   { return (a + b - 1) / b; }
 TEMPLATE(N) N mod(N n, N m)    { N r = n % m; return (r < 0) ? r + m : r; }
-TEMPLATE(N) N powmod(N n, N k, N m) { N ans = 1; while(k){ if(k & 1) (ans *= n) %= m; (n *= n) %= m; k >>= 1; } return ans; }
+TEMPLATE(N) N powmod(N n, N k, N m) { N ans = 1; while(k){ if(k & 1) (ans*=n)%=m; n%=m; (n*=n)%=m; k>>=1; } return ans; }
 TEMPLATE(N) size_t popcount(N n)    { return bitset<sizeof(N)*8>(n).count(); }
 TEMPLATE(N) N sumae(N n, N a, N e) { return n * (a + e) / 2; }
 TEMPLATE(N) N sumad(N n, N a, N d) { return n * (2 * a + (n - 1) * d) / 2; }
@@ -143,9 +156,33 @@ TEMPLATE(N) struct cumsum2d {
     N operator()(int i1, int i2, int j1, int j2) { return s[i2][j2] - s[i1][j2] - s[i2][j1] + s[i1][j1]; }
 };
 
+
+struct pt : complex<ld> {
+    pt(ld x, ld y) : complex<ld>(x, y) {}
+    pt(complex<ld> c) : complex<ld>(c) {}
+    static pt vec(pt from, pt to) { return to - from; }
+    ld x() const { return real(); }
+    ld y() const { return imag(); }
+    const complex<ld>& cpx() const { return *this; };
+
+    ld norm() const { return sqrtl(x()*x()+y()*y()); }
+
+    pt operator-(pt p) const { return cpx() - p; }
+    pt operator+(pt p) const { return cpx() + p; }
+    pt operator*(pt p) const { return cpx() * p; }
+    pt operator/(pt p) const { return cpx() / p; }
+
+    pt operator+(ld d) const { return cpx() + d; }
+    pt operator-(ld d) const { return cpx() - d; }
+    pt operator*(ld d) const { return cpx() * d; }
+    pt operator/(ld d) const { return cpx() / d; }
+
+    pt rot(ld th) const { return pt(cosl(th)*x()-sinl(th)*y(), sinl(th)*x()+cosl(th)*y()); } // 反時計周りに回転
+};
+ostream& operator<<(ostream& os, const pt& p) { return os << p.x() << " " << p.y(); }
+
 ld deg(ld rad) { return rad*180/PI; }
 ld rad(ld deg) { return deg*PI/180; }
-
 struct setupio {
     setupio() {
         // ios_base::sync_with_stdio(0);

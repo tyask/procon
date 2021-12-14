@@ -39,16 +39,16 @@ const int    dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
 #define FI first
 #define SE second
 
-#define INT(...)  int    __VA_ARGS__; in(__VA_ARGS__)
-#define LL(...)   ll     __VA_ARGS__; in(__VA_ARGS__)
-#define ULL(...)  ull    __VA_ARGS__; in(__VA_ARGS__)
-#define STR(...)  string __VA_ARGS__; in(__VA_ARGS__)
+#define INT(...)  int    __VA_ARGS__; input(__VA_ARGS__)
+#define LL(...)   ll     __VA_ARGS__; input(__VA_ARGS__)
+#define ULL(...)  ull    __VA_ARGS__; input(__VA_ARGS__)
+#define STR(...)  string __VA_ARGS__; input(__VA_ARGS__)
 #define LINE(...) string __VA_ARGS__; scan_line(__VA_ARGS__)
-#define CHR(...)  char   __VA_ARGS__; in(__VA_ARGS__)
-#define DBL(...)  double __VA_ARGS__; in(__VA_ARGS__)
-#define VEC(type, name, size)  vec<type>  name(size); in(name)
+#define CHR(...)  char   __VA_ARGS__; input(__VA_ARGS__)
+#define DBL(...)  double __VA_ARGS__; input(__VA_ARGS__)
+#define VEC(type, name, size)  vec<type>  name(size); input(name)
 #define vv(type, name, h, ...) vvec<type> name(h, vec<type>(__VA_ARGS__))
-#define VV(type, name, h, w)   vv(type, name, h, w); in(name)
+#define VV(type, name, h, w)   vv(type, name, h, w); input(name)
 
 #define rep1(n)       for(ll i=0; i<n; ++i)
 #define rep2(i,n)     for(ll i=0; i<n; ++i)
@@ -81,13 +81,13 @@ TEMPLATE(T) void scan(vec<T>& a, int n) { a.resize(n); for(auto&& i : a) scan(i)
 TEMPLATE(T) void scan(vec<T>& a) { scan(a, a.size()); }
 TEMPLATE(T) void scan(vvec<T>& a) { for(auto&& v : a) scan(v); }
 void scan_line(string& s) { getline(cin, s); }
-void in() {}
-TEMPLATE(Head, ...Tail) void in(Head& head, Tail&... tail) { scan(head); in(tail...); }
+void input() {}
+TEMPLATE(Head, ...Tail) void input(Head& head, Tail&... tail) { scan(head); input(tail...); }
 
-TEMPLATE(T) void out(ostream& os, T&& t) { os << t << '\n'; }
-TEMPLATE(T) void outh(ostream& os, T&& t) { os << t << " "; }
-TEMPLATE(T, ...Args) void out(ostream& os, T&& head, Args&&... tail) { outh(os, head); out(os, tail...); };
-TEMPLATE(T, ...Args) void out(T&& head, Args&&... tail) { out(cout, head, tail...); }
+TEMPLATE(T) ostream& out(ostream& os, T&& t) { return os << t << '\n'; }
+TEMPLATE(T) ostream& outh(ostream& os, T&& t) { return os << t << " "; }
+TEMPLATE(T, ...Args) ostream& out(ostream& os, T&& head, Args&&... tail) { outh(os, head); return out(os, tail...); };
+TEMPLATE(T, ...Args) ostream& out(T&& head, Args&&... tail) { return out(cout, head, tail...); }
 const char* empty_or_space[] = {"", " "};
 TEMPLATE(Cont) ostream& write(ostream& os, const Cont& c) { itr(c) os << empty_or_space[it!=c.begin()] << *it; return os; }
 
@@ -112,6 +112,8 @@ TEMPLATE(T, U) bool chmax(T& a, const U& b) { if(a < b){ a = b; return 1; } retu
 TEMPLATE(T) vec<T> uniq(const vec<T>& v) { set<T> s(rng(v)); return vec<T>(rng(s)); }
 TEMPLATE(T, S)    T pop(queue<T, S>& q) { T t = q.front(); q.pop(); return t; }
 TEMPLATE(T, S, C) T pop(priority_queue<T, S, C>& q) { T t = q.top(); q.pop(); return t; }
+TEMPLATE(T, S)    T pop_front(deque<T, S>& q) { T t = q.front(); q.pop_front(); return t; }
+TEMPLATE(T, S)    T pop_back(deque<T, S>& q) { T t = q.back(); q.pop_back(); return t; }
 
 TEMPLATE(N) N gcd(N a, N b)    { while(b){ N c = b; b = a % b; a = c; } return a; }
 TEMPLATE(N) N lcm(N a, N b)    { if(!a || !b) return 0; return a / gcd(a, b) * b; }
@@ -146,6 +148,9 @@ struct setupio {
     }
 } setupio;
 
+TEMPLATE(Cont) bool in(const Cont& c, ll i) { return 0 <= i && i < c.size(); }
+TEMPLATE(Cont) bool in(const vec<Cont>& c, ll i, ll j) { return in(c, i) && in(c[i], j); }
+
 #define YESNO(y, n) void y(bool b=true) { out(b?#y:#n); } void n(bool b=true) { y(!b); }
 YESNO(YES, NO)
 YESNO(Yes, No)
@@ -157,7 +162,143 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve() {
+    LL(H, W);
+    LL(rs, cs, rt, ct);
+    rs--,cs--,rt--,ct--;
+    vec<str> S(H);
+    rep(i,H) cin >> S[i];
+
+    vec<vvec<ll>> g(H, vvec<ll>(W, vec<ll>(4, inf<ll>)));
+
+    struct pt { ll r, c; };
+    struct pt2 { ll dir; pt curr; };
+
+    deque<pt2> q;
+    rep(4) {
+        g[rs][cs][i] = 0;
+        q.push_back(pt2{i, pt{rs, cs}});
+    }
+    while (q.size()) {
+        pt2 p = pop_front(q);
+        pt curr = p.curr;
+        rep(4) {
+            ll nr = curr.r+dy[i], nc = curr.c+dx[i];
+            if (in(S, nr, nc) && S[nr][nc]=='.') {
+                if (dy[p.dir]==dy[i]&&dx[p.dir]==dx[i]) {
+                    if (chmin(g[nr][nc][i], g[curr.r][curr.c][p.dir])) {
+                        q.push_front(pt2{i, pt{nr,nc}});
+                    }
+                } else {
+                    if (chmin(g[nr][nc][i], g[curr.r][curr.c][p.dir]+1)) {
+                        q.push_back(pt2{i, pt{nr,nc}});
+                    }
+                }
+            }
+        }
+    }
+
+    // rep(d,4)rep(i,H)rep(j,W)if(g[d][i][j]==inf<ll>)g[d][i][j] = -1;
+    // out(g);
+
+    out(min(g[rt][ct]));
 }
+
+struct dijkstra {
+    using ll = long long;
+    struct edge{ ll to; ll cost; };
+    template<typename T> using vec = vector<T>;
+    const ll LINF = LLONG_MAX/3;
+
+    int n;
+    vec<vec<edge>> g;
+    vec<ll> d;
+    vec<ll> prev;
+
+    dijkstra(int n) : n(n), g(n) {};
+
+    dijkstra& add(ll from, edge e) {
+        assert(0<=from && from<n && 0<=e.to && e.to<n);
+        g.at(from).push_back(e);
+        return *this;
+    }
+
+    void run(int s) {
+        assert(0<=s && s<n);
+        using P = pair<ll, int>; // cost, node
+        priority_queue<P, vec<P>, greater<P>> que;
+        d.resize(n, LINF);
+        prev.resize(n, -1);
+        d[s] = 0;
+        que.emplace(0, s);
+        while (!que.empty()) {
+            auto [cost, v] = que.top(); que.pop();
+            if (d[v] < cost) continue;
+            for (edge e : g[v]) {
+                if (chmin(d[e.to], d[v] + e.cost)) {
+                    que.emplace(d[e.to], e.to);
+                    prev[e.to] = v;
+                }
+            }
+        }
+    }
+
+    ll shortest_path(int t) {
+        return d[t];
+    }
+
+    vector<int> restore_shortest_path(int t) {
+        vector<int> path;
+        for (; t != -1; t = prev[t]) path.push_back(t);
+        reverse(path.begin(), path.end());
+        return path;
+    }
+
+};
+
+void solve2() {
+    LL(H, W);
+    LL(rs, cs, rt, ct);
+    rs--,cs--,rt--,ct--;
+    vec<str> S(H);
+    rep(i,H) cin >> S[i];
+
+    dijkstra d(H*W);
+
+    vec<vvec<ll>> g(H, vvec<ll>(W, vec<ll>(4, inf<ll>)));
+
+    struct pt { ll r, c; };
+    struct pt2 { ll dir; pt curr; };
+
+    deque<pt2> q;
+    rep(4) {
+        g[rs][cs][i] = 0;
+        q.push_back(pt2{i, pt{rs, cs}});
+    }
+    while (q.size()) {
+        pt2 p = pop_front(q);
+        pt curr = p.curr;
+        rep(4) {
+            ll nr = curr.r+dy[i], nc = curr.c+dx[i];
+            if (in(S, nr, nc) && S[nr][nc]=='.') {
+                if (dy[p.dir]==dy[i]&&dx[p.dir]==dx[i]) {
+                    if (chmin(g[nr][nc][i], g[curr.r][curr.c][p.dir])) {
+                        q.push_front(pt2{i, pt{nr,nc}});
+                    }
+                } else {
+                    if (chmin(g[nr][nc][i], g[curr.r][curr.c][p.dir]+1)) {
+                        q.push_back(pt2{i, pt{nr,nc}});
+                    }
+                }
+            }
+        }
+    }
+
+    // rep(d,4)rep(i,H)rep(j,W)if(g[d][i][j]==inf<ll>)g[d][i][j] = -1;
+    // out(g);
+
+    out(min(g[rt][ct]));
+}
+
 #else
 void solve() {
 }
