@@ -116,6 +116,9 @@ void no(bool b=true) { yes(!b); }
 
 #if __ATCODER__ == 1
 void solve(long long A, long long B, long long C) {
+    ld s = ld(A+B+C);
+    ld ans = (100-A)*(A/s) + (100-B)*(B/s) + (100-C)*(C/s);
+    out(ans);
 }
 
 void solve() {

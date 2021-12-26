@@ -5,7 +5,7 @@
 namespace {
 using namespace std;
 using ll = long long;
-template<typename T> using vec<T> = vector<T>;
+template<typename T> using vec = vector<T>;
 
 // 0-indexed
 struct fenwick_tree {
@@ -54,8 +54,8 @@ struct fenwick_tree_2d {
     void add(ll i, ll j, ll v) {
         assert(0<=i&&i<n && 0<=j&&j<m);
         i++, j++;
-        while (i<=N) {
-            while (j<=M) dat[i-1][j-1]+=v, j+=lsb(j);
+        while (i<=n) {
+            while (j<=m) dat[i-1][j-1]+=v, j+=lsb(j);
             i+=lsb(i);
         }
     }

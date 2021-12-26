@@ -156,18 +156,17 @@ void solve() {
         q[i] = {p, x};
     }
 
-    priority_queue<pair<ll, ll>, vec<pair<ll, ll>>, greater<pair<ll, ll>>> que;
+    priority_queue<ll, vec<ll>, greater<ll>> que;
     ll t = 0;
     rep(Q) {
         auto [p, x] = q[i];
         if (p==1) {
-            que.emplace(x, t);
+            que.emplace(x-t);
         } else if (p==2) {
             t += x;
         } else {
-            auto p = que.top();
-            out(p.first - p.second + t);
-            que.pop();
+            ll xx = que.top(); que.pop();
+            out(xx + t);
         }
     }
 

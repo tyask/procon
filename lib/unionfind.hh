@@ -1,22 +1,20 @@
 #ifndef UNIONFIND_HH
 #define UNIONFIND_HH
 
-#include <bits/stdc++.h>
+#include "common.hh"
 namespace {
 
 struct unionfind {
-    template<typename T> using vec = std::vector<T>;
-    template<typename K, typename V> using map = std::map<K, V>;
-    vec<int> d;
+    vec<ll> d;
 
-    unionfind(int n): d(n,-1) {}
+    unionfind(ll n): d(n,-1) {}
 
-    int find(int x) {
+    ll find(ll x) {
         if (d[x] < 0) return x;
         return d[x] = find(d[x]);
     }
 
-    bool unite(int x, int y) {
+    bool unite(ll x, ll y) {
         x = find(x); y = find(y);
         if (x == y) return false;
         if (d[x] > d[y]) std::swap(x,y);
@@ -25,31 +23,28 @@ struct unionfind {
         return true;
     }
 
-    bool same(int x, int y) { return find(x) == find(y);}
-    int size(int x) { return -d[find(x)];}
+    bool same(ll x, ll y) { return find(x) == find(y);}
+    ll size(ll x) { return -d[find(x)];}
     void reset() { fill(d.begin(), d.end(), -1); }
 
-    vec<vec<int>> groups() {
-        int n = d.size();
-        vec<int> leader_buf(n), group_size(n);
-        for (int i = 0; i < n; i++) {
-            leader_buf[i] = find(i);
-            group_size[leader_buf[i]]++;
-        }
-        vec<vec<int>> result(n);
-        for (int i = 0; i < n; i++) {
-            result[i].reserve(group_size[i]);
-        }
-        for (int i = 0; i < n; i++) {
-            result[leader_buf[i]].push_back(i);
-        }
-        result.erase(
-            std::remove_if(result.begin(), result.end(),
-                           [&](const vec<int>& v) { return v.empty(); }),
-            result.end());
-        return result;
-    }
 };
+
+vvec<ll> groups(unionfind& uf) {
+    ll n = uf.d.size();
+    vec<ll> leader_buf(n), group_size(n);
+
+    rep(n) leader_buf[i] = uf.find(i), group_size[leader_buf[i]]++;
+
+    vvec<ll> res(n);
+    rep(n) res[i].reserve(group_size[i]);
+    rep(n) res[leader_buf[i]].push_back(i);
+
+    auto it = remove_if(rng(res), [&](auto& v){ return v.empty(); });
+    res.erase(it, res.end());
+
+    return res;
+}
+
 
 }
 

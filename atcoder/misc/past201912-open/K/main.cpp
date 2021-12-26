@@ -146,7 +146,88 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+struct unionfind {
+    template<typename T> using vec = std::vector<T>;
+    template<typename K, typename V> using map = std::map<K, V>;
+    vec<int> d;
+
+    unionfind(int n): d(n,-1) {}
+
+    int find(int x) {
+        if (d[x] < 0) return x;
+        return d[x] = find(d[x]);
+    }
+
+    bool unite(int x, int y) {
+        x = find(x); y = find(y);
+        if (x == y) return false;
+        if (d[x] > d[y]) std::swap(x,y);
+        d[x] += d[y];
+        d[y] = x;
+        return true;
+    }
+
+    bool same(int x, int y) { return find(x) == find(y);}
+    int size(int x) { return -d[find(x)];}
+    void reset() { fill(d.begin(), d.end(), -1); }
+
+    vec<vec<int>> groups() {
+        int n = d.size();
+        vec<int> leader_buf(n), group_size(n);
+        for (int i = 0; i < n; i++) {
+            leader_buf[i] = find(i);
+            group_size[leader_buf[i]]++;
+        }
+        vec<vec<int>> result(n);
+        for (int i = 0; i < n; i++) {
+            result[i].reserve(group_size[i]);
+        }
+        for (int i = 0; i < n; i++) {
+            result[leader_buf[i]].push_back(i);
+        }
+        result.erase(
+            std::remove_if(result.begin(), result.end(),
+                           [&](const vec<int>& v) { return v.empty(); }),
+            result.end());
+        return result;
+    }
+};
+
+vec<ll> topologic_sort(const vec<vec<ll>>& g) {
+    vec<ll> ans;
+    ll n = g.size();
+
+    vec<ll> deg(n);
+    rep(n) each(e, g[i]) deg[e]++;
+    
+    queue<ll> q;
+    rep(n) if(deg[i]==0) q.push(i);
+
+    while (q.size()) {
+        ll v = pop(q);
+        ans.PB(v);
+        each(e, g[v]) if (--deg[e]==0) q.push(e);
+    }
+
+    return ans;
+}
+
 void solve(ll N, vec<ll> p, ll Q, vec<ll> a, vec<ll> b) {
+    rep(N) p[i]--;
+    rep(Q) a[i]--, b[i]--;
+    vvec<ll> g(N);
+    unionfind uf((int)N);
+    rep(N) if (p[i]>=0) g[i].PB(p[i]), uf.unite(i, p[i]);
+
+    vec<ll> s = topologic_sort(g);
+    vec<ll> v(N);
+    rep(N) v[s[i]] = i;
+    out(s);
+
+    rep(Q) {
+        auto [ai, bi] = pair{a[i], b[i]};
+        Yes(uf.same(ai,bi) && v[ai]<v[bi]);
+    }
 }
 
 void solve() {

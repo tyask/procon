@@ -23,10 +23,11 @@ using ld   = long double;
 using str  = string;
 using pii  = pair<int, int>;
 using pll  = pair<ll, ll>;
-TEMPLATE(T) using vec  = vector<T>;
-TEMPLATE(T) using vvec = vec<vec<T>>;
-TEMPLATE(T) using pq   = priority_queue<T>; // descending
-TEMPLATE(T) using pqg  = priority_queue<T, vec<T>, greater<T>>; // ascending
+TEMPLATE(T) using vec   = vector<T>;
+TEMPLATE(T) using vvec  = vec<vec<T>>;
+TEMPLATE(T) using graph = vvec<T>;
+TEMPLATE(T) using pq    = priority_queue<T>; // descending
+TEMPLATE(T) using pqg   = priority_queue<T, vec<T>, greater<T>>; // ascending
 
 TEMPLATE(N) static constexpr N inf = numeric_limits<N>::max() / 2;
 const ld EPS = 1e-9;
@@ -86,10 +87,11 @@ void scan_line(string& s) { getline(cin, s); }
 void input() {}
 TEMPLATE(Head, ...Tail) void input(Head& head, Tail&... tail) { scan(head); input(tail...); }
 
+struct exitter { void exit() { ::exit(0); } };
 TEMPLATE(T) void out(ostream& os, T&& t) { os << t << '\n'; }
 TEMPLATE(T) void outh(ostream& os, T&& t) { os << t << " "; }
 TEMPLATE(T, ...Args) void out(ostream& os, T&& head, Args&&... tail) { outh(os, head); out(os, tail...); };
-TEMPLATE(T, ...Args) void out(T&& head, Args&&... tail) { out(cout, head, tail...); }
+TEMPLATE(T, ...Args) exitter out(T&& head, Args&&... tail) { out(cout, head, tail...); return exitter{}; }
 const char* empty_or_space[] = {"", " "};
 TEMPLATE(Cont) ostream& write(ostream& os, const Cont& c) { itr(c) os << empty_or_space[it!=c.begin()] << *it; return os; }
 
@@ -130,6 +132,8 @@ TEMPLATE(Cont) vec<Cont> rot(const vec<Cont>& c) {
     rep(i,h)rep(j,w) a[j][h-1-i]=c[i][j];
     return a;
 }
+TEMPLATE(N) graph<N> undigraph(const vec<N>& u, const vec<N>& v) { graph g(sz(u)); rep(sz(u)) g[u[i]].PB(v[i]), g[v[i]].PB(u[i]); return g; }
+TEMPLATE(N) graph<N> digraph(const vec<N>& u, const vec<N>& v) { graph g(sz(u)); rep(sz(u)) g[u[i]].PB(v[i]); return g; }
 
 TEMPLATE(N) N gcd(N a, N b)    { while(b){ N c = b; b = a % b; a = c; } return a; }
 TEMPLATE(N) N lcm(N a, N b)    { if(!a || !b) return 0; return a / gcd(a, b) * b; }
@@ -191,7 +195,7 @@ struct setupio {
     }
 } setupio;
 
-#define YESNO(y, n) void y(bool b=true) { out(b?#y:#n); } void n(bool b=true) { y(!b); }
+#define YESNO(y, n) exitter y(bool b=true) { return out(b?#y:#n); } exitter n(bool b=true) { return y(!b); }
 YESNO(YES, NO)
 YESNO(Yes, No)
 YESNO(yes, no)

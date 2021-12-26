@@ -147,6 +147,23 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, vec<ll> T) {
+    ll s = sum(T), s2 = s / 2;
+    vvec<ll> dp(N+1, vec<ll>(s+10));
+    dp[0][0] = 1;
+
+    rep(i,N) {
+        ll t = T[i];
+        rep(j,s) if (dp[i][j]) {
+            dp[i+1][j] = 1;
+            if (j+t<s) dp[i+1][j+t] = 1;
+        }
+    }
+
+    ll t = LINF, t2 = 0;
+    rep(s) if(dp[N][i]) if (chmin(t, abs(s2-i))) t2 = i;
+
+    ll ans = max(t2, s-t2);
+    out(ans);
 }
 
 void solve() {

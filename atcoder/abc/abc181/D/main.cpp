@@ -119,24 +119,24 @@ void solve(string S) {
     map<int, int> m;
     each(c, S) m[c-'0']++;
 
-    bool ans = true;
-    rep(d, 8, 1000, 8) {
-        map<int, int> dm;
-        dm[d/100]++;
-        dm[d%100/10]++;
-        dm[d%10]++;
-        each(p, dm) {
-            if (m[p.first]>=p.second) {
-                // OK
-            } else {
-                ans = false;
-                break;
-            }
-        }
 
-        if (ans) {
-            break;
-        }
+    if (S.size()<=2) {
+        string s = S;
+        reverse(rng(s));
+        Yes(stoll(S)%8==0 || stoll(s)%8==0);
+        return;
+    }
+
+    bool ans = false;
+    rep(n,100,1000) {
+        string s = to_string(n);
+        map<int, int> mm;
+        each(c, s) mm[c-'0']++;
+        bool ok = true;
+        each(p, mm) if (m[p.first]<p.second) ok = false;
+        if (!ok) continue;
+
+        if (n % 8 == 0) ans = true;
     }
 
     Yes(ans);

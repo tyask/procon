@@ -1,0 +1,16 @@
+{
+ "code_filename": "main.cpp",
+ "judge": {
+  "judge_type": "normal"
+ },
+ "lang": "cpp",
+ "problem": {
+  "alphabet": "D",
+  "contest": {
+   "contest_id": "past202107-open"
+  },
+  "problem_id": "past202107_d"
+ },
+ "sample_in_pattern": "data/in_*.txt",
+ "sample_out_pattern": "data/out_*.txt"
+}
