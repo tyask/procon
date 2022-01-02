@@ -157,6 +157,19 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll H, ll W, vec<vec<ll>> A, vec<vec<ll>> B) {
+    ll ans=0;
+    rep(i,H-1)rep(j,W-1) {
+        ll d = B[i][j]-A[i][j];
+        rep(ni,2)rep(nj,2) A[i+ni][j+nj]+=d;
+        ans+=abs(d);
+    }
+
+    if (A==B) {
+        Yes();
+        out(ans);
+    } else {
+        No();
+    }
 }
 
 void solve() {

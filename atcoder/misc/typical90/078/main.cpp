@@ -157,6 +157,14 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll M, vec<ll> a, vec<ll> b) {
+    rep(M) a[i]--, b[i]--;
+
+    vvec<ll> g(N);
+    rep(M) g[a[i]].PB(b[i]), g[b[i]].PB(a[i]);
+
+    ll ans=0;
+    rep(N) if (count_if(rng(g[i]),[&](auto n){return n<i;})==1) ans++;
+    out(ans);
 }
 
 void solve() {

@@ -1,5 +1,4 @@
-#ifndef UNIONFIND_HH
-#define UNIONFIND_HH
+#pragma once
 
 #include "common.hh"
 namespace {
@@ -17,7 +16,7 @@ struct unionfind {
     bool unite(ll x, ll y) {
         x = find(x); y = find(y);
         if (x == y) return false;
-        if (d[x] > d[y]) std::swap(x,y);
+        if (d[x] > d[y]) swap(x,y);
         d[x] += d[y];
         d[y] = x;
         return true;
@@ -26,14 +25,13 @@ struct unionfind {
     bool same(ll x, ll y) { return find(x) == find(y);}
     ll size(ll x) { return -d[find(x)];}
     void reset() { fill(d.begin(), d.end(), -1); }
-
 };
 
 vvec<ll> groups(unionfind& uf) {
     ll n = uf.d.size();
     vec<ll> leader_buf(n), group_size(n);
 
-    rep(n) leader_buf[i] = uf.find(i), group_size[leader_buf[i]]++;
+    rep(n) leader_buf[i]=uf.find(i), group_size[leader_buf[i]]++;
 
     vvec<ll> res(n);
     rep(n) res[i].reserve(group_size[i]);
@@ -45,7 +43,4 @@ vvec<ll> groups(unionfind& uf) {
     return res;
 }
 
-
 }
-
-#endif

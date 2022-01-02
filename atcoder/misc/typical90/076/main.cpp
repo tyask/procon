@@ -157,13 +157,39 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, vec<ll> A) {
+    ll t = sum(A)/10;
+    vec<ll> v(A);
+    v.insert(v.end(), rng(A));
+    cumsum cs(v);
+    rep(N) {
+        ll idx = lower_bound(rng(cs.s,i+1,i+1+N), cs.s[i]+t)-(cs.s.begin()+i+1);
+        if (idx<i+N && cs.s[i+1+idx]==t+cs.s[i]) { Yes(); return; }
+    }
+    No();
+}
+
+void solve2(ll N, vec<ll> A) {
+    ll t = sum(A)/10;
+    if (t==0) { No(); return; }
+
+    vec<ll> v(A);
+    v.insert(v.end(), rng(A));
+
+    ll s=0,r=0;
+    rep(l,N) {
+        while(s<t && r<l+N) s+=v[r++];
+        if (s==t) { Yes(); return; }
+        s-=v[l];
+    }
+
+    No();
 }
 
 void solve() {
     LL(N);
     vec<ll> A(N);
     rep(i, N) { in(A[i]); }
-    solve(N, move(A));
+    solve2(N, move(A));
 }
 #else
 void solve() {

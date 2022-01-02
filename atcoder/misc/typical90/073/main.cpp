@@ -157,6 +157,39 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, vec<str> c, vec<ll> a, vec<ll> b) {
+    rep(N-1) a[i]--, b[i]--;
+    vvec<ll> g(N);
+    rep(N-1) g[a[i]].PB(b[i]),g[b[i]].PB(a[i]);
+
+    set<pll> ps;
+    rep(N-1) ps.insert(minmax(a[i],b[i]));
+
+    vec<ll> vis(N);
+    rep(N) if(g[i].size()==1) {
+        str cs = c[i];
+        auto dfs = [&](auto self, ll v, ll p) {
+            if (vis[v]) return;
+            vis[v]=1;
+
+            ps.erase(minmax(p,v));
+
+            set<str> ss;
+            each(n,g[v]) ss.insert(c[n]);
+            if (ss.size()==1) {
+                self(self, n, v);
+            } else {
+                vec<ll> a;
+                each(n,g[i]) {
+                    if (c[n]==cs) self(self, n, v);
+                    else a.PB(n);
+                }
+                if (a.size()==1) ps.erase(minmax(a[0],v));
+                else {
+                    // aのうちどれか一つはつなぐ必要あり.
+                }
+            }
+        };
+    }
 }
 
 void solve() {

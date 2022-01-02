@@ -157,6 +157,14 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, vec<ll> L, vec<ll> R) {
+    using ld = long double;
+    ld ans = 0;
+    rep(i,N)rep(j,i+1,N) {
+        ll c = 0;
+        erep(x,L[i],R[i]) erep(y,L[j],R[j]) if (x>y) c++;
+        ans += c / ld((R[i]-L[i]+1)*(R[j]-L[j]+1));
+    }
+    out(ans);
 }
 
 void solve() {

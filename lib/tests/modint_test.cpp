@@ -2,8 +2,9 @@
 #include "modint.hh"
 
 TEST(ModIntTest, Calculation) {
-    using mint = mint<7>;
+    using mint = modint<7>;
     EXPECT_EQ(mint(3), mint(1)+mint(2));
+    EXPECT_EQ(mint(3), mint(1)+2);
 }
 
 int main(int argc, char** argv) {

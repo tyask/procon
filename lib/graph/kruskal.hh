@@ -1,17 +1,14 @@
-#ifndef KRASCAL_HH
-#define KRASCAL_HH
+#pragma once
 
-#include <bits/stdc++.h>
+#include "common.hh"
 #include "unionfind.hh"
 
-using namespace std;
 
 struct kruskal {
-    using ll = long long;
     struct edge {int u, v; ll cost; };
 
     int n; // 頂点数
-    vector<edge> es;
+    vec<edge> es;
 
     kruskal(int n) : n(n) {}
 
@@ -20,19 +17,11 @@ struct kruskal {
         return *this;
     }
 
-    vector<edge> run() {
-        sort(es.begin(), es.end(), [](auto& e1, auto& e2){return e1.cost < e2.cost;});
+    vec<edge> run() {
+        sort(rng(es), [](auto e1, auto e2){return e1.cost < e2.cost;});
         unionfind uf(n);
-        vector<edge> ret;
-        for (edge e : es) {
-            if (!uf.same(e.u, e.v)) {
-                uf.unite(e.u, e.v);
-                ret.push_back(e);
-            }
-        }
-
+        vec<edge> ret;
+        each(e, es) if (uf.unite(e.u, e.v)) ret.PB(e);
         return ret;
     }
 };
-
-#endif

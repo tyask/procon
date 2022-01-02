@@ -156,7 +156,29 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+TEMPLATE(C) size_t sz(const C& c) { return c.size(); }
+ll LIS(const vec<ll>& v) {
+    vec<ll> dp(sz(v), inf<ll>);
+    each(n,v) *lower_bound(rng(dp),n) = n;
+    return find(rng(dp),inf<ll>)-dp.begin();
+}
+
 void solve(ll N, vec<ll> A) {
+    vec<ll> dp(N,inf<ll>);
+    vvec<ll> a(2, vec<ll>(N));
+    rep(t,2) {
+        fill(rng(dp), inf<ll>);
+        rep(i,N) {
+            auto it = lower_bound(rng(dp),A[i]);
+            *it = A[i];
+            a[t][i] = it-dp.begin()+1;
+        }
+        reverse(A);
+    }
+
+    ll ans = 0;
+    rep(N) chmax(ans, a[0][i]+a[1][N-i-1]-1);
+    out(ans);
 }
 
 void solve() {

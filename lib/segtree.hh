@@ -1,5 +1,4 @@
-#ifndef SEGTREE_HH
-#define SEGTREE_HH
+#pragma once
 
 #include "common.hh"
 namespace {
@@ -48,5 +47,3 @@ struct RMQ : segtree<ll> {
 };
 
 }
-
-#endif

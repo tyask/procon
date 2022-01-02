@@ -156,11 +156,25 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
-void solve(ll N, ll K) {
+void solve(str N, ll K) {
+
+    ll n = stoll(N,0,8);
+
+    rep(i,K) {
+        str x;
+        while (n>0) x+=char((n%9==8?5:n%9)+'0'), n/=9;
+        reverse(x);
+        n = x.empty() ? 0 : stoll(x,0,8);
+    }
+
+    str a;
+    while (n>0) a+=char((n%8)+'0'), n/=8;
+    reverse(a);
+    out(a.empty()?"0":a);
 }
 
 void solve() {
-    LL(N);
+    STR(N);
     LL(K);
     solve(N, K);
 }

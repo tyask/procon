@@ -1,21 +1,15 @@
-#ifndef DIJKSTRA_HH
-#define DIJKSTRA_HH
+#pragma once
 
-#include <bits/stdc++.h>
+#include "common.hh"
+
 namespace {
-using namespace std;
-template<class T, class U> bool chmin(T& a, const U& b){ if(a > b){ a = b; return 1; } return 0; }
 
 struct dijkstra {
-    using ll = long long;
     struct edge{ ll to; ll cost; };
-    template<typename T> using vec = vector<T>;
-    const ll LINF = LLONG_MAX/3;
 
     int n;
     vec<vec<edge>> g;
-    vec<ll> d;
-    vec<ll> prev;
+    vec<ll> d, prev;
 
     dijkstra(int n) : n(n), g(n) {};
 
@@ -28,13 +22,13 @@ struct dijkstra {
     void run(int s) {
         assert(0<=s && s<n);
         using P = pair<ll, int>; // cost, node
-        priority_queue<P, vec<P>, greater<P>> que;
-        d.resize(n, LINF);
+        pqg<P> que;
+        d.resize(n, inf<ll>);
         prev.resize(n, -1);
         d[s] = 0;
         que.emplace(0, s);
         while (!que.empty()) {
-            auto [cost, v] = que.top(); que.pop();
+            auto [cost, v] = pop(que);
             if (d[v] < cost) continue;
             for (edge e : g[v]) {
                 if (chmin(d[e.to], d[v] + e.cost)) {
@@ -45,19 +39,14 @@ struct dijkstra {
         }
     }
 
-    ll shortest_path(int t) {
-        return d[t];
-    }
+    ll shortest_path(int t) { return d[t]; }
 
-    vector<int> restore_shortest_path(int t) {
-        vector<int> path;
-        for (; t != -1; t = prev[t]) path.push_back(t);
-        reverse(path.begin(), path.end());
-        return path;
+    vec<int> restore_shortest_path(int t) {
+        vec<int> path;
+        while (t!=-1) path.PB(t), t=prev[t];
+        return reverse(path);
     }
 
 };
 
 }
-
-#endif

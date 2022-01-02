@@ -157,7 +157,53 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll S, vec<ll> A, vec<ll> B) {
+    vvec<ll> dp(N+1, vec<ll>(S+1, -1));
+    vvec<ll> dest(N+1, vec<ll>(S+1, -1));
+    dp[0][0]=0;
+    rep(i,N) rep(j,S+1) if(dp[i][j]>=0) {
+        ll a = A[i], b = B[i];
+        if (j+a<=S) dp[i+1][j+a]=1, dest[i+1][j+a]=j;
+        if (j+b<=S) dp[i+1][j+b]=2, dest[i+1][j+b]=j;
+    }
+
+    if (dp[N][S]>0) {
+        str ans;
+        ll j = S;
+        rrep(i,1,N+1) {
+            ans += char(dp[i][j]+'A'-1);
+            j = dest[i][j];
+        }
+        reverse(ans);
+        out(ans);
+    } else {
+        Impossible();
+    }
 }
+
+void solve2(ll N, ll S, vec<ll> A, vec<ll> B) {
+    vvec<ll> dp(N+1, vec<ll>(S+1, -1));
+    dp[0][0]=0;
+    rep(i,N) rep(j,S+1) if(dp[i][j]>=0) {
+        ll a = A[i], b = B[i];
+        if (j+a<=S) dp[i+1][j+a]=1;
+        if (j+b<=S) dp[i+1][j+b]=1;
+    }
+
+    if (dp[N][S]>0) {
+        str ans;
+        ll j = S;
+        rrep(i,N) {
+            if (j-A[i]>=0&&dp[i][j-A[i]]>=0) ans+='A', j-=A[i];
+            else if (j-B[i]>=0&&dp[i][j-B[i]]>=0) ans+='B', j-=B[i];
+        }
+        reverse(ans);
+        out(ans);
+    } else {
+        Impossible();
+    }
+}
+
+
 
 void solve() {
     LL(N);
@@ -165,7 +211,7 @@ void solve() {
     vec<ll> A(N);
     vec<ll> B(N);
     rep(i, N) { in(A[i]); in(B[i]); }
-    solve(N, S, move(A), move(B));
+    solve2(N, S, move(A), move(B));
 }
 #else
 void solve() {

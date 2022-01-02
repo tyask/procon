@@ -157,6 +157,25 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll P, ll Q, vec<ll> A) {
+    auto dfs = [&](auto self, ll pos, ll m, ll c) -> ll {
+        if (c==5) return m==Q;
+        ll ret = 0;
+        rep(i,pos,N) ret+=self(self, i+1, m*A[i]%P, c+1);
+        return ret;
+    };
+    out(dfs(dfs,0,1,0));
+
+    // ll ans = 0;
+    // rep(i,N)rep(j,i+1,N)rep(k,j+1,N)rep(l,k+1,N)rep(m,l+1,N) {
+    //     ll a = 1;
+    //     a = a*A[i]%P;
+    //     a = a*A[j]%P;
+    //     a = a*A[k]%P;
+    //     a = a*A[l]%P;
+    //     a = a*A[m]%P;
+    //     ans+=a==Q;
+    // }
+    // out(ans);
 }
 
 void solve() {

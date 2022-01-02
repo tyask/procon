@@ -157,6 +157,18 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll Q, vec<ll> A, vec<ll> L, vec<ll> R, vec<ll> V) {
+    rep(Q) L[i]--, R[i]--;
+
+    ll s = 0;
+    vec<ll> d(N-1);
+    rep(N-1) d[i]=A[i+1]-A[i], s+=abs(d[i]);
+
+    rep(Q) {
+        auto [l,r,v] = tuple(L[i],R[i],V[i]);
+        if (l>0) s-=abs(d[l-1]), d[l-1]+=v, s+=abs(d[l-1]);
+        if (r<N-1) s-=abs(d[r]), d[r]-=v, s+=abs(d[r]);
+        out(s);
+    }
 }
 
 void solve() {

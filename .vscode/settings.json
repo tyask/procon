@@ -27,6 +27,7 @@
         "type_traits": "cpp",
         "valarray": "cpp",
         "variant": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "bitset": "cpp"
     }
 }

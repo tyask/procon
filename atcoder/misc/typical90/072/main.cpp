@@ -157,6 +157,32 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve() {
+    LL(H,W);
+    vec<str> C(H);
+    rep(H) cin>>C[i];
+
+    ll ans=0;
+    rep(si,H)rep(sj,W) {
+        set<pll> root;
+        auto dfs = [&](auto self, ll i, ll j) -> void {
+            rep(k,4) {
+                ll ni=i+dy[k], nj=j+dx[k];
+                if (0<=ni&&ni<H&&0<=nj&&nj<W&&C[ni][nj]!='#') {
+                    if(!root.emplace(ni,nj).SE) {
+                        if (ni==si&&nj==sj&&root.size()>=3) chmax(ans,root.size());
+                        continue;
+                    }
+                    self(self,ni,nj);
+                    root.erase({ni,nj});
+                }
+            }
+        };
+        root.emplace(si,sj);
+        dfs(dfs,si,sj);
+    }
+
+    if(ans==0) ans=-1;
+    out(ans);
 }
 #else
 void solve() {

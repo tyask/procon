@@ -157,6 +157,12 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll Q, vec<ll> t, vec<ll> x) {
+    deque<ll> q;
+    rep(Q) {
+        if(t[i]==1) q.push_front(x[i]);
+        else if (t[i]==2) q.push_back(x[i]);
+        else out(q[x[i]-1]);
+    }
 }
 
 void solve() {

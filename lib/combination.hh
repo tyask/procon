@@ -1,22 +1,19 @@
-#ifndef COMBINATION_HH
-#define COMBINATION_HH
+#pragma once
 
-#include <bits/stdc++.h>
+#include "common.hh"
 #include "modint.hh"
 
 namespace mod {
 
-template<typename MINT> struct combination {
-private:
-    std::vector<MINT> facts, ifacts;
+TEMPLATE(MINT) struct combination {
+    vec<MINT> facts, ifacts;
 
-public:
     combination(int n):facts(n+1),ifacts(n+1) {
         assert(n < MINT::MOD);
         facts[0] = 1;
-        for (int i = 1; i <= n; ++i) facts[i] = facts[i-1]*i;
+        rep(i,1,n+1) facts[i] = facts[i-1]*i;
         ifacts[n] = facts[n].inv();
-        for (int i = n; i >= 1; --i) ifacts[i-1] = ifacts[i]*i;
+        rrep(i,1,n+1) ifacts[i-1] = ifacts[i]*i;
     }
 
     MINT operator()(int n, int k) const {
@@ -30,7 +27,7 @@ public:
 
 };
 
-template<typename MINT> using comb = combination<MINT>;
+TEMPLATE(MINT) using comb = combination<MINT>;
 
 }
 
@@ -38,17 +35,13 @@ namespace math {
 
 // パスカルの三角形によりnCkを計算
 struct combination {
-    using ll = long long;
-    template<typename T> using vec = std::vector<T>;
-    vec<vec<ll>> m;
+    vvec<ll> m;
 
     combination(int n) : m(n+1, vec<ll>(n+1)) {
         m[0][0] = 1;
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
-                m[i+1][j] += m[i][j];
-                m[i+1][j+1] += m[i][j];
-            }
+        rep(i,n) rep(j,n) {
+            m[i+1][j] += m[i][j];
+            m[i+1][j+1] += m[i][j];
         }
     }
 
@@ -60,5 +53,3 @@ struct combination {
 };
 
 }
-
-#endif

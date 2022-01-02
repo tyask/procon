@@ -156,12 +156,42 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+set<ll> divisors(ll n) {
+    set<ll> ret;
+    for (ll i = 1; i * i <= n; ++i) {
+        if (n % i != 0) continue;
+        ret.insert(i);
+        if (i * i != n) ret.insert(n / i);
+    }
+
+    return ret;
+}
 void solve(ll K) {
+    ll ans=0;
+    for(ll a=1; a*a<=K; ++a) {
+        for(ll b=a; a*b*b<=K; ++b) {
+            if (K%(a*b)==0) ans++;
+        }
+    }
+    out(ans);
 }
 
+void solve2(ll K) {
+    auto s = divisors(K);
+    vec<ll> ds(rng(s));
+    ll n = ds.size();
+    ll ans=0;
+    rep(i,n)rep(j,i,n) {
+        ll a=ds[i], b=ds[j];
+        if (K/a<b) continue;
+        ll m=a*b;
+        if (K%m==0&&K/m>=b) ans++;
+    }
+    out(ans);
+}
 void solve() {
     LL(K);
-    solve(K);
+    solve2(K);
 }
 #else
 void solve() {

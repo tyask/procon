@@ -157,6 +157,23 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll K) {
+    const ll M = 100000;
+    set<ll> s;
+    vec<ll> v;
+    rep(K) {
+        ll n = N;
+        while (N>0) n += N%10, N/=10;
+        n %= M;
+        N = n;
+        if (!s.insert(N).SE) {
+            vec<ll> t = vec<ll>(find(rng(v),N), v.end());
+            out(t[(K-i-1)%t.size()]);
+            return;
+        }
+        v.PB(N);
+    }
+
+    out(v.back());
 }
 
 void solve() {

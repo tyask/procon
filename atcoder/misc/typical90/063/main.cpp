@@ -157,6 +157,20 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll H, ll W, vec<vec<ll>> P) {
+    ll ans = 0;
+    rep(b,1<<H) {
+        map<ll,ll> m;
+        rep(j,W) {
+            set<ll> s;
+            rep(i,H) if (b>>i&1) s.insert(P[i][j]);
+            if (s.size()==1) m[*s.begin()]++;
+        }
+
+        ll a=0;
+        each(p,m) chmax(a,p.SE);
+        chmax(ans, popcount(b)*a);
+    }
+    out(ans);
 }
 
 void solve() {

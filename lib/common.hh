@@ -1,7 +1,8 @@
-#ifndef COMMON_HH
-#define COMMON_HH
+#pragma once
 
 #include <bits/stdc++.h>
+
+using namespace std;
 
 #define overload4(_1,_2,_3,_4,name,...) name
 #define overload3(_1,_2,_3,name,...)    name
@@ -12,7 +13,6 @@
 #define template3(t, u, v) template<typename t, typename u, typename v>
 #define TEMPLATE(...)      overload3(__VA_ARGS__, template3, template2, template1)(__VA_ARGS__)
 
-using namespace std;
 using ll   = long long;
 using ull  = unsigned long long;
 using uint = unsigned int;
@@ -22,11 +22,19 @@ using pii  = pair<int, int>;
 using pll  = pair<ll, ll>;
 TEMPLATE(T) using vec   = vector<T>;
 TEMPLATE(T) using vvec  = vec<vec<T>>;
-TEMPLATE(T) using graph = vvec<T>;
 TEMPLATE(T) using pq    = priority_queue<T>; // descending
 TEMPLATE(T) using pqg   = priority_queue<T, vec<T>, greater<T>>; // ascending
 
+TEMPLATE(N) static constexpr N inf = numeric_limits<N>::max() / 2;
+const ld EPS = 1e-9;
+const ld PI  = 3.1415926535897932;
+const ld TAU = 2 * PI;
+const int    dx[] = {0, 1, 0, -1, 1, 1, -1, -1};
+const int    dy[] = {1, 0, -1, 0, 1, -1, 1, -1};
+
 #define PB push_back
+#define PF push_front
+#define EB emplace_back
 #define MP make_pair
 #define MT make_tuple
 #define FI first
@@ -58,10 +66,120 @@ TEMPLATE(T) using pqg   = priority_queue<T, vec<T>, greater<T>>; // ascending
 #define rng3(i,a,b) begin(i)+a, begin(i)+b
 #define rng(...) overload3(__VA_ARGS__,rng3,rng2,rng1)(__VA_ARGS__)
 
+#define rrng1(i)     rbegin(i), rend(i)
+#define rrng2(i,a)   rend(i)-a, rend(i)
+#define rrng3(i,a,b) rend(i)-b, rend(i)-a
+#define rrng(...) overload3(__VA_ARGS__,rrng3,rrng2,rrng1)(__VA_ARGS__)
+
+TEMPLATE(T)    ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
+TEMPLATE(T)    ostream& operator<<(ostream& os, const vvec<T>& c) { each(v, c) out(os, v); return os; }
+TEMPLATE(T)    ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
+TEMPLATE(T)    ostream& operator<<(ostream& os, const set<T>& c) { return write(os, c); }
+TEMPLATE(K, V) ostream& operator<<(ostream& os, const map<K, V>& c) { return write(os, c); }
+TEMPLATE(T, U) ostream& operator<<(ostream& os, const pair<T, U>& p) { return os << p.first << ':' << p.second; }
+
+TEMPLATE(It) auto sum(It b, It e) { return accumulate(b, e, typename It::value_type(0)); }
+TEMPLATE(C)  auto sum(const C& c) { return ::sum(rng(c)); }
+TEMPLATE(N)  auto sum(const initializer_list<N>& c) { return ::sum(vec<N>(c)); }
+TEMPLATE(It) auto sumproduct(It b, It e) { typename It::value_type v = 1; for(It it=b;it!=e;++it) v*=*it; return v; }
+TEMPLATE(C)  auto sumproduct(const C& c) { return ::sumproduct(rng(c)); }
+TEMPLATE(N)  auto sumproduct(const initializer_list<N>& c) { return ::sumproduct(vec<N>(c)); }
+TEMPLATE(C)  auto max(const C& c) { return *max_element(rng(c)); }
+TEMPLATE(C)  auto min(const C& c) { return *min_element(rng(c)); }
+
+TEMPLATE(C) auto& sort(C& c) { sort(rng(c)); return c; }
+TEMPLATE(C, Comp) auto& sort(C& c, Comp comp) { sort(rng(c), comp); return c; }
+TEMPLATE(C) auto& reverse(C& c) { reverse(rng(c)); return c; }
+TEMPLATE(T) auto& uniq(vec<T>& v) { set<T> s(rng(v)); return v = vec<T>(rng(s)); }
+TEMPLATE(T, U) bool chmin(T& a, const U& b) { if(a > b){ a = b; return 1; } return 0; }
+TEMPLATE(T, U) bool chmax(T& a, const U& b) { if(a < b){ a = b; return 1; } return 0; }
+TEMPLATE(C) size_t sz(const C& c) { return c.size(); }
+TEMPLATE(T) auto& compress(vec<T>& v) { auto a = v; sort(uniq(a)); rep(sz(v)) v[i] = lower_bound(rng(a),v[i])-a.begin(); return v; }
+TEMPLATE(C) auto runlength_encoding(const C& c) {
+    vec<pair<typename C::value_type, ll>> ret;
+    rep(sz(c)) { if (i==0 || c[i-1]!=c[i]) ret.EB(c[i], 0); ret.back().SE++; }
+    return ret;
+}
+TEMPLATE(N, F) N bin_search(N ng, N ok, F isok) {
+    while(abs(ok-ng)>0){ N mid=(ok+ng)/2; (isok(mid)?ok:ng)=mid; }
+    return ok;
+}
 TEMPLATE(T, S)    T pop(queue<T, S>& q) { T t = q.front(); q.pop(); return t; }
 TEMPLATE(T, S, C) T pop(priority_queue<T, S, C>& q) { T t = q.top(); q.pop(); return t; }
 TEMPLATE(T, S)    T pop_front(deque<T, S>& q) { T t = q.front(); q.pop_front(); return t; }
 TEMPLATE(T, S)    T pop_back(deque<T, S>& q) { T t = q.back(); q.pop_back(); return t; }
+TEMPLATE(T)       T pop_top(stack<T>& s) { T t = s.top(); s.pop(); return t; }
 
+void decrements() {}
+TEMPLATE(C) void decrements(C&& c) { rep(c.size()) c[i]--; }
+TEMPLATE(T, ...Tail) void decrements(T&& head, Tail&&... tail) { decrements(head); decrements(forward<Tail>(tail)...); }
+TEMPLATE(C) bool in(const C& c, ll i) { return 0 <= i && i < c.size(); }
+TEMPLATE(C) bool in(const vec<C>& c, ll i, ll j) { return in(c, i) && in(c[i], j); }
+TEMPLATE(C) vec<C> rot(const vec<C>& c) {
+    ll h = c.size(), w = c[0].size();
+    vec<C> a(w, C(h, c[0][0]));
+    rep(i,h)rep(j,w) a[j][h-1-i]=c[i][j];
+    return a;
+}
 
-#endif
+TEMPLATE(N) N gcd(N a, N b)    { while(b){ N c = b; b = a % b; a = c; } return a; }
+TEMPLATE(N) N lcm(N a, N b)    { if(!a || !b) return 0; return a / gcd(a, b) * b; }
+TEMPLATE(N) N powint(N n, N k) { N ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
+ll pow10(ll e) { return powint(10LL,e); }
+TEMPLATE(N) N floor(N a, N b)  { return a / b; }
+TEMPLATE(N) N ceil(N a, N b)   { return (a + b - 1) / b; }
+TEMPLATE(N) N mod(N n, N m)    { N r = n % m; return (r < 0) ? r + m : r; }
+TEMPLATE(N) N powmod(N n, N k, N m) { N ans = 1; while(k){ if(k & 1) (ans*=n)%=m; n%=m; (n*=n)%=m; k>>=1; } return ans; }
+TEMPLATE(N) size_t popcount(N n)    { return bitset<sizeof(N)*8>(n).count(); }
+TEMPLATE(N) N sumae(N n, N a, N e) { return n * (a + e) / 2; }
+TEMPLATE(N) N sumad(N n, N a, N d) { return n * (2 * a + (n - 1) * d) / 2; }
+TEMPLATE(N) int ndigits(N n) { int d = 0; while(n>0) d++, n/=10; return d; }
+
+TEMPLATE(N) struct cumsum : vec<N> {
+    cumsum(const vec<N>& v): vec<N>(sz(v)+1) { rep(sz(v)) ref(i+1)=ref(i)+v[i]; }
+    N operator()(int l, int r) { return ref(r)-ref(l); }
+    N operator()(int r) { return operator()(0, r); }
+    N& ref(int i) { return (*this)[i]; }
+};
+
+TEMPLATE(N=ll) struct graph : vvec<N> {
+    graph(ll n) : vvec<N>(n) {}
+    graph& digraph(const vec<N>& u, const vec<N>& v) { rep(sz(u)) (*this)[u[i]].PB(v[i]); return *this; }
+    graph& undigraph(const vec<N>& u, const vec<N>& v) { return digraph(u,v).digraph(v,u); }
+};
+
+TEMPLATE(N) struct cumsum2d : vvec<N> {
+    cumsum2d(const vvec<N>& v): vvec<N>(sz(v)+1, vec<N>(sz(v[0])+1)) {
+        rep(i,sz(v))rep(j,sz(v[i])) ref(i+1,j+1)=ref(i,j+1)+ref(i+1,j)-ref(i,j)+v[i][j];
+    }
+    N operator()(int i1, int i2, int j1, int j2) { return ref(i2,j2)-ref(i1,j2)-ref(i2,j1)+ref(i1,j1); }
+    N operator()(int i, int j) { return operator()(0, i, 0, j); }
+    N& ref(int i, int j) { return (*this)[i][j]; }
+};
+
+struct pt : complex<ld> {
+    pt(ld x, ld y) : complex<ld>(x, y) {}
+    pt(complex<ld> c) : complex<ld>(c) {}
+    static pt vec(pt from, pt to) { return to - from; }
+    ld x() const { return real(); }
+    ld y() const { return imag(); }
+    const complex<ld>& cpx() const { return *this; };
+
+    ld norm() const { return sqrtl(x()*x()+y()*y()); }
+
+    pt operator-(pt p) const { return cpx() - p; }
+    pt operator+(pt p) const { return cpx() + p; }
+    pt operator*(pt p) const { return cpx() * p; }
+    pt operator/(pt p) const { return cpx() / p; }
+
+    pt operator+(ld d) const { return cpx() + d; }
+    pt operator-(ld d) const { return cpx() - d; }
+    pt operator*(ld d) const { return cpx() * d; }
+    pt operator/(ld d) const { return cpx() / d; }
+
+    pt rot(ld th) const { return pt(cosl(th)*x()-sinl(th)*y(), sinl(th)*x()+cosl(th)*y()); } // 反時計周りに回転
+};
+ostream& operator<<(ostream& os, const pt& p) { return os << p.x() << " " << p.y(); }
+
+ld deg(ld rad) { return rad*180/PI; }
+ld rad(ld deg) { return deg*PI/180; }

@@ -157,6 +157,20 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, str S) {
+    vec<ll> x, o;
+    rep(N) if(S[i]=='o') o.PB(i); else x.PB(i);
+
+    ll ans=0;
+    rep(N) {
+        if (S[i]=='o') {
+            auto it = lower_bound(rng(x), i+1);
+            if (it!=x.end()) ans+=N-*it;
+        } else {
+            auto it = lower_bound(rng(o), i+1);
+            if (it!=o.end()) ans+=N-*it;
+        }
+    }
+    out(ans);
 }
 
 void solve() {

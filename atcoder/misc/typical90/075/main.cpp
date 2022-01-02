@@ -156,7 +156,25 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+map<ll, int> prime_fact(ll n) {
+    map<ll, int> ret;
+    for (ll d = 2; d * d <= n; ++d) {
+        int e = 0;
+        while (n % d == 0) { e++; n /= d; }
+        if (e != 0) ret[d] = e;
+    }
+
+    if (n != 1) ret[n] = 1;
+    return ret;
+}
 void solve(ll N) {
+    auto pf = prime_fact(N);
+    ll s=0;
+    each(p,pf) s+=p.SE;
+
+    ll k=1, ans=0;
+    while(k<s) k*=2, ans++;
+    out(ans);
 }
 
 void solve() {

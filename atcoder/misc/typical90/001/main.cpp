@@ -156,7 +156,21 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+TEMPLATE(N, F) N bin_search(N ng, N ok, F isok) {
+    while(abs(ok-ng)>1){ N mid=(ok+ng)/2; (isok(mid)?ok:ng)=mid; }
+    return ok;
+}
 void solve(ll N, ll L, ll K, vec<ll> A) {
+    ll ans = bin_search(L, 0LL, [&](ll n){
+        ll pre=0, cnt=0;
+        rep(N) {
+            if (A[i]-pre>=n) pre=A[i], cnt++;
+            if (cnt>=K) return L-A[i]>=n;
+        }
+        return false;
+    });
+
+    out(ans);
 }
 
 void solve() {

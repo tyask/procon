@@ -43,7 +43,7 @@
         },
         {
             "label": "Run C++ Source",
-            "command": "./tools/run.sh",
+            "command": "tools/run.sh",
             "args": [
                 "${fileDirname}"
             ],

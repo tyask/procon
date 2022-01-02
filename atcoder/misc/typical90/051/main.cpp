@@ -156,7 +156,61 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+struct combination {
+    vvec<ll> m;
+
+    combination(int n) : m(n+1, vec<ll>(n+1)) {
+        m[0][0] = 1;
+        rep(i,n) rep(j,n) {
+            m[i+1][j] += m[i][j];
+            m[i+1][j+1] += m[i][j];
+        }
+    }
+
+    ll operator()(int n, int k) const {
+        if (k < 0 || k > n) return 0;
+        return m[n][k];
+    }
+
+};
 void solve(ll N, ll K, ll P, vec<ll> A) {
+    ll m = N/2;
+    vvec<ll> v{vec<ll>(rng(A,0,m)), vec<ll>(rng(A,m,N))};
+    vvec<vec<ll>> vx(2, vec<vec<ll>>(N+1));
+
+    rep(i,2) {
+        ll mx = v[i].size();
+        rep(b,1<<mx) {
+            ll c = popcount(b);
+            ll s = 0;
+            rep(k,mx) if (b>>k&1) s+=v[i][k];
+            vx[i][c].PB(s);
+        }
+    }
+
+    vec<vec<ll>>& v1 = vx[0];
+    vec<vec<ll>>& v2 = vx[1];
+    // out(v1);
+    // out("---");
+    // out(v2);
+    // v1[0].PB(0);
+    // v2[0].PB(0);
+    ll ans = 0;
+    erep(i,K) {
+        vec<ll>& s1 = v1[i];
+        vec<ll>& s2 = v2[K-i];
+        sort(s1);
+        sort(s2);
+        each(n1,s1) {
+            if (n1>P) break;
+            ll p = P-n1;
+            ll idx = upper_bound(rng(s2), p)-s2.begin();
+            ans += idx;
+            // out(i, K-i, n1, idx);
+        }
+    }
+
+    out(ans);
 }
 
 void solve() {

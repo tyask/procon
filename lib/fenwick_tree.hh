@@ -1,11 +1,7 @@
-#ifndef FENWICK_TREE_HH
-#define FENWICK_TREE_HH
+#pragma once
 
-#include <bits/stdc++.h>
+#include "common.hh"
 namespace {
-using namespace std;
-using ll = long long;
-template<typename T> using vec = vector<T>;
 
 // 0-indexed
 struct fenwick_tree {
@@ -81,5 +77,3 @@ private:
 };
 
 }
-
-#endif
