@@ -156,7 +156,42 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+namespace seg {
+#include <atcoder/all>
+using namespace atcoder;
+using S = ll;
+using F = ll;
+
+S op(S a, S b){ return max(a, b); }
+S e(){ return -inf<ll>; }
+S mapping(F f, S x){ return f+x; }
+F composition(F f, F g){ return f+g; }
+F id(){ return 0; }
+
+struct lazy_rmq : lazy_segtree<S,op,e,F,mapping,composition,id> {
+    lazy_rmq(ll n) : lazy_segtree(n) {}
+    lazy_rmq(const vec<S>& v) : lazy_segtree(v) {}
+};
+}
+
 void solve(ll W, ll N, vec<ll> L, vec<ll> R, vec<ll> V) {
+    vec<ll> dp(W+1, -1);
+    seg::lazy_rmq rmq(W+1);
+
+    dp[0]=0;
+    // rmq.apply(0, 0LL);
+    rmq.set(0, 0LL);
+    rep(i,N) {
+        ll l=L[i], r=R[i], v=V[i];
+        rrep(j,W+1) {
+            // out(max(0LL,j-r), max(0LL,j-l)+1);
+            ll mn = rmq.prod(max(0LL,j-r), max(0LL,j-l+1));
+            // out(mn);
+            if (mn>=0) if (chmax(dp[j], mn+v)) rmq.set(j, mn+v);
+        }
+    }
+    // out(dp);
+    out(dp[W]);
 }
 
 void solve() {

@@ -208,22 +208,25 @@ void solve() {
     decrements(A,B,C,D);
 
     vvec<ll> g(H,vec<ll>(W));
-    rep(N) g[A[i]][B[i]] = 1;
-    rep(M) g[C[i]][D[i]] = 2;
+    rep(M) g[C[i]][D[i]] = -1;
 
-    rep(i,H) {
-        ll p = -1;
-        bool lump = false;
-        rep(j,W) {
-            int c = g[i][j];
-            if (c==2) {
-                if (lump) {
-                    p = j;
-                }
+    rep(N) {
+        ll xi=A[i], xj=B[i];
+        rep(k,4) {
+            ll di=xi, dj=xj;
+            ll c = dy[k]==0 ? 1 : 2;
+            while (in(g,di,dj)) {
+                ll& x = g[di][dj];
+                if (x==-1 || x==c) break;
+                x = c;
+                di += dy[k], dj+=dx[k];
             }
-            if (c==1) lump = true;
         }
     }
+
+    ll ans=0;
+    rep(i,H)rep(j,W) if(g[i][j]>0) ans++;
+    out(ans);
 
 }
 #else

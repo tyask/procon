@@ -156,16 +156,52 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+TEMPLATE(C) ll sz(const C& c) { return c.size(); }
+
+vvec<ll> ssc(const vvec<ll>& g) {
+    const ll N = sz(g);
+
+    // 逆向き有向グラフ構築
+    vvec<ll> h(N);
+    rep(N) each(v,g[i]) h[v].PB(i);
+
+    // dfs1
+    vec<ll> vis(N), t;
+    auto dfs = [&](auto self, ll v) {
+        if (vis[v]) return;
+        vis[v]=1;
+        each(n,g[v]) self(self,n);
+        t.PB(v);
+    };
+    rep(v,N) dfs(dfs,v);
+
+    // dfs2 (grouping)
+    vec<ll> gn(N,-1);
+    ll gi = 0;
+    auto rdfs = [&](auto self, ll v) {
+        if (gn[v]>=0) return;
+        gn[v]=gi;
+        each(n,h[v]) self(self,n);
+    };
+
+    reverse(t);
+    each(v,t) if(gn[v]<0) rdfs(rdfs,v), gi++;
+
+    vvec<ll> group(gi);
+    rep(N) group[gn[i]].PB(i);
+
+    return group;
+}
+
 void solve(ll N, ll M, vec<ll> A, vec<ll> B) {
     rep(M) A[i]--, B[i]--;
-    vec<set<ll>> g(N);
-    rep(M) g[A[i]].insert(B[i]);
-    ll ans = 0;
-    rep(x,N)each(y,g[x]) {
-        if(x<y&&g[y].count(x)) {
-            ans++;
-        }
-    }
+    vvec<ll> g(N);
+    rep(M) g[A[i]].PB(B[i]);
+
+    vvec<ll> group = ssc(g);
+
+    ll ans=0;
+    each(gr,group) ans+=gr.size()*(gr.size()-1)/2;
     out(ans);
 }
 

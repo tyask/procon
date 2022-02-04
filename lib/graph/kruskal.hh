@@ -5,7 +5,7 @@
 
 
 struct kruskal {
-    struct edge {int u, v; ll cost; };
+    struct edge { ll u, v, cost; };
 
     int n; // 頂点数
     vec<edge> es;

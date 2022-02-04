@@ -241,77 +241,28 @@ void solve() {
 }
 {% endif %}
 #else
-template<ll M> struct modint {
-    using mint = modint<M>;
-    static constexpr ll MOD = M;
-
-    ll v;
-
-    modint(ll v=0):v((v%MOD+MOD)%MOD){}
-
-    ll val() const { return v; }
-
-    mint operator-() const { return mint(-v);}
-    mint& operator++() { v++; if (v == MOD) v = -1; return *this; }
-    mint& operator--() { if (v == -1) v = MOD; v--; return *this; }
-    mint operator++(int) { mint r = *this; ++*this; return r; }
-    mint operator--(int) { mint r = *this; --*this; return r; }
-
-    mint& operator+=(const mint a) { if ((v += a.v) >= MOD) v -= MOD; return *this; }
-    mint& operator-=(const mint a) { if ((v += MOD-a.v) >= MOD) v -= MOD; return *this; }
-    mint& operator*=(const mint a) { (v *= a.v) %= MOD; return *this;}
-    mint operator+(const mint a) const { return mint(*this) += a;}
-    mint operator-(const mint a) const { return mint(*this) -= a;}
-    mint operator*(const mint a) const { return mint(*this) *= a;}
-
-    mint pow(ll t) const { if (t==0) return 1; mint a = pow(t>>1); a *= a; if (t&1) a *= *this; return a; }
-    mint inv() const { return pow(MOD-2);}
-    mint& operator/=(const mint a) { return *this *= a.inv();}
-    mint operator/(const mint a) const { return mint(*this) /= a;}
-
-    bool operator==(mint a) const { return val()==a.val(); }
-    bool operator!=(mint a) const { return !(*this == a); }
-    bool operator< (mint a) const { return val()<a.val(); }
-    bool operator> (mint a) const { return val()>a.val(); }
-    bool operator<=(mint a) const { return val()<=a.val(); }
-    bool operator>=(mint a) const { return val()>=a.val(); }
-};
-
-template<ll M> std::istream& operator>>(std::istream& is, modint<M>& m) { return is >> m.val();}
-template<ll M> std::ostream& operator<<(std::ostream& os, const modint<M>& m) { return os << m.val();}
-
-using mint = modint<1000000007>;
-
-bool is_prime(ll n) {
-    if (n == 1) return false;
-    for (ll i = 2; i*i <= n; ++i) if (n%i==0) return false;
-    return true;
-}
-
-map<ll, int> prime_fact(ll n) {
-    map<ll, int> ret;
-    for (ll d = 2; d * d <= n; ++d) {
-        int e = 0;
-        while (n % d == 0) { e++; n /= d; }
-        if (e != 0) ret[d] = e;
-    }
-
-    if (n != 1) ret[n] = 1;
-    return ret;
-}
-
 void solve() {
-    LL(N);
-    vec<ll> t(N), x(N), y(N);
-    rep(N) cin>>t[i]>>x[i]>>y[i];
+    LL(H,W);
+    LL(rs,cs,rt,ct);
+    vec<str> S(H);
+    rep(H) cin>>S[i];
+    rs--,cs--,rt--,ct--;
 
-    ll ct=0,cx=0, cy=0;
-    rep(N) {
-        ll dt=abs(ct-t[i]),d=abs(cx-x[i])+abs(cy-y[i]);
-        if (dt<d||dt%2!=d%2) No().exit();
-        ct=t[i],cx=x[i],cy=y[i];
+    vvec<vec<ll>> g(H, vvec<ll>(W, vec<ll>(4)));
+    using tup = tuple<pll,pll>;
+    queue<tup> q;
+    q.push(tup({rs,cs},{-1,-1}));
+    while (q.size()) {
+        auto [c, p]=pop(q);
+        auto [i,j]=c;
+        auto [pi,pj]=p;
+        rep(k,4) {
+            ll ni=i+dy[k], nj=j+dx[k];
+            if (in(S,ni,nj)&&S[ni][nj]=='.') {
+
+            }
+        }
     }
-    Yes();
 }
 #endif
 

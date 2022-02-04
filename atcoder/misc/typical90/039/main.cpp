@@ -157,6 +157,23 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, vec<ll> a, vec<ll> b) {
+    rep(N-1) a[i]--, b[i]--;
+    vvec<ll> g(N);
+    rep(N-1) g[a[i]].PB(b[i]), g[b[i]].PB(a[i]);
+
+    vec<ll> dp(N), vis(N);
+    auto dfs = [&](auto self, ll v) -> ll {
+        if (vis[v]) return 0;
+        vis[v]=1;
+        ll c=1;
+        each(n,g[v]) c+=self(self, n);
+        return dp[v]=c;
+    };
+    dfs(dfs, 0);
+
+    ll ans=0;
+    each(x,dp) ans+=x*(N-x);
+    out(ans);
 }
 
 void solve() {

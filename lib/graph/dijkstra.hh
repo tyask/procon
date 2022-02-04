@@ -5,7 +5,7 @@
 namespace {
 
 struct dijkstra {
-    struct edge{ ll to; ll cost; };
+    struct edge{ll from, to, cost; };
 
     int n;
     vec<vec<edge>> g;
@@ -13,9 +13,9 @@ struct dijkstra {
 
     dijkstra(int n) : n(n), g(n) {};
 
-    dijkstra& add(ll from, edge e) {
-        assert(0<=from && from<n && 0<=e.to && e.to<n);
-        g.at(from).push_back(e);
+    dijkstra& add(edge e) {
+        assert(0<=e.from && e.from<n && 0<=e.to && e.to<n);
+        g.at(e.from).push_back(e);
         return *this;
     }
 
@@ -23,11 +23,11 @@ struct dijkstra {
         assert(0<=s && s<n);
         using P = pair<ll, int>; // cost, node
         pqg<P> que;
-        d.resize(n, inf<ll>);
-        prev.resize(n, -1);
+        d.assign(n, inf<ll>);
+        prev.assign(n, -1);
         d[s] = 0;
         que.emplace(0, s);
-        while (!que.empty()) {
+        while (que.size()) {
             auto [cost, v] = pop(que);
             if (d[v] < cost) continue;
             for (edge e : g[v]) {
@@ -39,7 +39,7 @@ struct dijkstra {
         }
     }
 
-    ll shortest_path(int t) { return d[t]; }
+    ll operator[](int t) { return d[t]; }
 
     vec<int> restore_shortest_path(int t) {
         vec<int> path;

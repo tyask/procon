@@ -157,6 +157,15 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll Q, vec<ll> x, vec<ll> y, vec<ll> q) {
+    rep(Q) q[i]--;
+    vec<ll> xs(N), ys(N);
+    rep(N) xs[i]=x[i]-y[i], ys[i]=x[i]+y[i];
+    ll xmx=max(xs),xmn=min(xs),ymx=max(ys),ymn=min(ys);
+
+    rep(Q) {
+        ll qi=q[i], xi=x[qi]-y[qi], yi=x[qi]+y[qi];
+        out(max({abs(xi-xmx),abs(xi-xmn),abs(yi-ymx),abs(yi-ymn)}));
+    }
 }
 
 void solve() {

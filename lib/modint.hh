@@ -40,10 +40,34 @@ template<ll M> struct modint {
     bool operator>=(mint a) const { return val()>=a.val(); }
 };
 
-template<ll M> std::istream& operator>>(std::istream& is, modint<M>& m) { return is >> m.val();}
-template<ll M> std::ostream& operator<<(std::ostream& os, modint<M>& m) { return os << m.val();}
+template<ll M> istream& operator>>(istream& is, modint<M> m) { return is >> m.val();}
+template<ll M> ostream& operator<<(ostream& os, modint<M> m) { return os << m.val();}
 
 using mint = modint<1000000007>;
 // using mint = modint<998244353>;
+
+TEMPLATE(MINT) struct combination {
+    vec<MINT> facts, ifacts;
+
+    combination(int n):facts(n+1),ifacts(n+1) {
+        assert(n < MINT::MOD);
+        facts[0] = 1;
+        rep(i,1,n+1) facts[i] = facts[i-1]*i;
+        ifacts[n] = facts[n].inv();
+        rrep(i,1,n+1) ifacts[i-1] = ifacts[i]*i;
+    }
+
+    MINT operator()(int n, int k) const {
+        assert(n < MINT::MOD);
+        if (k < 0 || k > n) return 0;
+        return fact(n)*ifact(k)*ifact(n-k);
+    }
+
+    MINT fact(int k) const { return facts.at(k); }
+    MINT ifact(int k) const { return ifacts.at(k); }
+
+};
+
+TEMPLATE(MINT) using comb = combination<MINT>;
 
 }

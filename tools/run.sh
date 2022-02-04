@@ -11,7 +11,8 @@ fi
 SRC=$DIR/main.cpp
 ROOT=$(realpath $(dirname $0)/..)
 BIN=$ROOT/bin/a.out
-exe g++ $SRC -o $BIN -D__TEST__ || exit $?
+INCLUDES="-I$ROOT/ext/ac-library"
+exe g++ $SRC -o $BIN -D__TEST__ $INCLUDES --std=c++17 || exit $?
 
 echo "Running..."
 exe $BIN

@@ -28,6 +28,11 @@
         "valarray": "cpp",
         "variant": "cpp",
         "complex": "cpp",
-        "bitset": "cpp"
+        "bitset": "cpp",
+        "ratio": "cpp",
+        "system_error": "cpp",
+        "utility": "cpp",
+        "numeric": "cpp",
+        "cmath": "cpp"
     }
 }

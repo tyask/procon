@@ -157,6 +157,14 @@ YESNO(Possible, Impossible)
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
 void solve(ll N, ll K) {
+    vec<ll> p(N+1);
+    erep(n,2,N) {
+        if (p[n]>0) continue;
+        erep(i,n,N,n) p[i]++;
+    }
+    // out(p);
+    ll ans=count_if(rng(p), [&](auto e){return e>=K;});
+    out(ans);
 }
 
 void solve() {

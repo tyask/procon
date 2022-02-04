@@ -206,11 +206,10 @@ void solve(ll K) {
         return;
     }
 
-    mint ans;
-    vvec<mint> dp(K+1, vec<mint>(10));
-    rep(i,K) rep(j,1,10) {
-        
-    }
+    vec<mint> dp(K+1, 0);
+    dp[0]=1;
+    rep(i,K) rep(j,1,10) if(i+j<=K) dp[i+j]+=dp[i];
+    out(dp[K]);
 }
 
 void solve() {

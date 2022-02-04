@@ -156,7 +156,32 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+#include <atcoder/all>
+
+namespace segtree {
+using S = ll;
+using F = ll;
+
+S op(S a, S b){ return max(a, b); }
+S e(){ return -inf<ll>; }
+F id(){ return inf<ll>; }
+S mapping(F f, S x){ return f == id() ? x : f; }
+F composition(F f, F g){ return f == id() ? g : f; }
+
+using segtree = atcoder::lazy_segtree<S,op,e,F,mapping,composition,id>;
+
+}
+
 void solve(ll W, ll N, vec<ll> L, vec<ll> R) {
+    segtree::segtree seg(W+1);
+
+    rep(N) {
+        ll l = L[i], r = R[i];
+        ll h = seg.prod(l, r+1);
+        if (h==-inf<ll>) h=0;
+        seg.apply(l, r+1, ++h);
+        out(h);
+    }
 }
 
 void solve() {

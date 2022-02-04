@@ -5,7 +5,7 @@
 namespace {
 
 struct bellman_ford {
-    struct edge{ int from, to; ll cost; };
+    struct edge{ ll from, to, cost; };
 
     int n;
     vec<edge> es;
@@ -21,8 +21,8 @@ struct bellman_ford {
 
     bool run(int s) {
         assert(0<=s && s<n);
-        d.resize(n, inf<ll>);
-        prev.resize(n, -1);
+        d.assign(n, inf<ll>);
+        prev.assign(n, -1);
         d[s] = 0;
         int cnt = 0;
         while (cnt < n) {
@@ -43,7 +43,7 @@ struct bellman_ford {
         return cnt == n;
     }
 
-    ll shortest_path(int t) { return d[t]; }
+    ll operator[](int t) { return d[t]; }
 
     vector<int> restore_shortest_path(int t) {
         vector<int> path;

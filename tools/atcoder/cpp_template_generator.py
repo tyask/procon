@@ -18,7 +18,7 @@ def _loop_header(var: Variable, for_second_index: bool):
         index = var.first_index
         loop_var = "i"
 
-    return "rep({loop_var}, {length})".format(
+    return "rep({loop_var},{length})".format(
         loop_var=loop_var,
         length=index.get_length()
     )
@@ -52,7 +52,7 @@ class CppCodeGenerator:
 
     def _convert_type(self, type_: Type) -> str:
         if type_ == Type.float:
-            return "double"
+            return "ld"
         elif type_ == Type.int:
             return "ll"
         elif type_ == Type.str:
@@ -108,7 +108,7 @@ class CppCodeGenerator:
             ctype = self._convert_type(var.type)
             for dim in dims[-2::-1]:
                 ctype = 'vec<{}>'.format(ctype)
-                ctor = '({}, {}{})'.format(dim, ctype, ctor)
+                ctor = '({},{}{})'.format(dim, ctype, ctor)
 
         line = "{decl_type} {name}{constructor};".format(
             name=var.name,

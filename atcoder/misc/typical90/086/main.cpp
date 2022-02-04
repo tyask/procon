@@ -156,7 +156,65 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
-void solve(ll N, ll Q, vec<ll> x, vec<ll> y, vec<ll> z, vec<ll> w) {
+template<ll M> struct modint {
+    using mint = modint<M>;
+    static constexpr ll MOD = M;
+
+    ll v;
+
+    modint(ll v=0):v((v%MOD+MOD)%MOD){}
+
+    ll val() const { return v; }
+
+    mint operator-() const { return mint(-v);}
+    mint& operator++() { v++; if (v == MOD) v = -1; return *this; }
+    mint& operator--() { if (v == -1) v = MOD; v--; return *this; }
+    mint operator++(int) { mint r = *this; ++*this; return r; }
+    mint operator--(int) { mint r = *this; --*this; return r; }
+
+    mint& operator+=(mint a) { if ((v += a.v) >= MOD) v -= MOD; return *this; }
+    mint& operator-=(mint a) { if ((v += MOD-a.v) >= MOD) v -= MOD; return *this; }
+    mint& operator*=(mint a) { (v *= a.v) %= MOD; return *this;}
+    mint& operator/=(mint a) { return *this *= a.inv();}
+    mint operator+(mint a) const { return mint(*this) += a;}
+    mint operator-(mint a) const { return mint(*this) -= a;}
+    mint operator*(mint a) const { return mint(*this) *= a;}
+    mint operator/(mint a) const { return mint(*this) /= a;}
+
+    mint pow(ll t) const { if (t==0) return 1; mint a = pow(t>>1); a *= a; if (t&1) a *= *this; return a; }
+    mint inv() const { return pow(MOD-2);}
+
+    bool operator==(mint a) const { return val()==a.val(); }
+    bool operator!=(mint a) const { return !(*this == a); }
+    bool operator< (mint a) const { return val()<a.val(); }
+    bool operator> (mint a) const { return val()>a.val(); }
+    bool operator<=(mint a) const { return val()<=a.val(); }
+    bool operator>=(mint a) const { return val()>=a.val(); }
+};
+
+template<ll M> std::istream& operator>>(std::istream& is, modint<M>& m) { return is >> m.val();}
+template<ll M> std::ostream& operator<<(std::ostream& os, modint<M>& m) { return os << m.val();}
+
+using mint = modint<1000000007>;
+// using mint = modint<998244353>;
+
+void solve(ll N, ll Q, vec<ll> X, vec<ll> Y, vec<ll> Z, vec<ll> W) {
+    rep(Q) X[i]--, Y[i]--, Z[i]--;
+
+    mint ans(1);
+    rep(k,60) {
+        ll cnt=0;
+        rep(b,1<<N) {
+            bool ok=true;
+            rep(i,Q) {
+                ll x=X[i], y=Y[i], z=Z[i], w=W[i];
+                if (((b>>x&1)|(b>>y&1)|(b>>z&1)) != (w>>k&1)) ok=false;
+            }
+            if (ok) cnt++;
+        }
+        ans*=cnt;
+    }
+    out(ans);
 }
 
 void solve() {

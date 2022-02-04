@@ -10,11 +10,7 @@ bool is_prime(ll n) {
 
 vec<ll> divisors(ll n) {
     vec<ll> ret;
-    for (ll i = 1; i * i <= n; ++i) {
-        if (n % i != 0) continue;
-        ret.PB(i);
-        if (i * i != n) ret.PB(n / i);
-    }
+    for (ll i=1; i*i<=n; ++i) if (n%i==0) { ret.PB(i); if (i*i!=n) ret.PB(n/i); }
     sort(ret);
     return ret;
 }
@@ -29,4 +25,10 @@ map<ll, int> prime_fact(ll n) {
 
     if (n != 1) ret[n] = 1;
     return ret;
+}
+
+vec<ll> to_base_n(ll x, ll n) {
+    vec<ll> ret;
+    while (x>0) ret.PB(x%n), x/=n;
+    return reverse(ret);
 }

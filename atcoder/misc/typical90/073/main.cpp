@@ -156,40 +156,88 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+template<ll M> struct modint {
+    using mint = modint<M>;
+    static constexpr ll MOD = M;
+
+    ll v;
+
+    modint(ll v=0):v((v%MOD+MOD)%MOD){}
+
+    ll val() const { return v; }
+
+    mint operator-() const { return mint(-v);}
+    mint& operator++() { v++; if (v == MOD) v = -1; return *this; }
+    mint& operator--() { if (v == -1) v = MOD; v--; return *this; }
+    mint operator++(int) { mint r = *this; ++*this; return r; }
+    mint operator--(int) { mint r = *this; --*this; return r; }
+
+    mint& operator+=(mint a) { if ((v += a.v) >= MOD) v -= MOD; return *this; }
+    mint& operator-=(mint a) { if ((v += MOD-a.v) >= MOD) v -= MOD; return *this; }
+    mint& operator*=(mint a) { (v *= a.v) %= MOD; return *this;}
+    mint& operator/=(mint a) { return *this *= a.inv();}
+    mint operator+(mint a) const { return mint(*this) += a;}
+    mint operator-(mint a) const { return mint(*this) -= a;}
+    mint operator*(mint a) const { return mint(*this) *= a;}
+    mint operator/(mint a) const { return mint(*this) /= a;}
+
+    mint pow(ll t) const { if (t==0) return 1; mint a = pow(t>>1); a *= a; if (t&1) a *= *this; return a; }
+    mint inv() const { return pow(MOD-2);}
+
+    bool operator==(mint a) const { return val()==a.val(); }
+    bool operator!=(mint a) const { return !(*this == a); }
+    bool operator< (mint a) const { return val()<a.val(); }
+    bool operator> (mint a) const { return val()>a.val(); }
+    bool operator<=(mint a) const { return val()<=a.val(); }
+    bool operator>=(mint a) const { return val()>=a.val(); }
+};
+
+template<ll M> istream& operator>>(istream& is, modint<M> m) { return is >> m.val();}
+template<ll M> ostream& operator<<(ostream& os, modint<M> m) { return os << m.val();}
+
+using mint = modint<1000000007>;
+// using mint = modint<998244353>;
+
 void solve(ll N, vec<str> c, vec<ll> a, vec<ll> b) {
     rep(N-1) a[i]--, b[i]--;
     vvec<ll> g(N);
     rep(N-1) g[a[i]].PB(b[i]),g[b[i]].PB(a[i]);
 
-    set<pll> ps;
-    rep(N-1) ps.insert(minmax(a[i],b[i]));
-
+    vv(mint, dp, N, 3);
     vec<ll> vis(N);
-    rep(N) if(g[i].size()==1) {
-        str cs = c[i];
-        auto dfs = [&](auto self, ll v, ll p) {
-            if (vis[v]) return;
-            vis[v]=1;
+    auto dfs = [&](auto self, ll v, ll p) {
+        if (vis[v]) return 0;
+        vis[v]=1;
 
-            ps.erase(minmax(p,v));
+        ll cnt=0;
+        each(n, g[v]) cnt+=self(self, n, v);
 
-            set<str> ss;
-            each(n,g[v]) ss.insert(c[n]);
-            if (ss.size()==1) {
-                self(self, n, v);
-            } else {
-                vec<ll> a;
-                each(n,g[i]) {
-                    if (c[n]==cs) self(self, n, v);
-                    else a.PB(n);
-                }
-                if (a.size()==1) ps.erase(minmax(a[0],v));
-                else {
-                    // aのうちどれか一つはつなぐ必要あり.
-                }
+        if (cnt==0) {
+            if (c[v]=="a") dp[v][0]=1; else dp[v][1]=1;
+            return 1;
+        }
+
+        mint x=1, y=1;
+        if (c[v]=="a") {
+            each(n, g[v]) if(n!=p) {
+                x*=dp[n][0]+dp[n][2];
+                y*=dp[n][0]+dp[n][1]+dp[n][2]*2;
             }
-        };
-    }
+            dp[v][0]=x;
+            dp[v][2]=y-x;
+        } else {
+            each(n, g[v]) if(n!=p) {
+                x*=dp[n][1]+dp[n][2];
+                y*=dp[n][0]+dp[n][1]+dp[n][2]*2;
+            }
+            dp[v][1]=x;
+            dp[v][2]=y-x;
+        }
+        return 1;
+    };
+    dfs(dfs, 0, -1);
+    out(dp[0][2]);
+
 }
 
 void solve() {

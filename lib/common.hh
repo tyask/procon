@@ -101,7 +101,7 @@ TEMPLATE(C) auto runlength_encoding(const C& c) {
     return ret;
 }
 TEMPLATE(N, F) N bin_search(N ng, N ok, F isok) {
-    while(abs(ok-ng)>0){ N mid=(ok+ng)/2; (isok(mid)?ok:ng)=mid; }
+    while(abs(ok-ng)>1){ N mid=(ok+ng)/2; (isok(mid)?ok:ng)=mid; }
     return ok;
 }
 TEMPLATE(T, S)    T pop(queue<T, S>& q) { T t = q.front(); q.pop(); return t; }
@@ -122,39 +122,57 @@ TEMPLATE(C) vec<C> rot(const vec<C>& c) {
     return a;
 }
 
-TEMPLATE(N) N gcd(N a, N b)    { while(b){ N c = b; b = a % b; a = c; } return a; }
-TEMPLATE(N) N lcm(N a, N b)    { if(!a || !b) return 0; return a / gcd(a, b) * b; }
-TEMPLATE(N) N powint(N n, N k) { N ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
-ll pow10(ll e) { return powint(10LL,e); }
-TEMPLATE(N) N floor(N a, N b)  { return a / b; }
-TEMPLATE(N) N ceil(N a, N b)   { return (a + b - 1) / b; }
-TEMPLATE(N) N mod(N n, N m)    { N r = n % m; return (r < 0) ? r + m : r; }
-TEMPLATE(N) N powmod(N n, N k, N m) { N ans = 1; while(k){ if(k & 1) (ans*=n)%=m; n%=m; (n*=n)%=m; k>>=1; } return ans; }
+TEMPLATE(N=ll) N gcd(N a, N b)    { while(b){ N c = b; b = a % b; a = c; } return a; }
+TEMPLATE(N=ll) N lcm(N a, N b)    { if(!a || !b) return 0; return a / gcd(a, b) * b; }
+TEMPLATE(N=ll) N powint(N n, N k) { N ans = 1; while(k){ if(k & 1) ans *= n; n *= n; k >>= 1; } return ans; }
+TEMPLATE(N=ll) N pow10(int e) { return powint<N>(10,e); }
+TEMPLATE(N=ll) N pow2(int e) { return powint<N>(2,e); }
+TEMPLATE(N=ll) N floor(N a, N b)  { return a / b; }
+TEMPLATE(N=ll) N ceil(N a, N b)   { return (a + b - 1) / b; }
+TEMPLATE(N=ll) N mod(N n, N m)    { N r = n % m; return (r < 0) ? r + m : r; }
+TEMPLATE(N=ll) N powmod(N n, N k, N m) { N ans = 1; while(k){ if(k & 1) (ans*=n)%=m; n%=m; (n*=n)%=m; k>>=1; } return ans; }
 TEMPLATE(N) size_t popcount(N n)    { return bitset<sizeof(N)*8>(n).count(); }
-TEMPLATE(N) N sumae(N n, N a, N e) { return n * (a + e) / 2; }
-TEMPLATE(N) N sumad(N n, N a, N d) { return n * (2 * a + (n - 1) * d) / 2; }
-TEMPLATE(N) int ndigits(N n) { int d = 0; while(n>0) d++, n/=10; return d; }
-
-TEMPLATE(N) struct cumsum : vec<N> {
-    cumsum(const vec<N>& v): vec<N>(sz(v)+1) { rep(sz(v)) ref(i+1)=ref(i)+v[i]; }
-    N operator()(int l, int r) { return ref(r)-ref(l); }
-    N operator()(int r) { return operator()(0, r); }
-    N& ref(int i) { return (*this)[i]; }
-};
-
+TEMPLATE(N=ll) N sumae(N n, N a, N e) { return n * (a + e) / 2; }
+TEMPLATE(N=ll) N sumad(N n, N a, N d) { return n * (2 * a + (n - 1) * d) / 2; }
+TEMPLATE(N=ll) int ndigits(N n) { int d = 0; while(n>0) d++, n/=10; return d; }
 TEMPLATE(N=ll) struct graph : vvec<N> {
     graph(ll n) : vvec<N>(n) {}
     graph& digraph(const vec<N>& u, const vec<N>& v) { rep(sz(u)) (*this)[u[i]].PB(v[i]); return *this; }
     graph& undigraph(const vec<N>& u, const vec<N>& v) { return digraph(u,v).digraph(v,u); }
 };
 
-TEMPLATE(N) struct cumsum2d : vvec<N> {
+TEMPLATE(N=ll) struct cumsum : vec<N> {
+    cumsum(const vec<N>& v): vec<N>(sz(v)+1) { rep(sz(v)) ref(i+1)=ref(i)+v[i]; }
+    N operator()(int l, int r) { return ref(r)-ref(l); }
+    N operator()(int r) { return operator()(0, r); }
+    N& ref(int i) { return (*this)[i]; }
+};
+
+TEMPLATE(N=ll) struct cumsum2d : vvec<N> {
     cumsum2d(const vvec<N>& v): vvec<N>(sz(v)+1, vec<N>(sz(v[0])+1)) {
         rep(i,sz(v))rep(j,sz(v[i])) ref(i+1,j+1)=ref(i,j+1)+ref(i+1,j)-ref(i,j)+v[i][j];
     }
     N operator()(int i1, int i2, int j1, int j2) { return ref(i2,j2)-ref(i1,j2)-ref(i2,j1)+ref(i1,j1); }
     N operator()(int i, int j) { return operator()(0, i, 0, j); }
     N& ref(int i, int j) { return (*this)[i][j]; }
+};
+
+TEMPLATE(...Cs) struct binder {
+    binder(Cs&... cs) : cs(cs...) {}
+    auto operator[](int idx) { return impl<tuple_size<tuple<Cs...>>::value-1, Cs...>::to_tuple(idx, cs); }
+private:
+    tuple<Cs&...> cs;
+    template<int N, typename... Cs2> struct impl             { static auto to_tuple(int idx, tuple<Cs2&...>& cs) { return tuple_cat(impl<N-1,Cs2...>::to_tuple(idx, cs), make_tuple(get<N>(cs)[idx])); } };
+    template<typename... Cs2>        struct impl<-1, Cs2...> { static auto to_tuple(int idx, tuple<Cs2&...>& cs) { return make_tuple(); } };
+};
+
+struct dyx {
+    inline static const int dy[] {1, 0, -1, 0, 1, -1, 1, -1};
+    inline static const int dx[] {0, 1, 0, -1, 1, 1, -1, -1};
+
+    int i, j;
+    dyx(int i, int j) : i(i), j(j) {}
+    pair<int,int> operator[](int k) { return {i+dy[k], j+dx[k]}; }
 };
 
 struct pt : complex<ld> {

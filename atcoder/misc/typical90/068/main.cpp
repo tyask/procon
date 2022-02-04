@@ -156,15 +156,68 @@ YESNO(Possible, Impossible)
 
 #define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
+#include<atcoder/all>
+struct unionfind {
+    vec<ll> d;
+
+    unionfind(ll n): d(n,-1) {}
+
+    ll find(ll x) {
+        if (d[x] < 0) return x;
+        return d[x] = find(d[x]);
+    }
+
+    bool unite(ll x, ll y) {
+        x = find(x); y = find(y);
+        if (x == y) return false;
+        if (d[x] > d[y]) swap(x,y);
+        d[x] += d[y];
+        d[y] = x;
+        return true;
+    }
+
+    bool same(ll x, ll y) { return find(x) == find(y);}
+    ll size(ll x) { return -d[find(x)];}
+    void reset() { fill(d.begin(), d.end(), -1); }
+};
+
+TEMPLATE(...Cs) struct binder {
+    binder(Cs&... cs) : cs(cs...) {}
+    auto operator[](int idx) { return impl<tuple_size<tuple<Cs...>>::value-1, Cs...>::to_tuple(idx, cs); }
+private:
+    tuple<Cs&...> cs;
+    template<int N, typename... Cs2> struct impl             { static auto to_tuple(int idx, tuple<Cs2&...>& cs) { return tuple_cat(impl<N-1,Cs2...>::to_tuple(idx, cs), make_tuple(get<N>(cs)[idx])); } };
+    template<typename... Cs2>        struct impl<-1, Cs2...> { static auto to_tuple(int idx, tuple<Cs2&...>& cs) { return make_tuple(); } };
+};
+
+struct dyx {
+    inline static const int dy[] {1, 0, -1, 0, 1, -1, 1, -1};
+    inline static const int dx[] {0, 1, 0, -1, 1, 1, -1, -1};
+
+    int i, j;
+    dyx(int i, int j) : i(i), j(j) {}
+    pair<int,int> operator[](int k) { return {i+dy[k], j+dx[k]}; }
+};
+
+
 void solve(ll N, ll Q, vec<ll> T, vec<ll> X, vec<ll> Y, vec<ll> V) {
     rep(Q) X[i]--, Y[i]--;
 
-    vec<ll> a(N,-1);
-    rep(Q) {
-        auto [t,x,y,v] = tuple(T[i],X[i],Y[i],V[i]);
-        if (t==0) {
-            a[x]=v;
-        } else {
+    vec<ll> s(N-1), p(N);
+    rep(Q) if (T[i]==0) s[X[i]]=V[i];
+    rep(N-1) p[i+1]=s[i]-p[i];
+
+    unionfind uf(N);
+    rep(q,Q) {
+        auto [t,x,y,v] = binder(T,X,Y,V)[q];
+
+        if (t==0) uf.unite(x,y);
+        else if (!uf.same(x,y)) out("Ambiguous");
+        else {
+            ll a = v-p[x];
+            if (x%2) a = -a;
+            ll ans = p[y] + (y%2 ? -a : a);
+            out(ans);
         }
     }
 }

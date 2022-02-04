@@ -118,24 +118,7 @@ void no(bool b=true) { yes(!b); }
 #define __ATCODER__ 1
 
 #if __ATCODER__ == 1
-int N;
-vvec<int> G;
-void dfs(int v) {
-    rep(N) {
-        if (G[i] != INF) {
-
-        }
-    }
-}
 void solve() {
-    INT(n, m);
-    vvec<int> g(N, vec<int>(N, INF));
-    rep(m) {
-        INT(A, B, C);
-        chmin(g[A-1][B-1], C);
-    }
-    N = n;
-    G = g;
 }
 #else
 void solve() {
