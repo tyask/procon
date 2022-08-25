@@ -247,20 +247,10 @@ YESNO(POSSIBLE, IMPOSSIBLE)
 YESNO(Possible, Impossible)
 }
 
-#define __AUTO_GENERATE__ 0
+#define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
-}
-
-void solve() {
-    {{input_part}}
-    solve({{ actual_arguments }});
-}
-{% else %}
 void solve() {
 }
-{% endif %}
 #else
 void solve() {
 }

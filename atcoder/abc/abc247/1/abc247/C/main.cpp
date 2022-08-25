@@ -95,8 +95,8 @@ struct exit_silently{};
 struct exitter { void exit() { throw exit_silently{}; } };
 
 const char* empty_or_space[] = {"", " "};
-TEMPLATE(C)    ostream& write(ostream& os, const C& c) { itr(c) os << empty_or_space[it!=c.begin()] << *it; return os; }
-TEMPLATE(T)    ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
+TEMPLATE(C) ostream& write(ostream& os, const C& c) { itr(c) os << empty_or_space[it!=c.begin()] << *it; return os; }
+TEMPLATE(T)    ostream& operator<<(ostream& os, const vec<T>& c) { return write(os, c); }
 TEMPLATE(T)    ostream& operator<<(ostream& os, const vvec<T>& c) { each(v, c) out(os, v); return os; }
 TEMPLATE(T)    ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
 TEMPLATE(T)    ostream& operator<<(ostream& os, const set<T>& c) { return write(os, c); }
@@ -247,20 +247,41 @@ YESNO(POSSIBLE, IMPOSSIBLE)
 YESNO(Possible, Impossible)
 }
 
-#define __AUTO_GENERATE__ 0
+#define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
+void solve(ll N) {
+    // vec<vec<ll>> m(16+1);
+
+    // auto f = [&](auto self, int n) {
+    //     if (m[n].size()) return m[n];
+    //     if (n==1) return m[n]={1};
+
+    //     vec<ll> pre = self(self, n-1);
+    //     vec<ll> ret;
+    //     ret.insert(ret.end(), rng(pre));
+    //     ret.PB(n);
+    //     ret.insert(ret.end(), rng(pre));
+    //     return m[n]=ret;
+    // };
+
+    // vec<ll> ans=f(f, N);
+    // cout << ans << endl;
+    // out(ans);
+    // // str a;
+    // rep(ans.size()) {
+    //     if (i!=0) a+=" ";
+    //     a+=to_string(ans[i]);
+    // }
+    // out(vec<ll>{1, 2, 3});
+    out(list<ll>{1, 2, 3});
+
+    // out(a);
 }
 
 void solve() {
-    {{input_part}}
-    solve({{ actual_arguments }});
+    LL(N);
+    solve(N);
 }
-{% else %}
-void solve() {
-}
-{% endif %}
 #else
 void solve() {
 }

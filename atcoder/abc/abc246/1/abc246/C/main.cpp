@@ -93,20 +93,19 @@ TEMPLATE(Head, ...Tail) void input(Head& head, Tail&... tail) { scan(head); inpu
 
 struct exit_silently{};
 struct exitter { void exit() { throw exit_silently{}; } };
-
+TEMPLATE(T) void out(ostream& os, T&& t) { os << t << '\n'; }
+TEMPLATE(T) void outh(ostream& os, T&& t) { os << t << " "; }
+TEMPLATE(T, ...Args) void out(ostream& os, T&& head, Args&&... tail) { outh(os, head); out(os, tail...); };
+TEMPLATE(T, ...Args) exitter out(T&& head, Args&&... tail) { out(cout, head, tail...); return exitter{}; }
 const char* empty_or_space[] = {"", " "};
-TEMPLATE(C)    ostream& write(ostream& os, const C& c) { itr(c) os << empty_or_space[it!=c.begin()] << *it; return os; }
+TEMPLATE(C) ostream& write(ostream& os, const C& c) { itr(c) os << empty_or_space[it!=c.begin()] << *it; return os; }
+
 TEMPLATE(T)    ostream& operator<<(ostream& os, const vector<T>& c) { return write(os, c); }
 TEMPLATE(T)    ostream& operator<<(ostream& os, const vvec<T>& c) { each(v, c) out(os, v); return os; }
 TEMPLATE(T)    ostream& operator<<(ostream& os, const list<T>& c) { return write(os, c); }
 TEMPLATE(T)    ostream& operator<<(ostream& os, const set<T>& c) { return write(os, c); }
 TEMPLATE(K, V) ostream& operator<<(ostream& os, const map<K, V>& c) { return write(os, c); }
 TEMPLATE(T, U) ostream& operator<<(ostream& os, const pair<T, U>& p) { return os << p.first << ':' << p.second; }
-
-TEMPLATE(T) void out(ostream& os, T&& t) { os << t << '\n'; }
-TEMPLATE(T) void outh(ostream& os, T&& t) { os << t << " "; }
-TEMPLATE(T, ...Args) void out(ostream& os, T&& head, Args&&... tail) { outh(os, head); out(os, tail...); };
-TEMPLATE(T, ...Args) exitter out(T&& head, Args&&... tail) { out(cout, head, tail...); return exitter{}; }
 
 TEMPLATE(It) auto sum(It b, It e) { return accumulate(b, e, typename It::value_type(0)); }
 TEMPLATE(C)  auto sum(const C& c) { return ::sum(rng(c)); }
@@ -247,20 +246,32 @@ YESNO(POSSIBLE, IMPOSSIBLE)
 YESNO(Possible, Impossible)
 }
 
-#define __AUTO_GENERATE__ 0
+#define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
+void solve(ll N, ll K, ll X, vec<ll> A) {
+    rep(N) {
+        ll c=min(A[i]/X, K);
+        K-=c;
+        A[i]-=c*X;
+    }
+
+    sort(A, greater<ll>());
+    rep(N) {
+        if (K<=0) break;
+        if (A[i]>0) A[i]=0, K--;
+    }
+
+    out(sum(A));
 }
 
 void solve() {
-    {{input_part}}
-    solve({{ actual_arguments }});
+    LL(N);
+    LL(K);
+    LL(X);
+    vec<ll> A(N);
+    rep(i,N) { input(A[i]); }
+    solve(N, K, X, move(A));
 }
-{% else %}
-void solve() {
-}
-{% endif %}
 #else
 void solve() {
 }

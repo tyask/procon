@@ -247,20 +247,19 @@ YESNO(POSSIBLE, IMPOSSIBLE)
 YESNO(Possible, Impossible)
 }
 
-#define __AUTO_GENERATE__ 0
+#define __AUTO_GENERATE__ 1
 #if __AUTO_GENERATE__ == 1
-{% if prediction_success %}
-void solve({{ formal_arguments }}) {
+void solve(ll N, ll K, vec<ll> X, vec<ll> Y) {
 }
 
 void solve() {
-    {{input_part}}
-    solve({{ actual_arguments }});
+    LL(N);
+    LL(K);
+    vec<ll> X(N);
+    vec<ll> Y(N);
+    rep(i,N) { input(X[i]); input(Y[i]); }
+    solve(N, K, move(X), move(Y));
 }
-{% else %}
-void solve() {
-}
-{% endif %}
 #else
 void solve() {
 }
